@@ -16,7 +16,21 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (game.map[i])
 	{
-		printf("%s\n", game.map[i]);
+		printf("Line %d: [%s]\n", i, game.map[i]);
+		printf("        ");
+		for (int j = 0; game.map[i][j]; j++)
+		{
+			if (game.map[i][j] == ' ')
+				printf("'_'");
+			else if (game.map[i][j] == '\n')
+				printf("'\\n'");
+			else if (game.map[i][j] == '\r')
+				printf("'\\r'");
+			else
+				printf("'%c'", game.map[i][j]);
+			printf(" ");
+		}
+		printf("\n");
 		i++;
 	}
 	return (0);

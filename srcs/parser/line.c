@@ -65,7 +65,7 @@ void	finalize_parsing(t_game *game, t_list *map_lines)
 {
 	close(game->fd);
 	game->fd = 0;
-	if (!game->tex_N || !game->tex_S || !game->tex_W || !game->tex_E)
+	if (!game->tex_n || !game->tex_s || !game->tex_w || !game->tex_e)
 		ft_exit_error_with_cleanup_and_list(game, &map_lines,
 			"Missing texture");
 	if (game->color_f == -1 || game->color_c == -1)
