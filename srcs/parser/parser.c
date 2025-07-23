@@ -1,12 +1,20 @@
 #include "cub3d.h"
 
-int parse_file(const char *filename, t_game *game)
+void	parse_file(const char *filename, t_game *game)
 {
-    game->fd = open(filename, O_RDONLY);
-	if (game->fd < 0)
-		ft_error("open failed");
-	// write_to_map(game);
-	close(game->fd);
+	char	*line;
+	t_list	*map_lines;
+	int		map_started;
 
-    return (1);
+	map_lines = NULL;
+	map_started = 0;
+	init_parsing(filename, game);
+	line = get_next_line(game->fd);
+	while (line)
+	{
+		process_line(line, game, &map_lines, &map_started);
+		free(line);
+		line = get_next_line(game->fd);
+	}
+	finalize_parsing(game, map_lines);
 }

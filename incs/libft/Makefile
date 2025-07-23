@@ -6,7 +6,7 @@
 #    By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 11:20:05 by mmiilpal          #+#    #+#              #
-#    Updated: 2024/04/01 15:26:59 by mmiilpal         ###   ########.fr        #
+#    Updated: 2025/07/23 15:08:55 by mmiilpal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRCS	=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 			ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c \
 			ft_tolower.c ft_toupper.c ft_putendl_fd.c ft_striteri.c \
 			get_next_line.c ft_printf.c ft_format_print.c \
+			ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
+			ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c
 
 BONUS_SRCS	=   ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
 			ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c

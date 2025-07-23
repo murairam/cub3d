@@ -12,7 +12,9 @@ INC =-Iincs -Imlx -O3
 
 LIBS = -L$(LIBFTDIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
-SRC = main.c utils/error.c parser/parser.c
+SRC = main.c utils/error.c parser/parser.c parser/p_utils.c \
+	parser/texture.c utils/free.c parser/map.c parser/map_bounds.c \
+	parser/color.c parser/line.c parser/list_utils.c
 
 SRCS := $(addprefix srcs/, $(SRC))
 OBJS = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
