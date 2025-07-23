@@ -14,10 +14,10 @@ void	ft_free_game(t_game *game)
 {
 	if (game->map)
 		ft_free_split(game->map);
-	free(game->tex_N);
-	free(game->tex_S);
-	free(game->tex_E);
-	free(game->tex_W);
+	free(game->tex_n);
+	free(game->tex_s);
+	free(game->tex_e);
+	free(game->tex_w);
 	if (game->fd > 0)
 		close(game->fd);
 }
