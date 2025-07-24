@@ -4,18 +4,16 @@ I hope you like it
 
 Summary: This project is inspired by the world-famous Wolfenstein 3D game, which is considered the first FPS ever created. It will enable you to explore ray-casting. Your goal will be to make a dynamic view inside a maze, where you will have to find your way.
 
-## ✅ Cub3D Parser - COMPLETED
-
-The cub3D parser has been fully refactored and tested. All major issues have been resolved:
+## ✅ Cub3D Parser
 
 ### 🏆 Completed Features
-- ✅ Robust error handling with immediate exit and cleanup on any parsing error
-- ✅ Complete memory leak prevention (0 leaks in both success and error cases)
-- ✅ `.cub` file extension validation
-- ✅ Proper initialization of all `t_game` struct values
-- ✅ Norminette compliance for core parsing logic
-- ✅ Comprehensive map boundary validation
-- ✅ Clean and organized code structure
+-  Robust error handling with immediate exit and cleanup on any parsing error
+-  Complete memory leak prevention (0 leaks in both success and error cases)
+-  `.cub` file extension validation
+-  Proper initialization of all `t_game` struct values
+-  Norminette compliance for core parsing logic
+-  Comprehensive map boundary validation
+-  Clean and organized code structure
 
 ## 🧩 Detailed Parsing Checklist
 
@@ -39,7 +37,7 @@ The cub3D parser has been fully refactored and tested. All major issues have bee
 ### 👤 Player Info
 - [ ] Detect player start position (`N`, `S`, `E`, `W`)
 - [ ] Store player’s starting direction and coordinates
-- [ ] Validate that exactly one player is present
+- [x] Validate that exactly one player is present
 
 ### ✅ Map Validation
 - [ ] Check all map characters are valid (`0`, `1`, `N`, `S`, `E`, `W`, space)
@@ -48,10 +46,10 @@ The cub3D parser has been fully refactored and tested. All major issues have bee
 - [ ] Detect and handle "holes" or leaks in map
 
 ### ⚠️ Error Handling
-- [ ] Detect missing or duplicate identifiers
-- [ ] Catch invalid or misformatted color values
-- [ ] Handle invalid characters in map
-- [ ] Report descriptive errors and exit cleanly
+- [x] Detect missing or duplicate identifiers
+- [x] Catch invalid or misformatted color values
+- [x] Handle invalid characters in map
+- [x] Report descriptive errors and exit cleanly
 
 ### 🧹 Final Steps
 - [x] Free temporary memory used during parsing
