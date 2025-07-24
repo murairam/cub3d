@@ -56,6 +56,12 @@ void	process_line(char *line, t_game *game, t_list **map_lines,
 
 void	init_parsing(const char *filename, t_game *game)
 {
+	char	*extension;
+
+	extension = ft_strrchr(filename, '.');
+	if (!extension || ft_strncmp(extension, ".cub", 4) != 0 || 
+		ft_strlen(extension) != 4)
+		ft_exit_error("File must have .cub extension");
 	game->fd = open(filename, O_RDONLY);
 	if (game->fd < 0)
 		ft_exit_error("Failed to open file");

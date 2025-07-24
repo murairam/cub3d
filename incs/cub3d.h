@@ -17,7 +17,6 @@ typedef struct s_game
 	char	*tex_s;
 	char	*tex_e;
 	char	*tex_w;
-	char	*tex_f;
 	int		color_c;
 	int		color_f;
 }			t_game;
@@ -30,5 +29,8 @@ void		ft_free_game(t_game *game);
 void		ft_exit_error_with_cleanup(t_game *game, const char *msg);
 void		ft_exit_error_with_cleanup_and_list(t_game *game,
 				t_list **map_lines, const char *msg);
+
+// INIT
+void		init_game(t_game *game);
 
 #endif

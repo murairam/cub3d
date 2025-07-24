@@ -33,9 +33,8 @@ static int	parse_rgb(char *str)
 	return (color);
 }
 
-static void	assign_color(int *target, int value, const char *label)
+static void	assign_color(int *target, int value)
 {
-	(void)label;
 	if (*target != -1)
 		ft_exit_error("Duplicate color");
 	*target = value;
@@ -55,14 +54,13 @@ void	parse_color(char *line, t_game *game)
 	}
 	color = parse_rgb(split[1]);
 	if (!ft_strncmp(split[0], "F", 1) && ft_strlen(split[0]) == 1)
-		assign_color(&game->color_f, color, "F");
+		assign_color(&game->color_f, color);
 	else if (!ft_strncmp(split[0], "C", 1) && ft_strlen(split[0]) == 1)
-		assign_color(&game->color_c, color, "C");
+		assign_color(&game->color_c, color);
 	else
 	{
 		ft_free_split(split);
 		ft_exit_error("Unknown color identifier");
 	}
-	printf("Color %s set to %d\n", split[0], color);
 	ft_free_split(split);
 }
