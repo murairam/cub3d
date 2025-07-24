@@ -34,13 +34,14 @@ int	main(int argc, char **argv)
 	ft_memset(&game, 0, sizeof(t_game));
 	printf("DEBUG: Memory cleared with ft_memset\n");
 	init_game(&game);
-	printf("DEBUG: Game initialized, colors: F=%d, C=%d\n", 
-		game.color_f, game.color_c);
 	if (argc != 2)
 		return (ft_printf("Usage: ./cub3D maps/map.cub\n"), 1);
 	printf("DEBUG: Starting to parse file: %s\n", argv[1]);
 	parse_file(argv[1], &game);
 	printf("DEBUG: File parsing completed successfully!\n");
 	print_game_state(&game);
+	printf("DEBUG: Cleaning up memory...\n");
+	ft_free_game(&game);
+	printf("DEBUG: Memory cleanup completed.\n");
 	return (0);
 }

@@ -1,12 +1,13 @@
 #include "cub3d.h"
 
-static int	validate_map_char(char c)
+static int	is_valid_char(char c)
 {
 	return (c == '1' || c == '0' || c == 'N' || c == 'S'
 		|| c == 'E' || c == 'W' || c == ' ' || c == '\n' || c == '\r');
 }
 
-static void	validate_characters_and_count_players(char **map, int *player_count)
+static void	validate_chars_and_count(char **map, int *player_count,
+	t_game *game, t_list **map_lines)
 {
 	int	i;
 	int	j;
@@ -18,10 +19,11 @@ static void	validate_characters_and_count_players(char **map, int *player_count)
 		j = 0;
 		while (map[i][j])
 		{
-			if (!validate_map_char(map[i][j]))
+			if (!is_valid_char(map[i][j]))
 			{
 				ft_free_split(map);
-				ft_exit_error("Invalid character in map");
+				ft_exit_error_with_cleanup_and_list(game, map_lines,
+					"Invalid character in map");
 			}
 			if (map[i][j] == 'N' || map[i][j] == 'S' ||
 				map[i][j] == 'E' || map[i][j] == 'W')
@@ -32,31 +34,35 @@ static void	validate_characters_and_count_players(char **map, int *player_count)
 	}
 }
 
-static void	validate_map_content(char **map)
+static void	validate_content(char **map, t_game *game, t_list **map_lines)
 {
 	int	player_count;
 
-	validate_characters_and_count_players(map, &player_count);
+	validate_chars_and_count(map, &player_count, game, map_lines);
 	if (player_count != 1)
 	{
 		ft_free_split(map);
 		if (player_count == 0)
-			ft_exit_error("No player found in map");
+			ft_exit_error_with_cleanup_and_list(game, map_lines,
+				"No player found in map");
 		else
-			ft_exit_error("Multiple players found in map");
+			ft_exit_error_with_cleanup_and_list(game, map_lines,
+				"Multiple players found in map");
 	}
-	validate_map_boundaries(map);
+	validate_boundaries(map, game, map_lines);
 }
 
-void	parse_map(t_list *map_lines, t_game *game)
+void	parse_map(t_list **map_lines, t_game *game)
 {
 	char	**map;
 
-	if (!map_lines)
-		ft_exit_error("No map found");
-	map = list_to_array(map_lines);
+	if (!*map_lines)
+		ft_exit_error_with_cleanup_and_list(game, map_lines,
+			"No map found");
+	map = list_to_array(*map_lines);
 	if (!map)
-		ft_exit_error("Memory allocation failed");
-	validate_map_content(map);
+		ft_exit_error_with_cleanup_and_list(game, map_lines,
+			"Memory allocation failed");
+	validate_content(map, game, map_lines);
 	game->map = map;
 }

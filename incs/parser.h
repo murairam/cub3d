@@ -32,7 +32,7 @@ void	handle_line_error(t_game *game, t_list **map_lines, int map_started);
 
 void	parse_texture(char *line, t_game *game);
 void	parse_color(char *line, t_game *game);
-void	parse_map(t_list *map_lines, t_game *game);
+void	parse_map(t_list **map_lines, t_game *game);
 
 /* ************************************************************************** */
 /*                           LINE VALIDATORS                                 */
@@ -48,6 +48,6 @@ int		is_empty_line(char *line);
 /* ************************************************************************** */
 
 char	**list_to_array(t_list *list);
-void	validate_map_boundaries(char **map);
+void	validate_boundaries(char **map, t_game *game, t_list **map_lines);
 
 #endif

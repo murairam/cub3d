@@ -59,8 +59,8 @@ void	init_parsing(const char *filename, t_game *game)
 	char	*extension;
 
 	extension = ft_strrchr(filename, '.');
-	if (!extension || ft_strncmp(extension, ".cub", 4) != 0 || 
-		ft_strlen(extension) != 4)
+	if (!extension || ft_strncmp(extension, ".cub", 4) != 0 \
+	|| ft_strlen(extension) != 4)
 		ft_exit_error("File must have .cub extension");
 	game->fd = open(filename, O_RDONLY);
 	if (game->fd < 0)
@@ -77,6 +77,6 @@ void	finalize_parsing(t_game *game, t_list *map_lines)
 	if (game->color_f == -1 || game->color_c == -1)
 		ft_exit_error_with_cleanup_and_list(game, &map_lines,
 			"Missing color");
-	parse_map(map_lines, game);
+	parse_map(&map_lines, game);
 	ft_lstclear(&map_lines, free);
 }

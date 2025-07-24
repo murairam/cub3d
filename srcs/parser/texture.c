@@ -14,13 +14,13 @@ static char	**get_texture_target(char *id, t_game *game)
 		return (NULL);
 }
 
-static void	validate_texture_format(char **split)
+static void	validate_texture_format(char **split, t_game *game)
 {
 	if (!split || !split[0] || !split[1] || split[2])
 	{
 		if (split)
 			ft_free_split(split);
-		ft_exit_error("Invalid texture line format");
+		ft_exit_error_with_cleanup(game, "Invalid texture line format");
 	}
 }
 
@@ -31,20 +31,19 @@ void	parse_texture(char *line, t_game *game)
 	char	**target;
 
 	split = ft_split(line, ' ');
-	validate_texture_format(split);
+	validate_texture_format(split, game);
 	id = split[0];
 	target = get_texture_target(id, game);
 	if (!target)
 	{
 		ft_free_split(split);
-		ft_exit_error("Unknown texture identifier");
+		ft_exit_error_with_cleanup(game, "Unknown texture identifier");
 	}
 	if (*target)
 	{
 		ft_free_split(split);
-		ft_exit_error("Duplicate texture");
+		ft_exit_error_with_cleanup(game, "Duplicate texture");
 	}
 	*target = ft_strdup(split[1]);
-	printf("Texture %s set to %s\n", id, *target);
 	ft_free_split(split);
 }

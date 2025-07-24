@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_bounds.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/18 10:00:00 by mmiilpal          #+#    #+#             */
+/*   Updated: 2025/07/24 19:41:22 by mmiilpal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static int	is_walkable(char c)
@@ -5,50 +17,30 @@ static int	is_walkable(char c)
 	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-static void	check_horizontal_bounds(char **map, int i, int j)
+static int	is_boundary_or_invalid(char c)
 {
-	if (j == 0 || map[i][j - 1] == ' ')
-	{
-		ft_free_split(map);
-		ft_exit_error("Map not properly enclosed by walls");
-	}
-	if (map[i][j + 1] == ' ' || map[i][j + 1] == '\n' ||
-		map[i][j + 1] == '\r' || map[i][j + 1] == '\0')
-	{
-		ft_free_split(map);
-		ft_exit_error("Map not properly enclosed by walls");
-	}
+	return (ft_isspace(c) || c == '\0');
 }
 
-static void	check_vertical_bounds(char **map, int i, int j)
+static int	is_out_of_bounds(char **map, int i, int j)
 {
-	if (i == 0)
-	{
-		ft_free_split(map);
-		ft_exit_error("Map not properly enclosed by walls");
-	}
-	if (j >= (int)ft_strlen(map[i - 1]) || map[i - 1][j] == ' ' ||
-		map[i - 1][j] == '\n' || map[i - 1][j] == '\r' ||
-		map[i - 1][j] == '\0')
-	{
-		ft_free_split(map);
-		ft_exit_error("Map not properly enclosed by walls");
-	}
-	if (map[i + 1] == NULL)
-	{
-		ft_free_split(map);
-		ft_exit_error("Map not properly enclosed by walls");
-	}
-	if (j >= (int)ft_strlen(map[i + 1]) || map[i + 1][j] == ' ' ||
-		map[i + 1][j] == '\n' || map[i + 1][j] == '\r' ||
-		map[i + 1][j] == '\0')
-	{
-		ft_free_split(map);
-		ft_exit_error("Map not properly enclosed by walls");
-	}
+	return (i < 0 || map[i] == NULL || j < 0
+		|| j >= (int)ft_strlen(map[i]));
 }
 
-void	validate_map_boundaries(char **map)
+static int	check_boundary_condition(char **map, int i, int j)
+{
+	return (is_out_of_bounds(map, i, j - 1)
+		|| is_boundary_or_invalid(map[i][j - 1])
+		|| is_out_of_bounds(map, i, j + 1)
+		|| is_boundary_or_invalid(map[i][j + 1])
+		|| is_out_of_bounds(map, i - 1, j)
+		|| is_boundary_or_invalid(map[i - 1][j])
+		|| is_out_of_bounds(map, i + 1, j)
+		|| is_boundary_or_invalid(map[i + 1][j]));
+}
+
+void	validate_boundaries(char **map, t_game *game, t_list **map_lines)
 {
 	int	i;
 	int	j;
@@ -61,8 +53,12 @@ void	validate_map_boundaries(char **map)
 		{
 			if (is_walkable(map[i][j]))
 			{
-				check_horizontal_bounds(map, i, j);
-				check_vertical_bounds(map, i, j);
+				if (check_boundary_condition(map, i, j))
+				{
+					ft_free_split(map);
+					ft_exit_error_with_cleanup_and_list(game, map_lines,
+						"Map not properly enclosed by walls");
+				}
 			}
 			j++;
 		}
