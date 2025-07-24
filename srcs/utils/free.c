@@ -38,3 +38,39 @@ void	ft_exit_error_with_cleanup_and_list(t_game *game, t_list **map_lines,
 		ft_free_game(game);
 	ft_exit_error(msg);
 }
+
+void	ft_exit_error_with_cleanup_and_split(t_game *game, char **split1,
+	char **split2, const char *msg)
+{
+	if (split1)
+		ft_free_split(split1);
+	if (split2)
+		ft_free_split(split2);
+	if (game)
+		ft_free_game(game);
+	ft_exit_error(msg);
+}
+
+void	ft_exit_error_with_cleanup_and_line(t_game *game, char *line,
+	const char *msg)
+{
+	if (line)
+		free(line);
+	if (game)
+		ft_free_game(game);
+	ft_exit_error(msg);
+}
+
+void	ft_exit_error_with_cleanup_split_and_line(t_game *game, char **split1,
+	char **split2, char *line, const char *msg)
+{
+	if (split1)
+		ft_free_split(split1);
+	if (split2)
+		ft_free_split(split2);
+	if (line)
+		free(line);
+	if (game)
+		ft_free_game(game);
+	ft_exit_error(msg);
+}
