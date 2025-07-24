@@ -1,6 +1,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+/* ************************************************************************** */
+/*                                INCLUDES                                   */
+/* ************************************************************************** */
+
 # include "libft/libft.h"
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
@@ -8,6 +12,10 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+/* ************************************************************************** */
+/*                                STRUCTURES                                 */
+/* ************************************************************************** */
 
 typedef struct s_game
 {
@@ -21,16 +29,27 @@ typedef struct s_game
 	int		color_f;
 }			t_game;
 
-// UTILS
-int			ft_error(const char *msg);
-void		ft_exit_error(const char *msg);
-void		ft_free_split(char **split);
-void		ft_free_game(t_game *game);
-void		ft_exit_error_with_cleanup(t_game *game, const char *msg);
-void		ft_exit_error_with_cleanup_and_list(t_game *game,
-				t_list **map_lines, const char *msg);
+/* ************************************************************************** */
+/*                              ERROR HANDLING                               */
+/* ************************************************************************** */
 
-// INIT
-void		init_game(t_game *game);
+int		ft_error(const char *msg);
+void	ft_exit_error(const char *msg);
+void	ft_exit_error_with_cleanup(t_game *game, const char *msg);
+void	ft_exit_error_with_cleanup_and_list(t_game *game, t_list **map_lines,
+			const char *msg);
+
+/* ************************************************************************** */
+/*                              MEMORY MANAGEMENT                            */
+/* ************************************************************************** */
+
+void	ft_free_split(char **split);
+void	ft_free_game(t_game *game);
+
+/* ************************************************************************** */
+/*                              INITIALIZATION                               */
+/* ************************************************************************** */
+
+void	init_game(t_game *game);
 
 #endif
