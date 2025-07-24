@@ -2,11 +2,12 @@
 
 void	handle_line_error(t_game *game, t_list **map_lines, int map_started)
 {
+	if (map_lines && *map_lines)
+		ft_lstclear(map_lines, free);
 	if (map_started)
-		ft_exit_error_with_cleanup_and_list(game, map_lines,
-			"Map must be the last element");
+		ft_exit_error_with_cleanup(game, "Map must be the last element");
 	else
-		ft_exit_error_with_cleanup_and_list(game, map_lines, "Invalid line");
+		ft_exit_error_with_cleanup(game, "Invalid line");
 }
 
 void	process_map_line(char *line, t_game *game, t_list **map_lines,
@@ -17,14 +18,18 @@ void	process_map_line(char *line, t_game *game, t_list **map_lines,
 
 	line_copy = ft_strdup(line);
 	if (!line_copy)
-		ft_exit_error_with_cleanup_and_list(game, map_lines,
-			"Memory allocation failed");
+	{
+		if (map_lines && *map_lines)
+			ft_lstclear(map_lines, free);
+		ft_exit_error_with_cleanup(game, "Memory allocation failed");
+	}
 	new_node = ft_lstnew(line_copy);
 	if (!new_node)
 	{
 		free(line_copy);
-		ft_exit_error_with_cleanup_and_list(game, map_lines,
-			"Memory allocation failed");
+		if (map_lines && *map_lines)
+			ft_lstclear(map_lines, free);
+		ft_exit_error_with_cleanup(game, "Memory allocation failed");
 	}
 	*map_started = 1;
 	ft_lstadd_back(map_lines, new_node);
@@ -72,11 +77,17 @@ void	finalize_parsing(t_game *game, t_list *map_lines)
 	close(game->fd);
 	game->fd = 0;
 	if (!game->tex_n || !game->tex_s || !game->tex_w || !game->tex_e)
-		ft_exit_error_with_cleanup_and_list(game, &map_lines,
-			"Missing texture");
+	{
+		if (map_lines)
+			ft_lstclear(&map_lines, free);
+		ft_exit_error_with_cleanup(game, "Missing texture");
+	}
 	if (game->color_f == -1 || game->color_c == -1)
-		ft_exit_error_with_cleanup_and_list(game, &map_lines,
-			"Missing color");
+	{
+		if (map_lines)
+			ft_lstclear(&map_lines, free);
+		ft_exit_error_with_cleanup(game, "Missing color");
+	}
 	parse_map(&map_lines, game);
 	ft_lstclear(&map_lines, free);
 }

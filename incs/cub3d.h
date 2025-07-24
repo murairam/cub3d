@@ -27,6 +27,7 @@ typedef struct s_game
 	char	*tex_w;
 	int		color_c;
 	int		color_f;
+	char	*current_line;
 }			t_game;
 
 /* ************************************************************************** */
@@ -36,14 +37,6 @@ typedef struct s_game
 int		ft_error(const char *msg);
 void	ft_exit_error(const char *msg);
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg);
-void	ft_exit_error_with_cleanup_and_list(t_game *game, t_list **map_lines,
-			const char *msg);
-void	ft_exit_error_with_cleanup_and_split(t_game *game, char **split1,
-	char **split2, const char *msg);
-void	ft_exit_error_with_cleanup_and_line(t_game *game, char *line,
-	const char *msg);
-void	ft_exit_error_with_cleanup_split_and_line(t_game *game, char **split1,
-	char **split2, char *line, const char *msg);
 
 /* ************************************************************************** */
 /*                              MEMORY MANAGEMENT                            */

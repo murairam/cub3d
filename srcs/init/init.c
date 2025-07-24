@@ -7,7 +7,7 @@ void	init_game(t_game *game)
 	printf("DEBUG: ft_memset completed in init_game\n");
 	game->color_c = -1;
 	game->color_f = -1;
-	printf("DEBUG: Colors initialized to F=%d, C=%d\n", 
+	printf("DEBUG: Colors initialized to F=%d, C=%d\n",
 		game->color_f, game->color_c);
 	game->fd = 0;
 	game->map = NULL;

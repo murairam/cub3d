@@ -1,12 +1,5 @@
 #include "cub3d.h"
 
-static void	free_array_on_error(char **array, int count)
-{
-	while (count > 0)
-		free(array[--count]);
-	free(array);
-}
-
 static int	copy_list_content(char **array, t_list *list)
 {
 	int		i;
@@ -19,7 +12,8 @@ static int	copy_list_content(char **array, t_list *list)
 		array[i] = ft_strdup((char *)current->content);
 		if (!array[i])
 		{
-			free_array_on_error(array, i);
+			array[i] = NULL;
+			ft_free_split(array);
 			return (0);
 		}
 		current = current->next;

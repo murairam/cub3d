@@ -22,8 +22,9 @@ static void	validate_chars_and_count(char **map, int *player_count,
 			if (!is_valid_char(map[i][j]))
 			{
 				ft_free_split(map);
-				ft_exit_error_with_cleanup_and_list(game, map_lines,
-					"Invalid character in map");
+				if (map_lines && *map_lines)
+					ft_lstclear(map_lines, free);
+				ft_exit_error_with_cleanup(game, "Invalid character in map");
 			}
 			if (map[i][j] == 'N' || map[i][j] == 'S' ||
 				map[i][j] == 'E' || map[i][j] == 'W')
@@ -42,12 +43,12 @@ static void	validate_content(char **map, t_game *game, t_list **map_lines)
 	if (player_count != 1)
 	{
 		ft_free_split(map);
+		if (map_lines && *map_lines)
+			ft_lstclear(map_lines, free);
 		if (player_count == 0)
-			ft_exit_error_with_cleanup_and_list(game, map_lines,
-				"No player found in map");
+			ft_exit_error_with_cleanup(game, "No player found in map");
 		else
-			ft_exit_error_with_cleanup_and_list(game, map_lines,
-				"Multiple players found in map");
+			ft_exit_error_with_cleanup(game, "Multiple players found in map");
 	}
 	validate_boundaries(map, game, map_lines);
 }
@@ -57,12 +58,18 @@ void	parse_map(t_list **map_lines, t_game *game)
 	char	**map;
 
 	if (!*map_lines)
-		ft_exit_error_with_cleanup_and_list(game, map_lines,
-			"No map found");
+	{
+		if (map_lines && *map_lines)
+			ft_lstclear(map_lines, free);
+		ft_exit_error_with_cleanup(game, "No map found");
+	}
 	map = list_to_array(*map_lines);
 	if (!map)
-		ft_exit_error_with_cleanup_and_list(game, map_lines,
-			"Memory allocation failed");
+	{
+		if (map_lines && *map_lines)
+			ft_lstclear(map_lines, free);
+		ft_exit_error_with_cleanup(game, "Memory allocation failed");
+	}
 	validate_content(map, game, map_lines);
 	game->map = map;
 }

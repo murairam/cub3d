@@ -44,7 +44,9 @@ void	validate_boundaries(char **map, t_game *game, t_list **map_lines)
 				if (check_boundary_condition(map, i, j))
 				{
 					ft_free_split(map);
-					ft_exit_error_with_cleanup_and_list(game, map_lines,
+					if (map_lines && *map_lines)
+						ft_lstclear(map_lines, free);
+					ft_exit_error_with_cleanup(game,
 						"Map not properly enclosed by walls");
 				}
 			}
