@@ -3,13 +3,13 @@
 static char	**get_texture_target(char *id, t_game *game)
 {
 	if (ft_strncmp(id, "NO", 2) == 0 && ft_strlen(id) == 2)
-		return (&game->tex_n);
+		return (&game->north.name);
 	else if (ft_strncmp(id, "SO", 2) == 0 && ft_strlen(id) == 2)
-		return (&game->tex_s);
+		return (&game->south.name);
 	else if (ft_strncmp(id, "WE", 2) == 0 && ft_strlen(id) == 2)
-		return (&game->tex_w);
+		return (&game->west.name);
 	else if (ft_strncmp(id, "EA", 2) == 0 && ft_strlen(id) == 2)
-		return (&game->tex_e);
+		return (&game->east.name);
 	else
 		return (NULL);
 }

@@ -7,10 +7,10 @@ static void	print_game_state(t_game *game)
 	printf("\n=== GAME STATE DEBUG ===\n");
 	printf("Colors: F=%d, C=%d\n", game->color_f, game->color_c);
 	printf("Textures: N=%s, S=%s, E=%s, W=%s\n", 
-		game->tex_n ? game->tex_n : "NULL",
-		game->tex_s ? game->tex_s : "NULL", 
-		game->tex_e ? game->tex_e : "NULL",
-		game->tex_w ? game->tex_w : "NULL");
+		game->north.name ? game->north.name : "NULL",
+		game->south.name ? game->south.name : "NULL", 
+		game->east.name ? game->east.name : "NULL",
+		game->west.name ? game->west.name : "NULL");
 	if (game->map)
 	{
 		printf("Map contents:\n");
@@ -41,6 +41,7 @@ int	main(int argc, char **argv)
 	printf("DEBUG: File parsing completed successfully!\n");
 	print_game_state(&game);
 	printf("DEBUG: Cleaning up memory...\n");
+	game_init(&game);
 	ft_free_game(&game);
 	printf("DEBUG: Memory cleanup completed.\n");
 	return (0);

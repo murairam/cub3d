@@ -76,7 +76,7 @@ void	finalize_parsing(t_game *game, t_list *map_lines)
 {
 	close(game->fd);
 	game->fd = 0;
-	if (!game->tex_n || !game->tex_s || !game->tex_w || !game->tex_e)
+	if (!game->north.name || !game->south.name || !game->west.name || !game->east.name)
 	{
 		if (map_lines)
 			ft_lstclear(&map_lines, free);
