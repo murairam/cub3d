@@ -35,6 +35,7 @@
 # define A		        97
 # define S		        115
 # define D		        100
+# define ESC	        65307
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
@@ -152,8 +153,9 @@ void	ft_free_game(t_game *game);
 
 void	init_game(t_game *game);
 int     game_init(t_game *game);
-int     key_press(int keycode, t_player *player);
-int     key_release(int keycode, t_player *player);
+int     key_press(int keycode, t_game *game);
+int     key_release(int keycode, t_game *game);
+int     close_game(t_game *game);
 
 /* ****************************************************************************/
 /*                              GAME LOOP                                     */
