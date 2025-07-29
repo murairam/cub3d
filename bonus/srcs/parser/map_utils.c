@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2024/07/25 12:00:00 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:09:22 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,36 @@ void	store_doors(char **map, t_game *game)
 	if (!game->doors)
 		ft_exit_error_with_cleanup(game, "Memory allocation failed for doors");
 	initialize_doors(map, game);
+}
+
+void	get_map_dimensions(char **map, t_game *game)
+{
+	int	y;
+	int	x;
+	int	max_width;
+	int	max_height;
+	int	rightmost_wall;
+
+	y = 0;
+	max_width = 0;
+	max_height = 0;
+	while (map[y])
+	{
+		x = 0;
+		rightmost_wall = 0;
+		while (map[y][x] && map[y][x] != '\n')
+		{
+			if (map[y][x] == '1')
+			{
+				rightmost_wall = x;
+				max_height = y;
+			}
+			x++;
+		}
+		if (rightmost_wall > max_width)
+			max_width = rightmost_wall;
+		y++;
+	}
+	game->map_height = max_height + 1;
+	game->map_width = max_width + 1;
 }

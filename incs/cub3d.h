@@ -178,6 +178,8 @@ void	dda_finder(t_ray *ray, t_game *game);
 void	distance_wall(t_ray *ray, t_player *player);
 void	texture_cord(t_ray *ray, t_player *player, t_texture *text);
 void	vertical_texture(t_ray *ray, t_texture *text);
+t_texture *get_wall_texture(t_game *game, t_ray *ray);
+void    wall_render(t_ray *ray, t_texture *text, t_game *game, int screen_x);
 
 /* ****************************************************************************/
 /*                              RENDERING                                     */

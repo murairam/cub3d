@@ -18,10 +18,20 @@ static char	**get_texture_target(char *id, t_game *game)
 
 static void	validate_texture_format(char **split, t_game *game)
 {
-	if (!split || !split[0] || !split[1] || split[2])
+	int	count;
+
+	if (!split || !split[0] || !split[1])
 	{
 		if (split)
 			ft_free_split(split);
+		ft_exit_error_with_cleanup(game, "Invalid texture line format");
+	}
+	count = 0;
+	while (split[count])
+		count++;
+	if (count != 2)
+	{
+		ft_free_split(split);
 		ft_exit_error_with_cleanup(game, "Invalid texture line format");
 	}
 }
@@ -46,6 +56,6 @@ void	parse_texture(char *line, t_game *game)
 		ft_free_split(split);
 		ft_exit_error_with_cleanup(game, "Duplicate texture");
 	}
-	*target = ft_strdup(split[1]);
+	*target = ft_strtrim(split[1], " \t\n\r");
 	ft_free_split(split);
 }

@@ -44,6 +44,6 @@ void	parse_texture(char *line, t_game *game)
 		ft_free_split(split);
 		ft_exit_error_with_cleanup(game, "Duplicate texture");
 	}
-	*target = ft_strdup(split[1]);
+	*target = ft_strtrim(split[1], "\n");
 	ft_free_split(split);
 }

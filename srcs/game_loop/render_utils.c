@@ -72,3 +72,21 @@ void	ray_init2(t_ray *ray, t_player *player)
 			* ray->deltaDistY;
 	}
 }
+
+t_texture	*get_wall_texture(t_game *game, t_ray *ray)
+{
+	if (ray->side == 0)
+	{
+		if (ray->rayDirX > 0)
+			return (&game->east);
+		else
+			return (&game->west);
+	}
+	else
+	{
+		if (ray->rayDirY > 0)
+			return (&game->south);
+		else
+			return (&game->north);
+	}
+}

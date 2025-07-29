@@ -11,8 +11,8 @@ int	draw_loop(t_game *game)
 	move_player(player, game);
 	clear_image(game);
 	i = 0;
-	fraction = (float)M_PI / 3.0 / WIDTH;
-	start_x = player->angle - (float)M_PI / 6.0;
+	fraction = (float)PI / 3.0 / WIDTH;
+	start_x = player->angle - (float)PI / 6.0;
 	while (i < WIDTH)
 	{
 		draw_line(player, game, start_x, i);

@@ -48,5 +48,6 @@ int						is_map_line(char *line);
 int						is_color_line(char *line);
 int						is_texture_line(char *line);
 int						is_empty_line(char *line);
+void					get_map_dimensions(char **map, t_game *game);
 
 #endif

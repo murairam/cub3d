@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2024/07/25 12:00:00 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:39:17 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static void	ft_free_sprite_names(t_game *game)
 
 void	ft_free_bonus(t_game *game)
 {
-	if (game->z_buffer)
-		free(game->z_buffer);
 	if (game->doors)
 		free(game->doors);
 	if (game->sprite_list)

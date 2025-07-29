@@ -198,15 +198,17 @@ typedef struct s_game
 	t_door			*doors;
 	int				door_count;
 	t_minimap		minimap;
-	bool			show_minimap;
-	float			*z_buffer;
 	int				mouse_x;
 	int				mouse_y;
+	float			*z_buffer;
+	int				map_width;
+	int				map_height;
+	bool			show_minimap;
 }					t_game;
 
-/* ****************************************************************************/
-/*                              ERROR HANDLING                                */
-/* ****************************************************************************/
+/* ************************************************************************** */
+/*                                PROTOTYPES                                  */
+/* **************************************************************************/
 
 int					ft_error(const char *msg);
 void				ft_exit_error(const char *msg);
@@ -282,6 +284,7 @@ void				draw_minimap_player(t_game *game);
 void				draw_minimap_walls(t_game *game, int map_width,
 						int map_height);
 void				put_pixel_minimap(t_game *game, int x, int y, int color);
+void				recreate_minimap_image(t_game *game, int width, int height);
 
 /* ****************************************************************************/
 /*                              DOORS                                         */

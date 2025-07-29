@@ -19,6 +19,7 @@ void	parse_map(t_list **map_lines, t_game *game)
 	}
 	validate_content(map, game, map_lines);
 	game->map = map;
+	get_map_dimensions(map, game);
 	fetch_player_cords(map, game);
 	store_doors(map, game);
 }

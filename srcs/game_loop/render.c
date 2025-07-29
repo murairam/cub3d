@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static void	wall_render(t_ray *ray, t_texture *text, t_game *game, int screen_x)
+void	wall_render(t_ray *ray, t_texture *text, t_game *game, int screen_x)
 {
 	int	y;
 

@@ -56,3 +56,16 @@ void	distance_wall(t_ray *ray, t_player *player)
 	if (ray->drawEnd >= HEIGHT)
 		ray->drawEnd = HEIGHT - 1;
 }
+
+void	render_wall(t_game *game, t_ray *ray, int screen_x)
+{
+	t_texture	*text;
+
+	text = get_wall_texture(game, ray);
+	if (text && text->data)
+	{
+		texture_cord(ray, &game->player, text);
+		vertical_texture(ray, text);
+		wall_render(ray, text, game, screen_x);
+	}
+}
