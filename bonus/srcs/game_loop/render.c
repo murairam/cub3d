@@ -28,11 +28,6 @@ void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
 	distance_wall(&ray, player);
 	text = get_wall_texture(game, &ray);
 	ceiling_render(&ray, game, screenX);
-	if (text && text->data)
-	{
-		texture_cord(&ray, player, text);
-		vertical_texture(&ray, text);
-		wall_render(&ray, text, game, screenX);
-	}
+	wall_render(&ray, text, game, screenX);
 	floor_render(&ray, game, screenX);
 }
