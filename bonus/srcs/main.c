@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 12:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/07/29 12:31:40 by mmiilpal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
@@ -45,14 +34,17 @@ int	main(int argc, char **argv)
 	if (!valid_file_extension(argv[1]))
 		return (1);
 	init_game(&game);
-	printf("DEBUG: Starting cub3d bonus with file: %s\n", argv[1]);
 	parse_file(argv[1], &game);
-	printf("DEBUG: File parsed successfully, starting game...\n");
 	if (game_init(&game))
 	{
 		ft_free_game(&game);
+		ft_free_bonus(&game);
+		ft_free_mlx(&game);
 		return (1);
 	}
+	game_loop(&game);
 	ft_free_game(&game);
+	ft_free_bonus(&game);
+	ft_free_mlx(&game);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/07/29 12:31:40 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:09:15 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 void	draw_sprites(t_game *game)
 {
-	// TODO: Implement sprite drawing
 	(void)game;
 }

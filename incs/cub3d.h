@@ -20,7 +20,7 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define BIG_FLOAT      1e30f
+# define BIG_FLOAT      1000000000.0f
 # define PI		        3.14159265359
 # define WIDTH	        1280
 # define HEIGHT	        720
@@ -162,8 +162,22 @@ int     close_game(t_game *game);
 /* ****************************************************************************/
 
 void    game_loop(t_game *game);
-void    move_player(t_player *player);
-void    move_player_keys(t_player *player, float cos_angle, float sin_angle, int speed);
+void    move_player(t_player *player, t_game *game);
+void	move_player_keys(t_player *player, t_game *game, float cos_angle,
+			float sin_angle);
+void	move_forward(t_player *player, t_game *game, float cos_angle,
+			float sin_angle);
+void	move_backward(t_player *player, t_game *game, float cos_angle,
+			float sin_angle);
+void	move_left(t_player *player, t_game *game, float cos_angle,
+			float sin_angle);
+void	move_right(t_player *player, t_game *game, float cos_angle,
+			float sin_angle);
+void	ray_init(t_ray *ray, t_player *player, float angle);
+void	dda_finder(t_ray *ray, t_game *game);
+void	distance_wall(t_ray *ray, t_player *player);
+void	texture_cord(t_ray *ray, t_player *player, t_texture *text);
+void	vertical_texture(t_ray *ray, t_texture *text);
 
 /* ****************************************************************************/
 /*                              RENDERING                                     */

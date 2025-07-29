@@ -1,7 +1,7 @@
 #include "cub3d_bonus.h"
 
 static void	cleanup_and_exit(char **rgb, char **outer_split, t_game *game,
-	const char *msg)
+		const char *msg)
 {
 	if (rgb)
 		ft_free_split(rgb);

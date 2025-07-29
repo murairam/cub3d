@@ -64,8 +64,8 @@ void	init_parsing(const char *filename, t_game *game)
 	char	*extension;
 
 	extension = ft_strrchr(filename, '.');
-	if (!extension || ft_strncmp(extension, ".cub", 4) != 0 \
-	|| ft_strlen(extension) != 4)
+	if (!extension || ft_strncmp(extension, ".cub", 4) != 0
+		|| ft_strlen(extension) != 4)
 		ft_exit_error("File must have .cub extension");
 	game->fd = open(filename, O_RDONLY);
 	if (game->fd < 0)
@@ -76,7 +76,8 @@ void	finalize_parsing(t_game *game, t_list *map_lines)
 {
 	close(game->fd);
 	game->fd = 0;
-	if (!game->north.name || !game->south.name || !game->west.name || !game->east.name)
+	if (!game->north.name || !game->south.name || !game->west.name
+		|| !game->east.name)
 	{
 		if (map_lines)
 			ft_lstclear(&map_lines, free);

@@ -52,6 +52,7 @@ static void	validate_content(char **map, t_game *game, t_list **map_lines)
 	}
 	validate_boundaries(map, game, map_lines);
 }
+
 static void	fetch_player_cords(char **map, t_game *game)
 {
 	int	y;
