@@ -7,7 +7,7 @@ void    wall_render(t_ray *ray, t_texture *text, t_game *game, int screenX)
 	y = ray->drawStart - 1;
 	while (++y < ray->drawEnd)
 	{
-		ray->texY = (int)ray->texPos & (text->height - 1);
+		ray->texY = (int)ray->texPos % (text->height - 1);
 		ray->texPos += ray->step;
 		ray->pixel = (char *)text->data + (ray->texY * text->size_line + ray->texX * (text->bpp / 8));
 		ray->color = *(int *)ray->pixel;
@@ -58,6 +58,8 @@ void    distance_wall(t_ray *ray, t_player *player)
 		ray->perpWallDist = (ray->mapX - player->x / CUBE + (1 - ray->stepX) / 2.0f) / ray->rayDirX;
 	else
 		ray->perpWallDist = (ray->mapY - player->y / CUBE + (1 - ray->stepY) / 2.0f) / ray->rayDirY;
+	if (ray->perpWallDist < 0.1f)
+		ray->perpWallDist = 0.1f;
 	ray->lineHeight = (int)(HEIGHT / ray->perpWallDist);
 	ray->drawStart = -ray->lineHeight / 2 + HEIGHT / 2;
 	if (ray->drawStart < 0)

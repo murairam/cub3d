@@ -20,17 +20,21 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define BIG_FLOAT  1e30f
-# define PI		    3.14159265359
-# define WIDTH	    1280
-# define HEIGHT	    720
-# define CUBE	    64
-# define LEFT	    65361
-# define RIGHT	    65363
-# define W		    119
-# define A		    97
-# define S		    115
-# define D		    100
+# define BIG_FLOAT      1e30f
+# define PI		        3.14159265359
+# define WIDTH	        1280
+# define HEIGHT	        720
+# define CUBE	        64
+# define LEFT	        65361
+# define RIGHT	        65363
+# define SPAWN_NORTH    4.71
+# define SPAWN_SOUTH    1.57
+# define SPAWN_WEST     3.14159265359
+# define SPAWN_EAST     0
+# define W		        119
+# define A		        97
+# define S		        115
+# define D		        100
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
@@ -54,7 +58,6 @@ typedef struct s_ray
     int     lineHeight;
     int     drawStart;
     int     drawEnd;
-    int     texPos;
     int     color;
     int     stepX;
     int     stepY;
@@ -63,8 +66,9 @@ typedef struct s_ray
     int     side;
     int     texX;
     int     texY;
-    int     step;
     int     hit;
+    float   step;
+    float   texPos;
     float   wallX;
     float   rayDirX;
     float   rayDirY;
@@ -81,6 +85,7 @@ typedef struct s_player
     float   x;
     float   y;
     float   angle;
+    char    *orientation;
     bool    key_up;
     bool    key_down;
     bool    key_left;
@@ -115,6 +120,9 @@ typedef struct s_game
     int			size_line;
     int			endian;
     int			bpp;
+    float       spawn_x;
+    float       spawn_y;
+    char        orientation;
     t_player	player;
     t_texture	north;
     t_texture	south;
@@ -123,41 +131,41 @@ typedef struct s_game
 }			t_game;
 
 
-/* ************************************************************************** */
-/*                              ERROR HANDLING                               */
-/* ************************************************************************** */
+/* ****************************************************************************/
+/*                              ERROR HANDLING                                */
+/* ****************************************************************************/
 
 int		ft_error(const char *msg);
 void	ft_exit_error(const char *msg);
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg);
 
-/* ************************************************************************** */
-/*                              MEMORY MANAGEMENT                            */
-/* ************************************************************************** */
+/* ****************************************************************************/
+/*                              MEMORY MANAGEMENT                             */
+/* ****************************************************************************/
 
 void	ft_free_split(char **split);
 void	ft_free_game(t_game *game);
 
-/* ************************************************************************** */
-/*                              INITIALIZATION                               */
-/* ************************************************************************** */
+/* ****************************************************************************/
+/*                              INITIALIZATION                                */
+/* ****************************************************************************/
 
 void	init_game(t_game *game);
 int     game_init(t_game *game);
 int     key_press(int keycode, t_player *player);
 int     key_release(int keycode, t_player *player);
 
-/* ************************************************************************** */
-/*                              GAME LOOP                               */
-/* ************************************************************************** */
+/* ****************************************************************************/
+/*                              GAME LOOP                                     */
+/* ****************************************************************************/
 
 void    game_loop(t_game *game);
 void    move_player(t_player *player);
 void    move_player_keys(t_player *player, float cos_angle, float sin_angle, int speed);
 
-/* ************************************************************************** */
-/*                              RENDERING                               */
-/* ************************************************************************** */
+/* ****************************************************************************/
+/*                              RENDERING                                     */
+/* ****************************************************************************/
 
 void    put_pixel(int x, int y, int color, t_game *game);
 void    clear_image(t_game *game);

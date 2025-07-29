@@ -1,12 +1,18 @@
 #include "cub3d.h"
 
-static void init_player(t_player *player)
+static void init_player(t_game *game, t_player *player)
 {
-    player->x = WIDTH / 2;
-    player->y = HEIGHT / 2;
-    player->angle = PI / 2;
-    
-    player->key_up = false;
+	player->x = game->spawn_x;
+	player->y = game->spawn_y;
+	if (game->orientation == 'N')
+    	player->angle = SPAWN_NORTH;
+	else if (game->orientation == 'S')
+		player->angle = SPAWN_SOUTH;
+	else if (game->orientation == 'W')
+    	player->angle = SPAWN_WEST;
+	else if (game->orientation == 'E')
+    	player->angle = SPAWN_EAST;
+	player->key_up = false;
     player->key_down = false;
     player->key_left = false;
     player->key_right = false;
@@ -39,7 +45,7 @@ static short texture_init(t_game *game)
 
 int game_init(t_game *game)
 {
-    init_player(&game->player);
+    init_player(game, &game->player);
     game->mlx = mlx_init();
     game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "RATS IN THE HOUSE");
     game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);

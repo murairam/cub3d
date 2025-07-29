@@ -52,6 +52,29 @@ static void	validate_content(char **map, t_game *game, t_list **map_lines)
 	}
 	validate_boundaries(map, game, map_lines);
 }
+static void	fetch_player_cords(char **map, t_game *game)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == 'N' || map[y][x] == 'S' ||
+				map[y][x] == 'E' || map[y][x] == 'W')
+			{
+				game->spawn_x = x * CUBE;
+				game->spawn_y = y * CUBE;
+				game->orientation = map[y][x];
+			}
+			x++;
+		}
+		y++;
+	}
+}
 
 void	parse_map(t_list **map_lines, t_game *game)
 {
@@ -72,4 +95,5 @@ void	parse_map(t_list **map_lines, t_game *game)
 	}
 	validate_content(map, game, map_lines);
 	game->map = map;
+	fetch_player_cords(map, game);
 }
