@@ -1,5 +1,15 @@
 NAME = cub3d
-BONUS = cub3d_bonus
+BOSRC = mainBONUS_SRC = main.c utils/error.c utils/free.c utils/free_utils.c parser/parser.c parser/p_utils.c \
+	parser/texture.c parser/map.c parser/map_validation.c parser/map_utils.c parser/map_bounds.c \
+	parser/color.c parser/line.c parser/parsing_utils.c parser/list_utils.c init/init.c init/init_utils.c init/texture_utils.c \
+	game_loop/game_loop.c game_loop/move.c game_loop/move_utils.c game_loop/mouse.c game_loop/render.c \
+	game_loop/render_utils.c game_loop/raycasting_utils.c game_loop/render_draw.c \
+	minimap/minimap.c minimap/minimap_draw.c minimap/minimap_walls.c minimap/minimap_player.c \
+	sprites/sprites.c sprites/sprites_draw.c doors/doors.c doors/door_utils.cs/error.c parser/parser.c parser/p_utils.c \
+	parser/texture.c utils/free.c parser/map.c parser/map_bounds.c \
+	parser/color.c parser/line.c parser/parsing_utils.c parser/list_utils.c init/init.c game_loop/game_loop.c \
+	game_loop/move.c game_loop/render.c game_loop/render_utils.c game_loop/raycasting.c \
+	game_loop/move_utils.c cub3d_bonus
 CC = cc
 RM = rm -f
 FLAGS = -Wall -Wextra -Werror -g
@@ -15,13 +25,13 @@ LIBS = -L$(LIBFTDIR) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz -lft
 
 SRC = main.c utils/error.c parser/parser.c parser/p_utils.c \
 	parser/texture.c utils/free.c parser/map.c parser/map_bounds.c \
-	parser/color.c parser/line.c parser/list_utils.c init/init.c game_loop/game_loop.c \
+	parser/color.c parser/line.c parser/list_utils.c parser/parsing_utils.c init/init.c game_loop/game_loop.c \
 	game_loop/move.c game_loop/render.c game_loop/render_utils.c game_loop/raycasting.c \
 	game_loop/move_utils.c
 
 BONUS_SRC = main.c utils/error.c utils/free.c utils/free_utils.c parser/parser.c parser/p_utils.c \
 	parser/texture.c parser/map.c parser/map_validation.c parser/map_utils.c parser/map_bounds.c \
-	parser/color.c parser/line.c parser/list_utils.c init/init.c init/init_utils.c init/texture_utils.c \
+	parser/color.c parser/line.c parser/list_utils.c parser/parsing_utils.c init/init.c init/init_utils.c init/texture_utils.c \
 	game_loop/game_loop.c game_loop/move.c game_loop/move_utils.c game_loop/mouse.c game_loop/render.c \
 	game_loop/render_utils.c game_loop/raycasting_utils.c game_loop/render_draw.c \
 	minimap/minimap.c minimap/minimap_draw.c minimap/minimap_walls.c minimap/minimap_player.c \
