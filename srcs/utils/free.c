@@ -38,7 +38,6 @@ void	ft_free_game(t_game *game)
 
 	if (!game)
 		return ;
-	printf("DEBUG: Cleaning up memory...\n");
 	ft_free_mlx(game);
 	free(game->north.name);
 	free(game->south.name);
