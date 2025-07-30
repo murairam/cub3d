@@ -5,7 +5,7 @@ void	handle_line_error(t_game *game, t_list **map_lines, int map_started)
 	if (map_lines && *map_lines)
 		ft_lstclear(map_lines, free);
 	if (map_started)
-		ft_exit_error_with_cleanup(game, "Map must be the last element");
+		ft_exit_error_with_cleanup(game, "Invalid map");
 	else
 		ft_exit_error_with_cleanup(game, "Invalid line");
 }
