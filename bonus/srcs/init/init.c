@@ -21,6 +21,8 @@ static void init_player(t_game *game, t_player *player)
     player->right_rot = false;
     
     // Initialize mouse position and drag state
+	game->bob_time = 0.0f;
+	game->bob_intensity = 0.5f;
     game->mouse_x = WIDTH / 2;
     game->mouse_y = HEIGHT / 2;
     game->mouse_dragging = false;
@@ -46,7 +48,14 @@ static short texture_init(t_game *game)
 	if (!game->west.img)
 		return(printf("Error: failed to load Bricks_West.xpm\n"), 1);
 	game->west.data = (int *)mlx_get_data_addr(game->west.img, &game->west.bpp, &game->west.size_line, &game->west.endian);
-	
+	game->Left_arm.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/LeftArm.xpm",&game->Left_arm.width, &game->Left_arm.height);
+	if (!game->Left_arm.img)
+		return(printf("Error: failed to load Left_arm.xpm\n"), 1);
+	game->Left_arm.data = (int *)mlx_get_data_addr(game->Left_arm.img, &game->Left_arm.bpp, &game->Left_arm.size_line, &game->Left_arm.endian);
+	game->Right_arm.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/RightArm.xpm",&game->Right_arm.width, &game->Right_arm.height);
+	if (!game->Right_arm.img)
+		return(printf("Error: failed to load Right_arm.xpm\n"), 1);
+	game->Right_arm.data = (int *)mlx_get_data_addr(game->Right_arm.img, &game->Right_arm.bpp, &game->Right_arm.size_line, &game->Right_arm.endian);
 	// Load door texture if available
 	if (game->door.name)
 	{

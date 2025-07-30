@@ -21,8 +21,8 @@
 
 # define BIG_FLOAT      1e30f
 # define PI		        3.14159265359
-# define WIDTH	        1280
-# define HEIGHT	        720
+# define WIDTH	        1920
+# define HEIGHT	        1080
 # define CUBE	        64
 # define LEFT	        65361
 # define RIGHT	        65363
@@ -39,13 +39,11 @@
 # define SPACE          32
 # define SHIFT          65505
 
-/* Minimap defines */
 # define MINIMAP_SIZE   150
 # define MINIMAP_SCALE  8
 # define MINIMAP_X      0
 # define MINIMAP_Y      0
 
-/* Colors */
 # define COLOR_WHITE    0xFFFFFF
 # define COLOR_BLACK    0x000000
 # define COLOR_RED      0xFF0000
@@ -77,6 +75,19 @@ typedef enum e_door_state
 /* ************************************************************************** */
 /*                                STRUCTURES                                 */
 /* ************************************************************************** */
+
+typedef struct s_arms
+{
+    bool is_moving;
+    float idle_speed;
+    float idle_amount;
+	float current_speed;
+    float walking_speed;
+    float walking_amount;
+	float current_amount;
+	float time_increment;
+    float target_intensity;
+}   t_arms;
 
 typedef struct s_ray
 {
@@ -132,6 +143,8 @@ typedef struct s_texture
     int     width;
     int     height;
     int     bpp;
+    int     y;
+    int     x;
 }   t_texture;
 
 typedef struct s_door
@@ -173,44 +186,48 @@ typedef struct s_minimap
 
 typedef struct s_game
 {
-	int			fd;
+    int			fd;
+    int			bpp;
+    int			endian;
+    int         mouse_y;
+    int         mouse_x;
 	int			color_c;
 	int			color_f;
+    int			size_line;
+    int         door_count;
+    int         drag_start_x;
+    int         drag_start_y;
+    int         sprite_count;
+    int         sprite_list_count;
+    char        orientation;
 	char		*current_line;
     void		*mlx;
     void		*win;
     void		*img;
     char		**map;
     char		*data;
-    int			size_line;
-    int			endian;
-    int			bpp;
+    float       *z_buffer;
+    float       arm_offset;
+    float       bob_intensity;
     float       spawn_x;
     float       spawn_y;
-    char        orientation;
+    float       bob_time;
+    t_door      *doors;
+    t_sprite    *sprite_list;
     t_player	player;
+    t_minimap   minimap;
+    t_texture   Left_arm;
+    t_texture   Right_arm;
     t_texture	north;
     t_texture	south;
     t_texture	east;
-    t_texture	west;
     t_texture   door;
     t_texture   *sprites;
-    int         sprite_count;
-    t_sprite    *sprite_list;
-    int         sprite_list_count;
-    t_door      *doors;
-    int         door_count;
-    t_minimap   minimap;
-    bool        show_minimap;
-    float       *z_buffer;
-    int         mouse_x;
-    int         mouse_y;
+    t_texture	west;
     bool        mouse_dragging;
-    int         drag_start_x;
-    int         drag_start_y;
+    bool        show_minimap;
 }			t_game;
 
-/* Include parser header after struct definitions */
 # include "parser_bonus.h"
 
 /* ****************************************************************************/

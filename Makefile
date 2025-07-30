@@ -1,3 +1,9 @@
+ifneq ($(filter clean fclean, $(MAKECMDGOALS)),)
+$(info Cleaning Cub3d 🚮)
+else
+$(info Compiling Cub3D 🎮)
+endif
+
 NAME = cub3d
 BONUS = cub3d_bonus
 CC = cc
@@ -10,6 +16,7 @@ OBJ_DIR = objs/
 BONUS_OBJ_DIR = bonus/objs/
 INC =-Iincs -Imlx -O3
 BONUS_INC = -Ibonus/incs -Iincs -Imlx -O3
+MAKEFLAGS += --no-print-directory
 
 LIBS = -L$(LIBFTDIR) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz -lft
 
@@ -34,24 +41,24 @@ BONUS_OBJS = $(patsubst %.c,$(BONUS_OBJ_DIR)%.o,$(BONUS_SRCS))
 all: create_dirs $(NAME)
 
 $(NAME): $(OBJS)
-	$(MAKE) -s -C  $(MLX_DIR)
-	$(MAKE) -s -C $(LIBFTDIR)
-	$(CC) $(FLAGS) $(OBJS) $(LIBS) -o $(NAME) $(MLX_FLAGS)
+	@$(MAKE) -s -C  $(MLX_DIR)
+	@$(MAKE) -s -C $(LIBFTDIR)
+	@$(CC) $(FLAGS) $(OBJS) $(LIBS) -o $(NAME) $(MLX_FLAGS)
 
 $(OBJS): $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+	@$(CC) $(FLAGS) $(INC) -c $< -o $@
 
 bonus: create_dirs_b $(BONUS)
 
 $(BONUS): $(BONUS_OBJS)
-	$(MAKE) -s -C $(LIBFTDIR)
-	$(MAKE) -s -C $(MLX_DIR)
-	$(CC) $(FLAGS) $(BONUS_OBJS) $(LIBS) -o $(BONUS) $(MLX_FLAGS)
+	@$(MAKE) -s -C $(LIBFTDIR) && echo "Libft Compiled Successfully ✅"
+	@$(MAKE) -s -C $(MLX_DIR)
+	@$(CC) $(FLAGS) $(BONUS_OBJS) $(LIBS) -o $(BONUS) $(MLX_FLAGS) && echo "Cub3D Bonus Compiled Successfully ✅"
 
 $(BONUS_OBJS): $(BONUS_OBJ_DIR)%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(FLAGS) $(BONUS_INC) -c $< -o $@
+	@$(CC) $(FLAGS) $(BONUS_INC) -c $< -o $@
 
 create_dirs:
 	@mkdir -p $(OBJ_DIR)
@@ -62,12 +69,12 @@ create_dirs_b:
 clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(BONUS_OBJ_DIR)
-	$(MAKE) -s -C $(LIBFTDIR) clean
+	@$(MAKE) -s -C $(LIBFTDIR) clean
 
 fclean: clean
-	$(RM) $(NAME)
-	$(RM) $(BONUS)
-	$(MAKE) -s -C $(LIBFTDIR) fclean
+	@$(RM) $(NAME)
+	@$(RM) $(BONUS)
+	@$(MAKE) -s -C $(LIBFTDIR) fclean
 
 
 re: clean all

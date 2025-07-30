@@ -165,25 +165,27 @@ int	mouse_move(int x, int y, t_game *game)
 {
 	float	mouse_sensitivity;
 	int		delta_x;
+	int		center_x;
 
-	mouse_sensitivity = 0.003f;
-	
+	mouse_sensitivity = 0.00001f;
+	center_x = WIDTH / 2;
 	// Calculate mouse movement delta
-	delta_x = x - game->mouse_x;
+	delta_x = x - center_x;
 	
 	// Apply rotation based on mouse movement
-	if (abs(delta_x) > 1)
+	if (delta_x != 0)
 	{
 		game->player.angle += delta_x * mouse_sensitivity;
 		if (game->player.angle > 2 * PI)
 			game->player.angle -= 2 * PI;
 		if (game->player.angle < 0)
 			game->player.angle += 2 * PI;
+		mlx_mouse_move(game->mlx, game->win, center_x, y);
 	}
 	
 	// Update mouse position
-	game->mouse_x = x;
-	game->mouse_y = y;
+	// game->mouse_x = x;
+	// game->mouse_y = y;
 	return (0);
 }
 
