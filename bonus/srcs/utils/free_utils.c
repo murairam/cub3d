@@ -75,5 +75,7 @@ void	ft_free_bonus(t_game *game)
 		free(game->doors);
 	if (game->sprite_list)
 		free(game->sprite_list);
+	if (game->z_buffer)
+		free(game->z_buffer);
 	ft_free_sprite_names(game);
 }
