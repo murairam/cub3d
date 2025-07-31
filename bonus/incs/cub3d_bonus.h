@@ -262,17 +262,17 @@ bool				check_collision(float new_x, float new_y, t_game *game);
 
 void				put_pixel(int x, int y, int color, t_game *game);
 void				clear_image(t_game *game);
-void				draw_line(t_player *player, t_game *game, float rayAngle,
-						int screenX);
-void				ray_init(t_ray *ray, t_player *player, float rayAngle);
+void				draw_line(t_player *player, t_game *game, float ray_angle,
+						int screen_x);
+void				ray_init(t_ray *ray, t_player *player, float ray_angle);
 void				dda_finder(t_ray *ray, t_game *game);
 void				distance_wall(t_ray *ray, t_player *player);
 void				texture_cord(t_ray *ray, t_player *player, t_texture *text);
 void				vertical_texture(t_ray *ray, t_texture *text);
-void				ceiling_render(t_ray *ray, t_game *game, int screenX);
+void				ceiling_render(t_ray *ray, t_game *game, int screen_x);
 void				wall_render(t_ray *ray, t_texture *text, t_game *game,
-						int screenX);
-void				floor_render(t_ray *ray, t_game *game, int screenX);
+						int screen_x);
+void				floor_render(t_ray *ray, t_game *game, int screen_x);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
@@ -293,13 +293,5 @@ void				recreate_minimap_image(t_game *game, int width, int height);
 void				init_doors(t_game *game);
 void				interact_door(t_game *game);
 bool				is_door(char c);
-
-/* ****************************************************************************/
-/*                              SPRITES                                       */
-/* ****************************************************************************/
-
-void				init_sprites(t_game *game);
-void				draw_sprites(t_game *game);
-void				sort_sprites(t_sprite *sprites, int count);
 
 #endif

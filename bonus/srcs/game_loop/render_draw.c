@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-void	wall_render(t_ray *ray, t_texture *text, t_game *game, int screenX)
+void	wall_render(t_ray *ray, t_texture *text, t_game *game, int screen_x)
 {
 	int	y;
 
@@ -12,26 +12,26 @@ void	wall_render(t_ray *ray, t_texture *text, t_game *game, int screenX)
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));
 		ray->color = *(int *)ray->pixel;
-		put_pixel(screenX, y, ray->color, game);
+		put_pixel(screen_x, y, ray->color, game);
 	}
 }
 
-void	floor_render(t_ray *ray, t_game *game, int screenX)
+void	floor_render(t_ray *ray, t_game *game, int screen_x)
 {
 	int	y;
 
 	y = ray->draw_end - 1;
 	while (++y < HEIGHT)
-		put_pixel(screenX, y, game->color_f, game);
+		put_pixel(screen_x, y, game->color_f, game);
 }
 
-void	ceiling_render(t_ray *ray, t_game *game, int screenX)
+void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 {
 	int	y;
 
 	y = -1;
 	while (++y < ray->draw_start)
-		put_pixel(screenX, y, game->color_c, game);
+		put_pixel(screen_x, y, game->color_c, game);
 }
 
 void	vertical_texture(t_ray *ray, t_texture *text)

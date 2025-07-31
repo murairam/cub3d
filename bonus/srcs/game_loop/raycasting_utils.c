@@ -92,10 +92,10 @@ void	ray_init2(t_ray *ray, t_player *player)
 	}
 }
 
-void	ray_init(t_ray *ray, t_player *player, float rayAngle)
+void	ray_init(t_ray *ray, t_player *player, float ray_angle)
 {
-	ray->ray_dir_x = cos(rayAngle);
-	ray->ray_dir_y = sin(rayAngle);
+	ray->ray_dir_x = cos(ray_angle);
+	ray->ray_dir_y = sin(ray_angle);
 	ray->map_x = (int)(player->x / CUBE);
 	ray->map_y = (int)(player->y / CUBE);
 	ray->delta_dist_x = fabsf(1 / ray->ray_dir_x);

@@ -25,7 +25,7 @@ BONUS_SRC = main.c utils/error.c utils/free.c utils/free_utils.c parser/parser.c
 	game_loop/game_loop.c game_loop/move.c game_loop/move_utils.c game_loop/mouse.c game_loop/render.c \
 	game_loop/render_utils.c game_loop/raycasting_utils.c game_loop/render_draw.c \
 	minimap/minimap.c minimap/minimap_draw.c minimap/minimap_walls.c minimap/minimap_player.c \
-	sprites/sprites.c sprites/sprites_draw.c doors/doors.c doors/door_utils.c
+	doors/doors.c doors/door_utils.c
 
 SRCS := $(addprefix srcs/, $(SRC))
 OBJS = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))

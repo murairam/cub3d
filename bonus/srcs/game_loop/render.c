@@ -18,18 +18,18 @@ static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 	}
 }
 
-void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
+void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {
 	t_ray		ray;
 	t_texture	*text;
 
-	ray_init(&ray, player, rayAngle);
+	ray_init(&ray, player, ray_angle);
 	dda_finder(&ray, game);
 	distance_wall(&ray, player);
 	text = get_wall_texture(game, &ray);
 	texture_cord(&ray, player, text);
 	vertical_texture(&ray, text);
-	ceiling_render(&ray, game, screenX);
-	wall_render(&ray, text, game, screenX);
-	floor_render(&ray, game, screenX);
+	ceiling_render(&ray, game, screen_x);
+	wall_render(&ray, text, game, screen_x);
+	floor_render(&ray, game, screen_x);
 }

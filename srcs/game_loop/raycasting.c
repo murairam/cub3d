@@ -6,12 +6,12 @@ void	ray_init(t_ray *ray, t_player *player, float angle)
 {
 	ray->hit = 0;
 	ray->side = 0;
-	ray->rayDirX = cos(angle);
-	ray->rayDirY = sin(angle);
-	ray->mapX = (int)player->x / CUBE;
-	ray->mapY = (int)player->y / CUBE;
-	ray->deltaDistX = fabs(1 / ray->rayDirX);
-	ray->deltaDistY = fabs(1 / ray->rayDirY);
+	ray->ray_dir_x = cos(angle);
+	ray->ray_dir_y = sin(angle);
+	ray->map_x = (int)player->x / CUBE;
+	ray->map_y = (int)player->y / CUBE;
+	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
+	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 	ray_init2(ray, player);
 }
 
@@ -21,19 +21,19 @@ void	dda_finder(t_ray *ray, t_game *game)
 	ray->side = 0;
 	while (!ray->hit)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->side_dist_x < ray->side_dist_y)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->map_x += ray->step_x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
+			ray->side_dist_y += ray->delta_dist_y;
+			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (game->map[ray->mapY][ray->mapX] == '1')
+		if (game->map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;
 	}
 }
@@ -41,20 +41,20 @@ void	dda_finder(t_ray *ray, t_game *game)
 void	distance_wall(t_ray *ray, t_player *player)
 {
 	if (ray->side == 0)
-		ray->perpWallDist = (ray->mapX - player->x / CUBE + (1 - ray->stepX)
-				/ 2.0f) / ray->rayDirX;
+		ray->perp_wall_dist = (ray->map_x - player->x / CUBE + (1 - ray->step_x)
+				/ 2.0f) / ray->ray_dir_x;
 	else
-		ray->perpWallDist = (ray->mapY - player->y / CUBE + (1 - ray->stepY)
-				/ 2.0f) / ray->rayDirY;
-	if (ray->perpWallDist < 0.1f)
-		ray->perpWallDist = 0.1f;
-	ray->lineHeight = (int)(HEIGHT / ray->perpWallDist);
-	ray->drawStart = -ray->lineHeight / 2 + HEIGHT / 2;
-	if (ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + HEIGHT / 2;
-	if (ray->drawEnd >= HEIGHT)
-		ray->drawEnd = HEIGHT - 1;
+		ray->perp_wall_dist = (ray->map_y - player->y / CUBE + (1 - ray->step_y)
+				/ 2.0f) / ray->ray_dir_y;
+	if (ray->perp_wall_dist < 0.1f)
+		ray->perp_wall_dist = 0.1f;
+	ray->line_height = (int)(HEIGHT / ray->perp_wall_dist);
+	ray->draw_start = -ray->line_height / 2 + HEIGHT / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
+	if (ray->draw_end >= HEIGHT)
+		ray->draw_end = HEIGHT - 1;
 }
 
 void	render_wall(t_game *game, t_ray *ray, int screen_x)

@@ -71,7 +71,6 @@ int	game_init(t_game *game)
 	if (texture_init(game))
 		return (printf("Texture Fail\n"));
 	init_minimap(game);
-	init_sprites(game);
 	init_doors(game);
 	game->z_buffer = malloc(sizeof(float) * WIDTH);
 	if (!game->z_buffer)
