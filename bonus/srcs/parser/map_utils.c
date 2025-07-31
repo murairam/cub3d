@@ -24,26 +24,6 @@ void	fetch_player_cords(char **map, t_game *game)
 	}
 }
 
-static void	count_doors(char **map, t_game *game)
-{
-	int	i;
-	int	j;
-
-	game->door_count = 0;
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'D')
-				game->door_count++;
-			j++;
-		}
-		i++;
-	}
-}
-
 static void	initialize_doors(char **map, t_game *game)
 {
 	int	i;
@@ -70,7 +50,22 @@ static void	initialize_doors(char **map, t_game *game)
 
 void	store_doors(char **map, t_game *game)
 {
-	count_doors(map, game);
+	int	i;
+	int	j;
+
+	game->door_count = 0;
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'D')
+				game->door_count++;
+			j++;
+		}
+		i++;
+	}
 	if (game->door_count == 0)
 		return ;
 	game->doors = ft_calloc(game->door_count, sizeof(t_door));
@@ -79,34 +74,36 @@ void	store_doors(char **map, t_game *game)
 	initialize_doors(map, game);
 }
 
+static void	process_map_row(char *row, int y, int *max_width, int *max_height)
+{
+	int	x;
+	int	rightmost_wall;
+
+	x = -1;
+	rightmost_wall = 0;
+	while (row[++x] && row[x] != '\n')
+	{
+		if (row[x] == '1')
+		{
+			rightmost_wall = x;
+			*max_height = y;
+		}
+	}
+	if (rightmost_wall > *max_width)
+		*max_width = rightmost_wall;
+}
+
 void	get_map_dimensions(char **map, t_game *game)
 {
 	int	y;
-	int	x;
 	int	max_width;
 	int	max_height;
-	int	rightmost_wall;
 
-	y = 0;
+	y = -1;
 	max_width = 0;
 	max_height = 0;
-	while (map[y])
-	{
-		x = 0;
-		rightmost_wall = 0;
-		while (map[y][x] && map[y][x] != '\n')
-		{
-			if (map[y][x] == '1')
-			{
-				rightmost_wall = x;
-				max_height = y;
-			}
-			x++;
-		}
-		if (rightmost_wall > max_width)
-			max_width = rightmost_wall;
-		y++;
-	}
+	while (map[++y])
+		process_map_row(map[y], y, &max_width, &max_height);
 	game->map_height = max_height + 1;
 	game->map_width = max_width + 1;
 }

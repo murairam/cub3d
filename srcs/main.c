@@ -4,7 +4,7 @@ static int	valid_argc(int argc)
 {
 	if (argc != 2)
 	{
-		ft_printf("Error\nUsage: %s <map.cub>\n", "cub3d");
+		ft_printf("Error\nUsage: %s <maps/map.cub>\n", "cub3d");
 		return (0);
 	}
 	return (1);

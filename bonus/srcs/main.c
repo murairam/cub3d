@@ -1,11 +1,10 @@
-
 #include "cub3d_bonus.h"
 
 static int	valid_argc(int argc)
 {
 	if (argc != 2)
 	{
-		ft_printf("Error\nUsage: %s <map.cub>\n", "cub3d_bonus");
+		ft_printf("Error\nUsage: %s <maps/map.cub>\n", "cub3d_bonus");
 		return (0);
 	}
 	return (1);
