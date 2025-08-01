@@ -6,8 +6,8 @@ Summary: This project is inspired by the world-famous Wolfenstein 3D game, which
 
 
 things to do
--- add check to check if bonus cub has bonnus texture
-- if door exist check if texture opens
+- ✅ what to check if door is in the perimeter for the bonus projects? should we allow it or not?
+  → **RESOLVED**: Doors are NOT allowed at map perimeter. Added door boundary validation to prevent holes in walls when doors are opened.
 Sources
  * https://lodev.org/cgtutor/raycasting.html
 

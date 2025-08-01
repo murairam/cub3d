@@ -30,19 +30,22 @@ static int	get_door_color(t_game *game, int map_x, int map_y)
 		{
 			if (game->doors[door_idx].state == DOOR_OPEN)
 				return (COLOR_GREEN);
-			return (COLOR_YELLOW);
+			return (COLOR_RED); // Changed from COLOR_YELLOW to COLOR_RED for closed doors
 		}
 		door_idx++;
 	}
-	return (COLOR_YELLOW);
+	return (COLOR_RED); // Changed default from COLOR_YELLOW to COLOR_RED
 }
 
-static int	get_tile_color(t_game *game, int map_x, int map_y, int map_height)
+static int	get_tile_color(t_game *game, int map_x, int map_y)
 {
 	char	tile;
 
-	if (map_y >= map_height || map_x >= (int)ft_strlen(game->map[map_y]))
+	// Check bounds
+	if (map_y < 0 || map_y >= game->map_height || map_x < 0 || 
+		map_x >= (int)ft_strlen(game->map[map_y]))
 		return (COLOR_BLACK);
+	
 	tile = game->map[map_y][map_x];
 	if (tile == '1')
 		return (COLOR_WHITE);
@@ -53,23 +56,39 @@ static int	get_tile_color(t_game *game, int map_x, int map_y, int map_height)
 	return (COLOR_BLACK);
 }
 
-void	draw_minimap_walls(t_game *game, int map_width, int map_height)
+void	draw_minimap_walls(t_game *game)
 {
+	int		player_map_x;
+	int		player_map_y;
+	int		start_x;
+	int		start_y;
+	int		mini_x;
+	int		mini_y;
 	int		map_x;
 	int		map_y;
 	int		color;
 
-	map_y = 0;
-	while (map_y < map_height)
+	// Get player position in map coordinates
+	player_map_x = (int)(game->player.x / CUBE);
+	player_map_y = (int)(game->player.y / CUBE);
+	
+	// Calculate the top-left corner of the 25x18 view centered on player
+	start_x = player_map_x - MINIMAP_TILES_X / 2;
+	start_y = player_map_y - MINIMAP_TILES_Y / 2;
+	
+	// Draw the 25x18 grid
+	mini_y = 0;
+	while (mini_y < MINIMAP_TILES_Y)
 	{
-		map_x = 0;
-		while (map_x < map_width)
+		mini_x = 0;
+		while (mini_x < MINIMAP_TILES_X)
 		{
-			color = get_tile_color(game, map_x, map_y, map_height);
-			draw_tile(game, map_x * MINIMAP_SCALE, map_y * MINIMAP_SCALE,
-				color);
-			map_x++;
+			map_x = start_x + mini_x;
+			map_y = start_y + mini_y;
+			color = get_tile_color(game, map_x, map_y);
+			draw_tile(game, mini_x * MINIMAP_SCALE, mini_y * MINIMAP_SCALE, color);
+			mini_x++;
 		}
-		map_y++;
+		mini_y++;
 	}
 }

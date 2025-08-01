@@ -42,7 +42,9 @@
 
 /* Minimap defines */
 # define MINIMAP_SIZE 150
-# define MINIMAP_SCALE 8
+# define MINIMAP_SCALE 10
+# define MINIMAP_TILES_X 25
+# define MINIMAP_TILES_Y 18
 # define MINIMAP_X 0
 # define MINIMAP_Y 0
 
@@ -310,12 +312,9 @@ void				floor_render(t_ray *ray, t_game *game, int screen_x);
 void				init_minimap(t_game *game);
 void				draw_minimap(t_game *game);
 void				draw_minimap_player(t_game *game);
-void				draw_minimap_walls(t_game *game, int map_width,
-						int map_height);
+void				draw_minimap_walls(t_game *game);
 void				put_pixel_minimap(t_game *game, int x, int y, int color);
-void				recreate_minimap_image(t_game *game, int width, int height);
-
-/* ****************************************************************************/
+void				recreate_minimap_image(t_game *game, int width, int height);/* ****************************************************************************/
 /*                              DOORS                                         */
 /* ****************************************************************************/
 

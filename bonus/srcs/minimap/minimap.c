@@ -2,9 +2,15 @@
 
 void	init_minimap(t_game *game)
 {
-	game->minimap.width = MINIMAP_SIZE;
-	game->minimap.height = MINIMAP_SIZE;
-	game->minimap.img = mlx_new_image(game->mlx, MINIMAP_SIZE, MINIMAP_SIZE);
+	int	minimap_width;
+	int	minimap_height;
+
+	minimap_width = MINIMAP_TILES_X * MINIMAP_SCALE;
+	minimap_height = MINIMAP_TILES_Y * MINIMAP_SCALE;
+	
+	game->minimap.width = minimap_width;
+	game->minimap.height = minimap_height;
+	game->minimap.img = mlx_new_image(game->mlx, minimap_width, minimap_height);
 	if (!game->minimap.img)
 		ft_exit_error_with_cleanup(game, "Failed to create minimap image");
 	game->minimap.data = mlx_get_data_addr(game->minimap.img,
