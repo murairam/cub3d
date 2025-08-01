@@ -30,6 +30,10 @@ void	ft_free_mlx(t_game *game)
 		mlx_destroy_image(game->mlx, game->west.img);
 	if (game->door.img && game->door.img != game->north.img)
 		mlx_destroy_image(game->mlx, game->door.img);
+	if (game->left_arm.img)
+		mlx_destroy_image(game->mlx, game->left_arm.img);
+	if (game->right_arm.img)
+		mlx_destroy_image(game->mlx, game->right_arm.img);
 	if (game->minimap.img)
 		mlx_destroy_image(game->mlx, game->minimap.img);
 	ft_free_mlx_sprites(game);

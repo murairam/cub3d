@@ -33,6 +33,8 @@ void draw_image_with_transparency(t_game *game, t_texture *src, int x, int y)
     int				i;
 	int				j;
     
+	if (!src || !src->data || !game || !game->data)
+		return ;
 	dest_data = (int *)(game->data);
 	src_data = (int *)(src->data);
 	i = -1;
@@ -80,12 +82,18 @@ int	draw_loop(t_game *game)
 	update_arm_bobbing(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	draw_minimap(game);
-	game->left_arm.x = WIDTH - game->left_arm.width;
-	game->left_arm.y = HEIGHT - game->left_arm.height + (int)game->arm_offset + 10;
-	draw_image_with_transparency(game, &game->left_arm, game->left_arm.x, game->left_arm.y);
-	game->right_arm.x = 0;
-	game->right_arm.y = HEIGHT - game->right_arm.height - (int)game->arm_offset + 10;
-	draw_image_with_transparency(game, &game->right_arm, game->right_arm.x, game->right_arm.y);
+	if (game->left_arm.img && game->left_arm.data)
+	{
+		game->left_arm.x = WIDTH - game->left_arm.width;
+		game->left_arm.y = HEIGHT - game->left_arm.height + (int)game->arm_offset + 10;
+		draw_image_with_transparency(game, &game->left_arm, game->left_arm.x, game->left_arm.y);
+	}
+	if (game->right_arm.img && game->right_arm.data)
+	{
+		game->right_arm.x = 0;
+		game->right_arm.y = HEIGHT - game->right_arm.height - (int)game->arm_offset + 10;
+		draw_image_with_transparency(game, &game->right_arm, game->right_arm.x, game->right_arm.y);
+	}
 	return (0);
 }
 
