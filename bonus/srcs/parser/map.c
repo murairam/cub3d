@@ -3,7 +3,7 @@
 static int	is_valid_char(char c)
 {
 	return (c == '1' || c == '0' || c == 'N' || c == 'S'
-		|| c == 'E' || c == 'W' || c == 'D' || c == ' ' || c == '\n' || c == '\r');
+		|| c == 'E' || c == 'W' || c == 'D' || c == ' ' || c == '\n' || c == '\r' || c == 'M');
 }
 
 static void	validate_chars_and_count(char **map, int *player_count,

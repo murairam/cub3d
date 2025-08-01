@@ -6,7 +6,7 @@
 /*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:03:22 by obajja            #+#    #+#             */
-/*   Updated: 2025/07/30 15:49:48 by obajja           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:25:39 by obajja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void update_arm_bobbing(t_game *game)
 	t_arms		arms;
  
 	player = &game->player;
-	arms.walking_speed = 5.0f;
 	arms.walking_amount = 8.0f;
+	arms.walking_speed = 5.0f;
 	arms.idle_amount = 3.0f;
 	arms.idle_speed = 1.5f;
 	arms.is_moving = player->key_up || player->key_down || 

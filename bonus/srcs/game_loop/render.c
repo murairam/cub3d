@@ -79,7 +79,7 @@ static bool	is_wall_or_closed_door(t_game *game, int map_x, int map_y)
 	int		i;
 
 	tile = game->map[map_y][map_x];
-	if (tile == '1')
+	if (tile == '1' || tile == 'M')
 		return (true);
 	if (tile == 'D')
 	{
@@ -166,6 +166,73 @@ void	ray_init(t_ray *ray, t_player *player, float rayAngle)
 	ray_init2(ray, player);
 }
 
+
+// int	dim_color(int color, float factor)
+// {
+// 	int r = (color >> 16) & 0xFF;
+// 	int g = (color >> 8) & 0xFF;
+// 	int b = color & 0xFF;
+
+// 	r = (int)(r * factor);
+// 	g = (int)(g * factor);
+// 	b = (int)(b * factor);
+
+// 	//testing
+// 	if (r > 255) r = 255;
+// 	if (g > 255) g = 255;
+// 	if (b > 255) b = 255;
+
+// 	return (r << 16) | (g << 8) | b;
+// }
+
+// void	reflection(t_ray *ray, t_game *game, int screenX)
+// {
+// 	t_ray reflected = *ray;
+
+// 	//this works when i am facing window for now
+// 	if (ray->side == 0)
+// 		reflected.rayDirX = -ray->rayDirX;
+// 	else
+// 		reflected.rayDirY = -ray->rayDirY;
+
+// 	t_player pseudo_player;
+// 	pseudo_player.x = ray->mapX * CUBE + CUBE / 2;
+// 	pseudo_player.y = ray->mapY * CUBE + CUBE / 2;
+
+// 	float reflected_angle = atan2f(reflected.rayDirY, reflected.rayDirX);
+
+// 	//reusing some raycasting stuff, changing it to have the window be 2d instead of having weird depth
+// 	ray_init(&reflected, &pseudo_player, reflected_angle);
+// 	dda_finder(&reflected, game);
+// 	distance_wall(&reflected, &pseudo_player);
+
+// 	t_texture *text;
+// 	if (game->map[reflected.mapY][reflected.mapX] == 'D')
+// 		text = &game->door;
+// 	else if (reflected.side == 0)
+// 		text = (reflected.rayDirX > 0) ? &game->east : &game->west;
+// 	else
+// 		text = (reflected.rayDirY > 0) ? &game->south : &game->north;
+
+// 	texture_cord(&reflected, &pseudo_player, text);
+// 	vertical_texture(&reflected, text);
+
+// 	// trying to make it look better
+// 	int y = reflected.drawStart - 1;
+// 	while (++y < reflected.drawEnd)
+// 	{
+// 		reflected.texY = (int)reflected.texPos % (text->height - 1);
+// 		reflected.texPos += reflected.step;
+// 		reflected.pixel = (char *)text->data + (reflected.texY * text->size_line
+// 				+ reflected.texX * (text->bpp / 8));
+// 		reflected.color = *(int *)reflected.pixel;
+
+// 		reflected.color = dim_color(reflected.color, 0.6f);
+
+// 		put_pixel(screenX, y, reflected.color, game);
+// 	}
+// }
+
 void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
 {
 	t_ray		ray;
@@ -174,7 +241,12 @@ void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
 	ray_init(&ray, player, rayAngle);
 	dda_finder(&ray, game);
 	distance_wall(&ray, player);
-	
+	if (game->map[ray.mapY][ray.mapX] == 'M')
+	{
+		printf("HIT MIRROR at (%d, %d)\n", ray.mapX, ray.mapY);
+		reflection(&ray, game, screenX);
+		return;
+	}
 	// Check if we hit a door
 	if (game->map[ray.mapY][ray.mapX] == 'D')
 		text = &game->door;
