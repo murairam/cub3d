@@ -77,6 +77,19 @@ typedef enum e_door_state
 /*                                STRUCTURES                                 */
 /* ************************************************************************** */
 
+typedef struct s_arms
+{
+	bool			is_moving;
+	float			idle_speed;
+	float			idle_amount;
+	float			current_speed;
+	float			walking_speed;
+	float			walking_amount;
+	float			current_amount;
+	float			time_increment;
+	float			target_intensity;
+}					t_arms;
+
 typedef struct s_ray
 {
 	char			*pixel;
@@ -131,6 +144,8 @@ typedef struct s_texture
 	int				width;
 	int				height;
 	int				bpp;
+	int				x;
+	int				y;
 }					t_texture;
 
 typedef struct s_door
@@ -171,38 +186,46 @@ typedef struct s_minimap
 typedef struct s_game
 {
 	int				fd;
+	int				bpp;
+	int				endian;
+	int				mouse_y;
+	int				mouse_x;
 	int				color_c;
 	int				color_f;
+	int				size_line;
+	int				door_count;
+	int				drag_start_x;
+	int				drag_start_y;
+	int				sprite_count;
+	int				sprite_list_count;
+	int				map_width;
+	int				map_height;
+	char			orientation;
 	char			*current_line;
 	void			*mlx;
 	void			*win;
 	void			*img;
 	char			**map;
 	char			*data;
-	int				size_line;
-	int				endian;
-	int				bpp;
+	float			*z_buffer;
+	float			arm_offset;
+	float			bob_intensity;
 	float			spawn_x;
 	float			spawn_y;
-	char			orientation;
+	float			bob_time;
+	t_door			*doors;
+	t_sprite		*sprite_list;
 	t_player		player;
+	t_minimap		minimap;
+	t_texture		left_arm;
+	t_texture		right_arm;
 	t_texture		north;
 	t_texture		south;
 	t_texture		east;
-	t_texture		west;
 	t_texture		door;
 	t_texture		*sprites;
-	int				sprite_count;
-	t_sprite		*sprite_list;
-	int				sprite_list_count;
-	t_door			*doors;
-	int				door_count;
-	t_minimap		minimap;
-	int				mouse_x;
-	int				mouse_y;
-	float			*z_buffer;
-	int				map_width;
-	int				map_height;
+	t_texture		west;
+	bool			mouse_dragging;
 	bool			show_minimap;
 }					t_game;
 
@@ -297,6 +320,7 @@ void				recreate_minimap_image(t_game *game, int width, int height);
 /* ****************************************************************************/
 
 void				init_doors(t_game *game);
+void				update_doors(t_game *game);
 void				interact_door(t_game *game);
 bool				is_door(char c);
 

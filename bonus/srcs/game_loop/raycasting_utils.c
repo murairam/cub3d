@@ -5,6 +5,10 @@ static bool	is_wall_or_closed_door(t_game *game, int map_x, int map_y)
 	char	tile;
 	int		i;
 
+	if (map_y < 0 || map_x < 0 || map_y >= game->map_height)
+		return (true);
+	if (!game->map[map_y] || map_x >= (int)ft_strlen(game->map[map_y]))
+		return (true);
 	tile = game->map[map_y][map_x];
 	if (tile == '1')
 		return (true);

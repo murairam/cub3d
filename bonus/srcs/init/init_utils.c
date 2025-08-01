@@ -20,6 +20,11 @@ static void	init_player(t_game *game, t_player *player)
 	player->right_rot = false;
 	game->mouse_x = WIDTH / 2;
 	game->mouse_y = HEIGHT / 2;
+	game->bob_time = 0.0f;
+	game->bob_intensity = 0.5f;
+	game->mouse_dragging = false;
+	game->drag_start_x = 0;
+	game->drag_start_y = 0;
 }
 
 static short	texture_init(t_game *game)
@@ -35,6 +40,12 @@ static short	texture_init(t_game *game)
 		return (1);
 	if (load_texture(game, &game->west,
 			"incs/assets/textures/Bricks_West1.xpm"))
+		return (1);
+	if (load_texture(game, &game->left_arm,
+			"incs/assets/textures/LeftArm.xpm"))
+		return (1);
+	if (load_texture(game, &game->right_arm,
+			"incs/assets/textures/RightArm.xpm"))
 		return (1);
 	if (game->door.name)
 	{

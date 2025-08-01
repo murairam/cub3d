@@ -18,3 +18,10 @@ void	init_doors(t_game *game)
 		i++;
 	}
 }
+
+void	update_doors(t_game *game)
+{
+	(void)game;
+	// Door update logic can be added here if needed
+	// For now, this is a placeholder to prevent compilation errors
+}
