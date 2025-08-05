@@ -337,7 +337,6 @@ void				composite_minimap_to_main(t_game *game);
 /* ****************************************************************************/
 
 void				init_doors(t_game *game);
-void				update_doors(t_game *game);
 void				interact_door(t_game *game);
 bool				is_door(char c);
 

@@ -25,7 +25,6 @@ int	draw_loop(t_game *game)
 		printf("YA UN GROS LABUBUUUUUUUUU\n\n\n\n\n\n\n");
 	player = &game->player;
 	move_player(player, game);
-	update_doors(game);
 	clear_image(game);
 	render_rays(game, player);
 	update_arm_bobbing(game);

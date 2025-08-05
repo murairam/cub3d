@@ -18,8 +18,3 @@ void	init_doors(t_game *game)
 		i++;
 	}
 }
-
-void	update_doors(t_game *game)
-{
-	(void)game;
-}
