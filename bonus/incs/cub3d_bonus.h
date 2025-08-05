@@ -105,6 +105,7 @@ typedef struct s_ray
     int     texY;
     int     hit;
     float   step;
+    float   angle;
     float   texPos;
     float   wallX;
     float   rayDirX;
@@ -138,6 +139,9 @@ typedef struct s_texture
     void    *img;
     char    *name;
     int     *data;
+    int     lineHeight;
+    int     drawStart;
+    int     drawEnd;
     int     size_line;
     int     endian;
     int     width;
@@ -224,6 +228,7 @@ typedef struct s_game
     t_texture   door;
     t_texture   *sprites;
     t_texture	west;
+    t_texture   mirror;
     bool        mouse_dragging;
     bool        show_minimap;
 }			t_game;
@@ -275,6 +280,7 @@ bool    check_collision(float new_x, float new_y, t_game *game);
 void    put_pixel(int x, int y, int color, t_game *game);
 void    clear_image(t_game *game);
 void    draw_line(t_player *player, t_game *game, float rayAngle, int screenX);
+void draw_image_with_transparency(t_game *game, t_texture *src, int x, int y);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */

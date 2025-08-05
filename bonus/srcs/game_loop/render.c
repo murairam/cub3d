@@ -167,71 +167,138 @@ void	ray_init(t_ray *ray, t_player *player, float rayAngle)
 }
 
 
-// int	dim_color(int color, float factor)
-// {
-// 	int r = (color >> 16) & 0xFF;
-// 	int g = (color >> 8) & 0xFF;
-// 	int b = color & 0xFF;
+int	dim_color(int color, float factor)
+{
+	int r = (color >> 16) & 0xFF;
+	int g = (color >> 8) & 0xFF;
+	int b = color & 0xFF;
 
-// 	r = (int)(r * factor);
-// 	g = (int)(g * factor);
-// 	b = (int)(b * factor);
+	r = (int)(r * factor);
+	g = (int)(g * factor);
+	b = (int)(b * factor);
 
-// 	//testing
-// 	if (r > 255) r = 255;
-// 	if (g > 255) g = 255;
-// 	if (b > 255) b = 255;
+	//testing
+	if (r > 255) r = 255;
+	if (g > 255) g = 255;
+	if (b > 255) b = 255;
 
-// 	return (r << 16) | (g << 8) | b;
-// }
+	return (r << 16) | (g << 8) | b;
+}
 
-// void	reflection(t_ray *ray, t_game *game, int screenX)
-// {
-// 	t_ray reflected = *ray;
+void	text_filler(t_game *game, t_ray *reflected, t_texture **text, t_ray *ray)
+{
+	if (game->map[reflected->mapY][reflected->mapX] == 'D')
+		*text = &game->door;
+	else if (reflected->side == 0)
+	{
+		if (reflected->rayDirX > 0) 
+			*text = &game->east;
+		else
+			*text = &game->west;
+	}
+	else
+	{
+		if (reflected->rayDirY > 0)
+			*text = &game->south;
+		else
+			*text = &game->north;
+	}
+	(*text)->lineHeight = (int)(HEIGHT / ray->perpWallDist);
+	(*text)->drawStart = -(*text)->lineHeight / 2 + HEIGHT / 2;
+	if ((*text)->drawStart < 0)
+		(*text)->drawStart = 0;
+	(*text)->drawEnd = (*text)->lineHeight / 2 + HEIGHT / 2;
+	if ((*text)->drawEnd >= HEIGHT)
+		(*text)->drawEnd = HEIGHT - 1;
+}
+void reflected_put_pixel(t_ray *reflected, t_texture *text, t_game *game, int screenX)
+{
+	int y;
 
-// 	//this works when i am facing window for now
-// 	if (ray->side == 0)
-// 		reflected.rayDirX = -ray->rayDirX;
-// 	else
-// 		reflected.rayDirY = -ray->rayDirY;
+	y = text->drawStart - 1;
+	while(++y < text->drawEnd)
+	{
+		reflected->texY = (int)reflected->texPos;
+		if (reflected->texY < 0)
+			reflected->texY = 0;
+		if (reflected->texY >= text->height)
+			reflected->texY = text->height - 1;
+		reflected->texPos += reflected->step;
+		if (reflected->texX < 0)
+			reflected->texX = 0;
+		if (reflected->texX >= text->width)
+			reflected->texX = text->width - 1;
+		reflected->pixel = (char *)text->data + (reflected->texY * text->size_line
+			+ reflected->texX * (text->bpp / 8));
+		reflected->color = *(int *)reflected->pixel;
+		reflected->color = dim_color(reflected->color, 0.6f);
+		put_pixel(screenX, y, reflected->color, game);
+	}
+}
+void	mirror_texture(t_game *game, t_ray *ray, t_texture *text, int screenX)
+{
+	int			y;
+	t_texture	*mirror_text;
 
-// 	t_player pseudo_player;
-// 	pseudo_player.x = ray->mapX * CUBE + CUBE / 2;
-// 	pseudo_player.y = ray->mapY * CUBE + CUBE / 2;
+	mirror_text = &game->mirror;
+    texture_cord(ray, &game->player, mirror_text);
+    ray->step = 1.0 * mirror_text->height / text->lineHeight;
+    ray->texPos = (text->drawStart - HEIGHT / 2 + text->lineHeight / 2) * ray->step;
+    y = text->drawStart - 1;
+	while (++y < text->drawEnd)
+    {
+        ray->texY = (int)ray->texPos;
+        if (ray->texY < 0)
+            ray->texY = 0;
+        if (ray->texY >= mirror_text->height)
+            ray->texY = mirror_text->height - 1;
+        ray->texPos += ray->step;
+        
+        if (ray->texX < 0)
+            ray->texX = 0;
+        if (ray->texX >= mirror_text->width)
+            ray->texX = mirror_text->width - 1;
+        
+        ray->pixel = (char *)mirror_text->data + (ray->texY * mirror_text->size_line
+            + ray->texX * (mirror_text->bpp / 8));
+        ray->color = *(int *)ray->pixel;
+        if (ray->color != 0 && (unsigned)ray->color != 0xFF000000)
+        {
+            put_pixel(screenX, y, ray->color, game);
+        }
+    }
+}
 
-// 	float reflected_angle = atan2f(reflected.rayDirY, reflected.rayDirX);
+void reflection(t_ray *ray, t_game *game, int screenX)
+{
+	t_ray reflected = *ray;
+	t_player pseudo_player;
+	t_texture *text;
+	float reflected_angle;
+	
+	if (ray->side == 0)
+	reflected.rayDirX = -ray->rayDirX;
+	else
+	reflected.rayDirY = -ray->rayDirY;
+	
+	float offset = 0.01f;
+	pseudo_player.x = (ray->mapX + 0.5f) * CUBE + offset * ray->rayDirX * CUBE;
+	pseudo_player.y = (ray->mapY + 0.5f) * CUBE + offset * ray->rayDirY * CUBE;
 
-// 	//reusing some raycasting stuff, changing it to have the window be 2d instead of having weird depth
-// 	ray_init(&reflected, &pseudo_player, reflected_angle);
-// 	dda_finder(&reflected, game);
-// 	distance_wall(&reflected, &pseudo_player);
+	reflected_angle = atan2f(reflected.rayDirY, reflected.rayDirX);
+	ray_init(&reflected, &pseudo_player, reflected_angle);
+	dda_finder(&reflected, game);
+	distance_wall(&reflected, &pseudo_player);
+	text_filler(game, &reflected, &text, ray);
+	ceiling_render(ray, game, screenX);
+	texture_cord(&reflected, &pseudo_player, text);
+	reflected.step = 1.0 * text->height / text->lineHeight;
+	reflected.texPos = (text->drawStart - HEIGHT / 2 + text->lineHeight / 2) * reflected.step;
+	reflected_put_pixel(&reflected, text, game, screenX);
+	mirror_texture(game, ray, text, screenX);
+	floor_render(ray, game, screenX);
+}
 
-// 	t_texture *text;
-// 	if (game->map[reflected.mapY][reflected.mapX] == 'D')
-// 		text = &game->door;
-// 	else if (reflected.side == 0)
-// 		text = (reflected.rayDirX > 0) ? &game->east : &game->west;
-// 	else
-// 		text = (reflected.rayDirY > 0) ? &game->south : &game->north;
-
-// 	texture_cord(&reflected, &pseudo_player, text);
-// 	vertical_texture(&reflected, text);
-
-// 	// trying to make it look better
-// 	int y = reflected.drawStart - 1;
-// 	while (++y < reflected.drawEnd)
-// 	{
-// 		reflected.texY = (int)reflected.texPos % (text->height - 1);
-// 		reflected.texPos += reflected.step;
-// 		reflected.pixel = (char *)text->data + (reflected.texY * text->size_line
-// 				+ reflected.texX * (text->bpp / 8));
-// 		reflected.color = *(int *)reflected.pixel;
-
-// 		reflected.color = dim_color(reflected.color, 0.6f);
-
-// 		put_pixel(screenX, y, reflected.color, game);
-// 	}
-// }
 
 void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
 {
@@ -243,7 +310,6 @@ void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
 	distance_wall(&ray, player);
 	if (game->map[ray.mapY][ray.mapX] == 'M')
 	{
-		printf("HIT MIRROR at (%d, %d)\n", ray.mapX, ray.mapY);
 		reflection(&ray, game, screenX);
 		return;
 	}
@@ -251,7 +317,10 @@ void	draw_line(t_player *player, t_game *game, float rayAngle, int screenX)
 	if (game->map[ray.mapY][ray.mapX] == 'D')
 		text = &game->door;
 	else if (ray.side == 0)
-		text = (ray.rayDirX > 0) ? &game->east : &game->west;
+		if (ray.rayDirX > 0)
+			text =  &game->east; 
+		else
+			text = &game->west;
 	else
 		text = (ray.rayDirY > 0) ? &game->south : &game->north;
 		

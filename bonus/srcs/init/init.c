@@ -56,6 +56,10 @@ static short texture_init(t_game *game)
 	if (!game->Right_arm.img)
 		return(printf("Error: failed to load Right_arm.xpm\n"), 1);
 	game->Right_arm.data = (int *)mlx_get_data_addr(game->Right_arm.img, &game->Right_arm.bpp, &game->Right_arm.size_line, &game->Right_arm.endian);
+	game->mirror.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/Bricks_Mirror.xpm",&game->mirror.width, &game->mirror.height);
+	if (!game->mirror.img)
+		return(printf("Error: failed to load mirror.xpm\n"), 1);
+	game->mirror.data = (int *)mlx_get_data_addr(game->mirror.img, &game->mirror.bpp, &game->mirror.size_line, &game->mirror.endian);
 	// Load door texture if available
 	if (game->door.name)
 	{
