@@ -22,9 +22,10 @@ SRC = main.c utils/error.c parser/parser.c parser/p_utils.c \
 BONUS_SRC = main.c utils/error.c utils/free.c utils/free_utils.c parser/parser.c parser/p_utils.c \
 	parser/texture.c parser/map.c parser/map_validation.c parser/map_utils.c parser/map_bounds.c \
 	parser/color.c parser/line.c parser/list_utils.c parser/parsing_utils.c init/init.c init/init_utils.c init/texture_utils.c \
-	game_loop/game_loop.c game_loop/move.c game_loop/move_utils.c game_loop/mouse.c game_loop/render.c \
+	game_loop/game_loop.c game_loop/game_loop_utils.c game_loop/game_render_utils.c game_loop/game_arms.c game_loop/move.c game_loop/move_utils.c game_loop/mouse.c game_loop/render.c \
 	game_loop/render_utils.c game_loop/raycasting_utils.c game_loop/render_draw.c \
 	minimap/minimap.c minimap/minimap_draw.c minimap/minimap_walls.c minimap/minimap_player.c \
+	minimap/minimap_blend.c minimap/minimap_render.c \
 	doors/doors.c doors/door_utils.c
 
 SRCS := $(addprefix srcs/, $(SRC))

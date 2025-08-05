@@ -2,7 +2,8 @@
 
 static int	is_walkable(char c)
 {
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D');
+	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
+		|| c == 'D');
 }
 
 static int	is_boundary_or_invalid(char c)

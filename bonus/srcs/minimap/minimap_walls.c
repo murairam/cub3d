@@ -30,22 +30,20 @@ static int	get_door_color(t_game *game, int map_x, int map_y)
 		{
 			if (game->doors[door_idx].state == DOOR_OPEN)
 				return (COLOR_GREEN);
-			return (COLOR_RED); // Changed from COLOR_YELLOW to COLOR_RED for closed doors
+			return (COLOR_RED);
 		}
 		door_idx++;
 	}
-	return (COLOR_RED); // Changed default from COLOR_YELLOW to COLOR_RED
+	return (COLOR_RED);
 }
 
 static int	get_tile_color(t_game *game, int map_x, int map_y)
 {
 	char	tile;
 
-	// Check bounds
-	if (map_y < 0 || map_y >= game->map_height || map_x < 0 || 
-		map_x >= (int)ft_strlen(game->map[map_y]))
+	if (map_y < 0 || map_y >= game->map_height || map_x < 0
+		|| map_x >= (int)ft_strlen(game->map[map_y]))
 		return (COLOR_BLACK);
-	
 	tile = game->map[map_y][map_x];
 	if (tile == '1')
 		return (COLOR_WHITE);
@@ -56,27 +54,14 @@ static int	get_tile_color(t_game *game, int map_x, int map_y)
 	return (COLOR_BLACK);
 }
 
-void	draw_minimap_walls(t_game *game)
+static void	draw_minimap_grid(t_game *game, int start_x, int start_y)
 {
-	int		player_map_x;
-	int		player_map_y;
-	int		start_x;
-	int		start_y;
-	int		mini_x;
-	int		mini_y;
-	int		map_x;
-	int		map_y;
-	int		color;
+	int	mini_x;
+	int	mini_y;
+	int	map_x;
+	int	map_y;
+	int	color;
 
-	// Get player position in map coordinates
-	player_map_x = (int)(game->player.x / CUBE);
-	player_map_y = (int)(game->player.y / CUBE);
-	
-	// Calculate the top-left corner of the 25x18 view centered on player
-	start_x = player_map_x - MINIMAP_TILES_X / 2;
-	start_y = player_map_y - MINIMAP_TILES_Y / 2;
-	
-	// Draw the 25x18 grid
 	mini_y = 0;
 	while (mini_y < MINIMAP_TILES_Y)
 	{
@@ -86,9 +71,24 @@ void	draw_minimap_walls(t_game *game)
 			map_x = start_x + mini_x;
 			map_y = start_y + mini_y;
 			color = get_tile_color(game, map_x, map_y);
-			draw_tile(game, mini_x * MINIMAP_SCALE, mini_y * MINIMAP_SCALE, color);
+			draw_tile(game, mini_x * MINIMAP_SCALE, mini_y * MINIMAP_SCALE,
+				color);
 			mini_x++;
 		}
 		mini_y++;
 	}
+}
+
+void	draw_minimap_walls(t_game *game)
+{
+	int	player_map_x;
+	int	player_map_y;
+	int	start_x;
+	int	start_y;
+
+	player_map_x = (int)(game->player.x / CUBE);
+	player_map_y = (int)(game->player.y / CUBE);
+	start_x = player_map_x - MINIMAP_TILES_X / 2;
+	start_y = player_map_y - MINIMAP_TILES_Y / 2;
+	draw_minimap_grid(game, start_x, start_y);
 }

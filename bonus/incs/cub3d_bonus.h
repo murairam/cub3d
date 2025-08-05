@@ -47,6 +47,7 @@
 # define MINIMAP_TILES_Y 18
 # define MINIMAP_X 0
 # define MINIMAP_Y 0
+# define MINIMAP_ALPHA 0.7f
 
 /* Colors */
 # define COLOR_WHITE 0xFFFFFF
@@ -56,6 +57,15 @@
 # define COLOR_BLUE 0x0000FF
 # define COLOR_YELLOW 0xFFFF00
 # define COLOR_GRAY 0x808080
+
+/* Texture paths */
+# define TEX_NORTH "incs/assets/textures/Bricks_North1.xpm"
+# define TEX_SOUTH "incs/assets/textures/Bricks_South1.xpm"
+# define TEX_EAST "incs/assets/textures/Bricks_East1.xpm"
+# define TEX_WEST "incs/assets/textures/Bricks_West1.xpm"
+# define TEX_LEFT_ARM "incs/assets/textures/LeftArm.xpm"
+# define TEX_RIGHT_ARM "incs/assets/textures/RightArm.xpm"
+# define TEX_DOOR "incs/assets/textures/door.xpm"
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -274,6 +284,7 @@ int					game_init(t_game *game);
 short				load_texture(t_game *game, t_texture *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
+void				cleanup_game(t_game *game);
 int					close_game(t_game *game);
 int					mouse_move(int x, int y, t_game *game);
 
@@ -284,8 +295,10 @@ int					mouse_move(int x, int y, t_game *game);
 void				game_loop(t_game *game);
 void				move_player(t_player *player, t_game *game);
 void				move_player_keys(t_player *player, t_game *game);
-bool				is_wall(t_game *game, float x, float y);
-bool				check_collision(float new_x, float new_y, t_game *game);
+bool				is_wall(t_game *game, float x, float y);void				update_arm_bobbing(t_game *game);
+void				draw_image_with_transparency(t_game *game, t_texture *src,
+						int x, int y);
+void				render_game_arms(t_game *game);
 
 /* ****************************************************************************/
 /*                              RENDERING                                     */
@@ -314,7 +327,12 @@ void				draw_minimap(t_game *game);
 void				draw_minimap_player(t_game *game);
 void				draw_minimap_walls(t_game *game);
 void				put_pixel_minimap(t_game *game, int x, int y, int color);
-void				recreate_minimap_image(t_game *game, int width, int height);/* ****************************************************************************/
+void				recreate_minimap_image(t_game *game, int width, int height);
+void				blend_pixel_colors(t_game *game, int x, int y);
+void				clear_minimap_properly(t_game *game);
+void				composite_minimap_to_main(t_game *game);
+
+/* ****************************************************************************/
 /*                              DOORS                                         */
 /* ****************************************************************************/
 

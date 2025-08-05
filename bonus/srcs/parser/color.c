@@ -1,5 +1,7 @@
 #include "cub3d_bonus.h"
 
+#define RGB_MAX 255
+
 static void	cleanup_and_exit(char **rgb, char **outer_split, t_game *game,
 		const char *msg)
 {
@@ -25,7 +27,7 @@ static int	parse_rgb(char *str, char **outer_split, t_game *game)
 	r = ft_atoi(rgb[0]);
 	g = ft_atoi(rgb[1]);
 	b = ft_atoi(rgb[2]);
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+	if (r < 0 || r > RGB_MAX || g < 0 || g > RGB_MAX || b < 0 || b > RGB_MAX)
 		cleanup_and_exit(rgb, outer_split, game,
 			"RGB value must be between 0 and 255");
 	ft_free_split(rgb);

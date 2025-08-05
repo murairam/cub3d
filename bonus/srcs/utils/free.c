@@ -42,11 +42,16 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 	ft_exit_error(msg);
 }
 
-int	close_game(t_game *game)
+void	cleanup_game(t_game *game)
 {
 	ft_free_mlx(game);
 	ft_free_bonus(game);
 	ft_free_game(game);
+}
+
+int	close_game(t_game *game)
+{
+	cleanup_game(game);
 	exit(0);
 	return (0);
 }

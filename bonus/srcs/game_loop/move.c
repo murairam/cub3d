@@ -44,32 +44,39 @@ int	key_release(int keycode, t_game *game)
 	return (0);
 }
 
+static bool	check_tile_collision(t_game *game, int map_x, int map_y)
+{
+	char	tile;
+	int		i;
+
+	if (map_y < 0 || map_x < 0 || map_y >= game->map_height
+		|| !game->map[map_y])
+		return (true);
+	if (map_x >= (int)ft_strlen(game->map[map_y]))
+		return (true);
+	tile = game->map[map_y][map_x];
+	if (tile == '1')
+		return (true);
+	if (tile != 'D')
+		return (false);
+	i = 0;
+	while (i < game->door_count)
+	{
+		if (game->doors[i].x == map_x && game->doors[i].y == map_y)
+			return (game->doors[i].state == DOOR_CLOSED);
+		i++;
+	}
+	return (true);
+}
+
 bool	is_wall(t_game *game, float x, float y)
 {
 	int	map_x;
 	int	map_y;
-	int	i;
 
 	map_x = (int)(x / CUBE);
 	map_y = (int)(y / CUBE);
-	if (map_y < 0 || map_x < 0)
-		return (true);
-	if (!game->map[map_y] || !game->map[map_y][map_x])
-		return (true);
-	if (game->map[map_y][map_x] == '1')
-		return (true);
-	if (game->map[map_y][map_x] == 'D')
-	{
-		i = 0;
-		while (i < game->door_count)
-		{
-			if (game->doors[i].x == map_x && game->doors[i].y == map_y)
-				return (game->doors[i].state == DOOR_CLOSED);
-			i++;
-		}
-		return (true);
-	}
-	return (false);
+	return (check_tile_collision(game, map_x, map_y));
 }
 
 void	move_player(t_player *player, t_game *game)

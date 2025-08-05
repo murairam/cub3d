@@ -10,27 +10,11 @@ static int	valid_argc(int argc)
 	return (1);
 }
 
-static int	valid_file_extension(char *file)
-{
-	char	*extension;
-
-	if (!file)
-		return (0);
-	extension = ft_strrchr(file, '.');
-	if (!extension)
-		return (ft_error("file has no extension"));
-	if (ft_strncmp(extension, ".cub", 4) != 0)
-		return (ft_error("file must have .cub extension"));
-	return (1);
-}
-
 int	main(int argc, char **argv)
 {
 	t_game	game;
 
 	if (!valid_argc(argc))
-		return (1);
-	if (!valid_file_extension(argv[1]))
 		return (1);
 	init_game(&game);
 	parse_file(argv[1], &game);

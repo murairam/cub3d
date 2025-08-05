@@ -7,7 +7,6 @@ void	init_minimap(t_game *game)
 
 	minimap_width = MINIMAP_TILES_X * MINIMAP_SCALE;
 	minimap_height = MINIMAP_TILES_Y * MINIMAP_SCALE;
-	
 	game->minimap.width = minimap_width;
 	game->minimap.height = minimap_height;
 	game->minimap.img = mlx_new_image(game->mlx, minimap_width, minimap_height);

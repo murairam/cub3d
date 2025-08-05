@@ -29,27 +29,21 @@ static void	init_player(t_game *game, t_player *player)
 
 static short	texture_init(t_game *game)
 {
-	if (load_texture(game, &game->north,
-			"incs/assets/textures/Bricks_North1.xpm"))
+	if (load_texture(game, &game->north, TEX_NORTH))
 		return (1);
-	if (load_texture(game, &game->south,
-			"incs/assets/textures/Bricks_South1.xpm"))
+	if (load_texture(game, &game->south, TEX_SOUTH))
 		return (1);
-	if (load_texture(game, &game->east,
-			"incs/assets/textures/Bricks_East1.xpm"))
+	if (load_texture(game, &game->east, TEX_EAST))
 		return (1);
-	if (load_texture(game, &game->west,
-			"incs/assets/textures/Bricks_West1.xpm"))
+	if (load_texture(game, &game->west, TEX_WEST))
 		return (1);
-	if (load_texture(game, &game->left_arm,
-			"incs/assets/textures/LeftArm.xpm"))
+	if (load_texture(game, &game->left_arm, TEX_LEFT_ARM))
 		return (1);
-	if (load_texture(game, &game->right_arm,
-			"incs/assets/textures/RightArm.xpm"))
+	if (load_texture(game, &game->right_arm, TEX_RIGHT_ARM))
 		return (1);
 	if (game->door.name)
 	{
-		if (load_texture(game, &game->door, "incs/assets/textures/door.xpm"))
+		if (load_texture(game, &game->door, TEX_DOOR))
 			return (1);
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
@@ -59,20 +53,18 @@ static short	texture_init(t_game *game)
 static void	init_game_vars(t_game *game)
 {
 	game->mlx = mlx_init();
+	if (!game->mlx)
+		ft_exit_error("Failed to initialize MLX");
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "RATS IN THE HOUSE");
+	if (!game->win)
+		ft_exit_error("Failed to create game window");
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->img)
-	{
-		printf("Game Image Error\n");
-		exit(1);
-	}
+		ft_exit_error("Failed to create main game image");
 	game->data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line,
 			&game->endian);
 	if (!game->data)
-	{
-		printf("Game data Error\n");
-		exit(1);
-	}
+		ft_exit_error("Failed to get main game image data");
 }
 
 int	game_init(t_game *game)
@@ -80,12 +72,11 @@ int	game_init(t_game *game)
 	init_player(game, &game->player);
 	init_game_vars(game);
 	if (texture_init(game))
-		return (printf("Texture Fail\n"));
+		return (ft_error("Failed to initialize textures"), 1);
 	init_minimap(game);
 	init_doors(game);
 	game->z_buffer = malloc(sizeof(float) * WIDTH);
 	if (!game->z_buffer)
-		return (printf("Z-buffer allocation failed\n"), 1);
-	game_loop(game);
+		return (ft_error("Z-buffer memory allocation failed"), 1);
 	return (0);
 }

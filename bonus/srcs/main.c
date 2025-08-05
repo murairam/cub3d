@@ -4,23 +4,9 @@ static int	valid_argc(int argc)
 {
 	if (argc != 2)
 	{
-		ft_printf("Error\nUsage: %s <maps/map.cub>\n", "cub3d_bonus");
+		ft_printf("Error\nUsage: %s <maps/map.cub>\n", "cub3d");
 		return (0);
 	}
-	return (1);
-}
-
-static int	valid_file_extension(char *file)
-{
-	char	*extension;
-
-	if (!file)
-		return (0);
-	extension = ft_strrchr(file, '.');
-	if (!extension)
-		return (ft_error("file has no extension"));
-	if (ft_strncmp(extension, ".cub", 4) != 0)
-		return (ft_error("file must have .cub extension"));
 	return (1);
 }
 
@@ -30,20 +16,14 @@ int	main(int argc, char **argv)
 
 	if (!valid_argc(argc))
 		return (1);
-	if (!valid_file_extension(argv[1]))
-		return (1);
 	init_game(&game);
 	parse_file(argv[1], &game);
 	if (game_init(&game))
 	{
-		ft_free_game(&game);
-		ft_free_bonus(&game);
-		ft_free_mlx(&game);
+		cleanup_game(&game);
 		return (1);
 	}
 	game_loop(&game);
-	ft_free_game(&game);
-	ft_free_bonus(&game);
-	ft_free_mlx(&game);
+	cleanup_game(&game);
 	return (0);
 }
