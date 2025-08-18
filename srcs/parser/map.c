@@ -2,7 +2,7 @@
 
 static int	is_valid_char(char c)
 {
-	return (c == '1' || c == '0' || c == 'N' || c == 'S'
+	return (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'M'
 		|| c == 'E' || c == 'W' || c == ' ' || c == '\n' || c == '\r');
 }
 
@@ -52,6 +52,7 @@ static void	validate_content(char **map, t_game *game, t_list **map_lines)
 	}
 	validate_boundaries(map, game, map_lines);
 }
+
 static void	fetch_player_cords(char **map, t_game *game)
 {
 	int	y;

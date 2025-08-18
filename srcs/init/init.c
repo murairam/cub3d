@@ -1,79 +1,87 @@
 #include "cub3d.h"
 
-static void init_player(t_game *game, t_player *player)
+static void	init_player(t_game *game, t_player *player)
 {
 	player->x = game->spawn_x;
 	player->y = game->spawn_y;
 	if (game->orientation == 'N')
-    	player->angle = SPAWN_NORTH;
+		player->angle = SPAWN_NORTH;
 	else if (game->orientation == 'S')
 		player->angle = SPAWN_SOUTH;
 	else if (game->orientation == 'W')
-    	player->angle = SPAWN_WEST;
+		player->angle = SPAWN_WEST;
 	else if (game->orientation == 'E')
-    	player->angle = SPAWN_EAST;
+		player->angle = SPAWN_EAST;
 	player->key_up = false;
-    player->key_down = false;
-    player->key_left = false;
-    player->key_right = false;
-
-    player->left_rot = false;
-    player->right_rot = false;
+	player->key_down = false;
+	player->key_left = false;
+	player->key_right = false;
+	player->left_rot = false;
+	player->right_rot = false;
 }
 
-static short texture_init(t_game *game)
+static short	load_texture(t_game *game, t_texture *texture, char *path)
 {
-	game->north.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/Bricks_North1.xpm", &game->north.width, &game->north.height);
-	if (!game->north.img)
-		return(printf("Error: failed to load Bricks_North.xpm\n"), 1);
-	game->north.data = (int *)mlx_get_data_addr(game->north.img, &game->north.bpp, &game->north.size_line, &game->north.endian);
-	game->south.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/Bricks_South1.xpm", &game->south.width, &game->south.height);
-	if (!game->south.img)
-		return(printf("Error: failed to load Bricks_South.xpm\n"), 1);    
-	game->south.data = (int *)mlx_get_data_addr(game->south.img, &game->south.bpp, &game->south.size_line, &game->south.endian);
-	game->east.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/Bricks_East1.xpm", &game->east.width, &game->east.height);
-	if (!game->east.img)
-		return(printf("Error: failed to load Bricks_East.xpm\n"), 1);
-	game->east.data = (int *)mlx_get_data_addr(game->east.img, &game->east.bpp, &game->east.size_line, &game->east.endian);
-	game->west.img = mlx_xpm_file_to_image(game->mlx, "incs/assets/textures/Bricks_West1.xpm",&game->west.width, &game->west.height);
-	if (!game->west.img)
-		return(printf("Error: failed to load Bricks_West.xpm\n"), 1);
-	game->west.data = (int *)mlx_get_data_addr(game->west.img, &game->west.bpp, &game->west.size_line, &game->west.endian);
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	char	*err;
+
+	texture->img = mlx_xpm_file_to_image(game->mlx, path, &texture->width, \
+		&texture->height);
+	if (!texture->img)
+	{
+		err = ft_strjoin("Error: failed to load texture ", path);
+		ft_putstr_fd(err, 2);
+		ft_putstr_fd("\n", 2);
+		free(err);
+		return (1);
+	}
+	texture->data = (int *)mlx_get_data_addr(texture->img, &texture->bpp, \
+		&texture->size_line, &texture->endian);
 	return (0);
 }
 
-int game_init(t_game *game)
+static short	texture_init(t_game *game)
 {
-    init_player(game, &game->player);
-    game->mlx = mlx_init();
-    game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "RATS IN THE HOUSE");
-    game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	if (load_texture(game, &game->north, game->north.name))
+		return (1);
+	if (load_texture(game, &game->south, game->south.name))
+		return (1);
+	if (load_texture(game, &game->east, game->east.name))
+		return (1);
+	if (load_texture(game, &game->west, game->west.name))
+		return (1);
+	return (0);
+}
+
+int	game_init(t_game *game)
+{
+	init_player(game, &game->player);
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (ft_putstr_fd("Error\nFailed to initialize mlx\n", 2), 1);
+	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "RATS IN THE HOUSE");
+	if (!game->win)
+		return (ft_putstr_fd("Error\nFailed to create window\n", 2), 1);
+	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->img)
-		return (printf("Game Image Error\n"), 1);	
-    game->data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
+		return (ft_putstr_fd("Error\nFailed to create image\n", 2), 1);
+	game->data = mlx_get_data_addr(game->img, &game->bpp, \
+		&game->size_line, &game->endian);
 	if (!game->data)
-		return (printf("Game data Error\n"), 1);
-	if (texture_init (game))
-		return (printf("Texture Fail\n"));	
-	game_loop(game);
+		return (ft_putstr_fd("Error\nFailed to get image data\n", 2), 1);
+	if (texture_init(game))
+		return (1);
 	return (0);
 }
 
 void	init_game(t_game *game)
 {
-	printf("DEBUG: init_game() called\n");
 	ft_memset(game, 0, sizeof(t_game));
-	printf("DEBUG: ft_memset completed in init_game\n");
 	game->color_c = -1;
 	game->color_f = -1;
-	printf("DEBUG: Colors initialized to F=%d, C=%d\n",
-		game->color_f, game->color_c);
 	game->fd = 0;
 	game->map = NULL;
 	game->north.name = NULL;
 	game->south.name = NULL;
 	game->east.name = NULL;
 	game->west.name = NULL;
-	printf("DEBUG: All pointers set to NULL\n");
 }

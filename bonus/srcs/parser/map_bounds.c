@@ -2,7 +2,8 @@
 
 static int	is_walkable(char c)
 {
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
+	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
+		|| c == 'D');
 }
 
 static int	is_boundary_or_invalid(char c)
@@ -12,20 +13,16 @@ static int	is_boundary_or_invalid(char c)
 
 static int	is_out_of_bounds(char **map, int i, int j)
 {
-	return (i < 0 || map[i] == NULL || j < 0
-		|| j >= (int)ft_strlen(map[i]));
+	return (i < 0 || map[i] == NULL || j < 0 || j >= (int)ft_strlen(map[i]));
 }
 
 static int	check_boundary_condition(char **map, int i, int j)
 {
-	return (is_out_of_bounds(map, i, j - 1)
-		|| is_boundary_or_invalid(map[i][j - 1])
-		|| is_out_of_bounds(map, i, j + 1)
-		|| is_boundary_or_invalid(map[i][j + 1])
-		|| is_out_of_bounds(map, i - 1, j)
-		|| is_boundary_or_invalid(map[i - 1][j])
-		|| is_out_of_bounds(map, i + 1, j)
-		|| is_boundary_or_invalid(map[i + 1][j]));
+	return (is_out_of_bounds(map, i, j - 1) || is_boundary_or_invalid(map[i][j
+			- 1]) || is_out_of_bounds(map, i, j + 1)
+		|| is_boundary_or_invalid(map[i][j + 1]) || is_out_of_bounds(map, i - 1,
+			j) || is_boundary_or_invalid(map[i - 1][j]) || is_out_of_bounds(map,
+			i + 1, j) || is_boundary_or_invalid(map[i + 1][j]));
 }
 
 void	validate_boundaries(char **map, t_game *game, t_list **map_lines)
