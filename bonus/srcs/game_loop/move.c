@@ -55,7 +55,7 @@ static bool	check_tile_collision(t_game *game, int map_x, int map_y)
 	if (map_x >= (int)ft_strlen(game->map[map_y]))
 		return (true);
 	tile = game->map[map_y][map_x];
-	if (tile == '1')
+	if (tile == '1' || tile == 'M')
 		return (true);
 	if (tile != 'D')
 		return (false);

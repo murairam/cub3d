@@ -16,10 +16,8 @@ static void	ft_free_mlx_sprites(t_game *game)
 	}
 }
 
-void	ft_free_mlx(t_game *game)
+void	ft_free_image_textures(t_game *game)
 {
-	if (!game->mlx)
-		return ;
 	if (game->north.img)
 		mlx_destroy_image(game->mlx, game->north.img);
 	if (game->south.img)
@@ -36,6 +34,15 @@ void	ft_free_mlx(t_game *game)
 		mlx_destroy_image(game->mlx, game->right_arm.img);
 	if (game->minimap.img)
 		mlx_destroy_image(game->mlx, game->minimap.img);
+	if (game->mirror.img)
+		mlx_destroy_image(game->mlx, game->mirror.img);
+}
+
+void	ft_free_mlx(t_game *game)
+{
+	if (!game->mlx)
+		return ;
+	ft_free_image_textures(game);
 	ft_free_mlx_sprites(game);
 	if (game->img)
 		mlx_destroy_image(game->mlx, game->img);

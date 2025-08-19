@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-short	load_texture(t_game *game, t_texture *texture, char *path)
+short	load_texture(t_game *game, t_text *texture, char *path)
 {
 	texture->img = mlx_xpm_file_to_image(game->mlx, path, &texture->width,
 			&texture->height);

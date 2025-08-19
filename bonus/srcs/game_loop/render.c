@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
+static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 {
 	if (ray->map_y >= 0 && ray->map_y < game->map_height
 		&& ray->map_x >= 0 && game->map[ray->map_y]
@@ -24,11 +24,16 @@ static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {
 	t_ray		ray;
-	t_texture	*text;
+	t_text		*text;
 
 	ray_init(&ray, player, ray_angle);
 	dda_finder(&ray, game);
 	distance_wall(&ray, player);
+	if (game->map[ray.map_y][ray.map_x] == 'M')
+	{
+		reflection(&ray, game, screen_x);
+		return ;
+	}
 	text = get_wall_texture(game, &ray);
 	texture_cord(&ray, player, text);
 	vertical_texture(&ray, text);

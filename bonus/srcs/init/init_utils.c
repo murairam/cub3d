@@ -41,6 +41,8 @@ static short	texture_init(t_game *game)
 		return (1);
 	if (load_texture(game, &game->right_arm, TEX_RIGHT_ARM))
 		return (1);
+	if (load_texture(game, &game->mirror, TEX_MIRROR))
+		return	(1);		
 	if (game->door.name)
 	{
 		if (load_texture(game, &game->door, TEX_DOOR))

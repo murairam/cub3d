@@ -10,7 +10,7 @@ int	is_map_line(char *line)
 	while (*line)
 	{
 		if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S'
-			|| *line == 'E' || *line == 'W' || *line == 'D')
+			|| *line == 'E' || *line == 'W' || *line == 'D' || *line == 'M')
 			has_map_char = true;
 		else if (!(*line == ' ' || *line == '\n' || *line == '\r'))
 			return (0);

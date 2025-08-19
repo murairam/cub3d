@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-static char	**get_texture_target(char *id, t_game *game)
+static char	**get_text_target(char *id, t_game *game)
 {
 	if (ft_strncmp(id, "NO", 2) == 0 && ft_strlen(id) == 2)
 		return (&game->north.name);
@@ -45,7 +45,7 @@ void	parse_texture(char *line, t_game *game)
 	split = ft_split(line, ' ');
 	validate_texture_format(split, game);
 	id = split[0];
-	target = get_texture_target(id, game);
+	target = get_text_target(id, game);
 	if (!target)
 	{
 		ft_free_split(split);

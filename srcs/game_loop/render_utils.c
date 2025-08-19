@@ -14,14 +14,14 @@ void	clear_image(t_game *game)
 	}
 }
 
-void	vertical_texture(t_ray *ray, t_texture *text)
+void	vertical_texture(t_ray *ray, t_text *text)
 {
-	ray->step = 1.0f * text->height / ray->line_height;
-	ray->tex_pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2)
+	ray->step = 1.0f * text->height / ray->l_height;
+	ray->tx_pos = (ray->d_start - HEIGHT / 2 + ray->l_height / 2)
 		* ray->step;
 }
 
-void	texture_cord(t_ray *ray, t_player *player, t_texture *text)
+void	texture_cord(t_ray *ray, t_player *player, t_text *text)
 {
 	if (ray->side == 0)
 		ray->wall_x = player->y / CUBE + ray->perp_wall_dist * ray->ray_dir_y;
@@ -61,7 +61,7 @@ void	ray_init2(t_ray *ray, t_player *player)
 	}
 }
 
-t_texture	*get_wall_texture(t_game *game, t_ray *ray)
+t_text	*get_wall_texture(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)
 	{

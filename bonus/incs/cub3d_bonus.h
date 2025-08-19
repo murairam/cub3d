@@ -20,52 +20,53 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define BIG_FLOAT 1000000000.0f
-# define PI 3.14159265f
-# define WIDTH 1280
-# define HEIGHT 720
-# define CUBE 64
-# define LEFT 65361
-# define RIGHT 65363
-# define SPAWN_NORTH 4.71
-# define SPAWN_SOUTH 1.57
-# define SPAWN_WEST 3.14159265f
-# define SPAWN_EAST 0
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define E 101
-# define ESC 65307
-# define SPACE 32
-# define SHIFT 65505
+# define BIG_FLOAT			1000000000.0f
+# define PI					3.14159265f
+# define WIDTH				1280
+# define HEIGHT				720
+# define CUBE				64
+# define LEFT				65361
+# define RIGHT				65363
+# define SPAWN_NORTH		4.71
+# define SPAWN_SOUTH		1.57
+# define SPAWN_WEST			3.14159265f
+# define SPAWN_EAST			0
+# define W					119
+# define A					97
+# define S					115
+# define D					100
+# define E					101
+# define ESC				65307
+# define SPACE				32
+# define SHIFT				65505
 
 /* Minimap defines */
-# define MINIMAP_SIZE 150
-# define MINIMAP_SCALE 10
-# define MINIMAP_TILES_X 25
-# define MINIMAP_TILES_Y 18
-# define MINIMAP_X 0
-# define MINIMAP_Y 0
-# define MINIMAP_ALPHA 0.7f
+# define MINIMAP_SIZE		150
+# define MINIMAP_SCALE		10
+# define MINIMAP_TILES_X	25
+# define MINIMAP_TILES_Y	18
+# define MINIMAP_X			0
+# define MINIMAP_Y			0
+# define MINIMAP_ALPHA		0.7f
 
 /* Colors */
-# define COLOR_WHITE 0xFFFFFF
-# define COLOR_BLACK 0x000000
-# define COLOR_RED 0xFF0000
-# define COLOR_GREEN 0x00FF00
-# define COLOR_BLUE 0x0000FF
-# define COLOR_YELLOW 0xFFFF00
-# define COLOR_GRAY 0x808080
+# define COLOR_WHITE		0xFFFFFF
+# define COLOR_BLACK		0x000000
+# define COLOR_RED			0xFF0000
+# define COLOR_GREEN		0x00FF00
+# define COLOR_BLUE			0x0000FF
+# define COLOR_YELLOW		0xFFFF00
+# define COLOR_GRAY			0x808080
 
 /* Texture paths */
-# define TEX_NORTH "incs/assets/textures/Bricks_North1.xpm"
-# define TEX_SOUTH "incs/assets/textures/Bricks_South1.xpm"
-# define TEX_EAST "incs/assets/textures/Bricks_East1.xpm"
-# define TEX_WEST "incs/assets/textures/Bricks_West1.xpm"
-# define TEX_LEFT_ARM "incs/assets/textures/LeftArm.xpm"
-# define TEX_RIGHT_ARM "incs/assets/textures/RightArm.xpm"
-# define TEX_DOOR "incs/assets/textures/door.xpm"
+# define TEX_NORTH			"incs/assets/textures/Bricks_North1.xpm"
+# define TEX_SOUTH			"incs/assets/textures/Bricks_South1.xpm"
+# define TEX_EAST			"incs/assets/textures/Bricks_East1.xpm"
+# define TEX_WEST			"incs/assets/textures/Bricks_West1.xpm"
+# define TEX_LEFT_ARM		"incs/assets/textures/LeftArm.xpm"
+# define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
+# define TEX_DOOR			"incs/assets/textures/door.xpm"
+# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -105,8 +106,8 @@ typedef struct s_arms
 typedef struct s_ray
 {
 	char			*pixel;
-	int				line_height;
-	int				draw_start;
+	int				l_height;
+	int				d_start;
 	int				draw_end;
 	int				color;
 	int				step_x;
@@ -117,8 +118,9 @@ typedef struct s_ray
 	int				tex_x;
 	int				tex_y;
 	int				hit;
+	float			angle;
 	float			step;
-	float			tex_pos;
+	float			tx_pos;
 	float			wall_x;
 	float			ray_dir_x;
 	float			ray_dir_y;
@@ -150,6 +152,9 @@ typedef struct s_texture
 {
 	void			*img;
 	char			*name;
+	int				l_height;
+	int				d_start;
+	int				draw_end;	
 	int				*data;
 	int				size_line;
 	int				endian;
@@ -158,7 +163,7 @@ typedef struct s_texture
 	int				bpp;
 	int				x;
 	int				y;
-}					t_texture;
+}					t_text;
 
 typedef struct s_door
 {
@@ -177,10 +182,10 @@ typedef struct s_sprite
 	int				screen_x;
 	int				v_move_screen;
 	int				sprite_height;
-	int				draw_start_y;
+	int				d_start_y;
 	int				draw_end_y;
 	int				sprite_width;
-	int				draw_start_x;
+	int				d_start_x;
 	int				draw_end_x;
 }					t_sprite;
 
@@ -197,6 +202,7 @@ typedef struct s_minimap
 
 typedef struct s_game
 {
+	int				y;
 	int				fd;
 	int				bpp;
 	int				endian;
@@ -214,11 +220,11 @@ typedef struct s_game
 	int				map_height;
 	char			orientation;
 	char			*current_line;
+	char			**map;
+	char			*data;
 	void			*mlx;
 	void			*win;
 	void			*img;
-	char			**map;
-	char			*data;
 	float			*z_buffer;
 	float			arm_offset;
 	float			bob_intensity;
@@ -229,14 +235,15 @@ typedef struct s_game
 	t_sprite		*sprite_list;
 	t_player		player;
 	t_minimap		minimap;
-	t_texture		left_arm;
-	t_texture		right_arm;
-	t_texture		north;
-	t_texture		south;
-	t_texture		east;
-	t_texture		door;
-	t_texture		*sprites;
-	t_texture		west;
+	t_text			mirror;
+	t_text			left_arm;
+	t_text			right_arm;
+	t_text			north;
+	t_text			south;
+	t_text			east;
+	t_text			door;
+	t_text			*sprites;
+	t_text			west;
 	bool			mouse_dragging;
 	bool			show_minimap;
 }					t_game;
@@ -281,7 +288,7 @@ void				store_doors(char **map, t_game *game);
 
 void				init_game(t_game *game);
 int					game_init(t_game *game);
-short				load_texture(t_game *game, t_texture *texture, char *path);
+short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
 void				cleanup_game(t_game *game);
@@ -295,8 +302,9 @@ int					mouse_move(int x, int y, t_game *game);
 void				game_loop(t_game *game);
 void				move_player(t_player *player, t_game *game);
 void				move_player_keys(t_player *player, t_game *game);
-bool				is_wall(t_game *game, float x, float y);void				update_arm_bobbing(t_game *game);
-void				draw_image_with_transparency(t_game *game, t_texture *src,
+bool				is_wall(t_game *game, float x, float y);
+void				update_arm_bobbing(t_game *game);
+void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
 void				render_game_arms(t_game *game);
 
@@ -311,12 +319,14 @@ void				draw_line(t_player *player, t_game *game, float ray_angle,
 void				ray_init(t_ray *ray, t_player *player, float ray_angle);
 void				dda_finder(t_ray *ray, t_game *game);
 void				distance_wall(t_ray *ray, t_player *player);
-void				texture_cord(t_ray *ray, t_player *player, t_texture *text);
-void				vertical_texture(t_ray *ray, t_texture *text);
+void				texture_cord(t_ray *ray, t_player *player, t_text *text);
+void				vertical_texture(t_ray *ray, t_text *text);
 void				ceiling_render(t_ray *ray, t_game *game, int screen_x);
-void				wall_render(t_ray *ray, t_texture *text, t_game *game,
+void				wall_render(t_ray *ray, t_text *text, t_game *game,
 						int screen_x);
 void				floor_render(t_ray *ray, t_game *game, int screen_x);
+void				draw_image_with_transparency(t_game *game, t_text *src,
+						int x, int y);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
@@ -339,5 +349,11 @@ void				composite_minimap_to_main(t_game *game);
 void				init_doors(t_game *game);
 void				interact_door(t_game *game);
 bool				is_door(char c);
+
+/* ****************************************************************************/
+/*                               MIRROR                                       */
+/* ****************************************************************************/
+
+void				reflection(t_ray *ray, t_game *game, int screenX);
 
 #endif

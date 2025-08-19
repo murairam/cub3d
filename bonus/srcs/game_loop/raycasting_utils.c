@@ -11,7 +11,7 @@ static bool	is_wall_or_closed_door(t_game *game, int map_x, int map_y)
 	if (map_x >= (int)ft_strlen(game->map[map_y]))
 		return (true);
 	tile = game->map[map_y][map_x];
-	if (tile == '1')
+	if (tile == '1' || tile == 'M')
 		return (true);
 	if (tile != 'D')
 		return (false);
@@ -64,12 +64,12 @@ void	distance_wall(t_ray *ray, t_player *player)
 				/ 2.0f) / ray->ray_dir_y;
 	if (ray->perp_wall_dist < 0.1f)
 		ray->perp_wall_dist = 0.1f;
-	ray->line_height = (int)(HEIGHT / ray->perp_wall_dist);
+	ray->l_height = (int)(HEIGHT / ray->perp_wall_dist);
 	half_height = HEIGHT / 2;
-	ray->draw_start = -ray->line_height / 2 + half_height;
-	if (ray->draw_start < 0)
-		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + half_height;
+	ray->d_start = -ray->l_height / 2 + half_height;
+	if (ray->d_start < 0)
+		ray->d_start = 0;
+	ray->draw_end = ray->l_height / 2 + half_height;
 	if (ray->draw_end >= HEIGHT)
 		ray->draw_end = HEIGHT - 1;
 }

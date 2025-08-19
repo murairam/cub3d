@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-static t_door	*find_door_at_position(t_game *game, int x, int y)
+static t_door	*find_door_atx_position(t_game *game, int x, int y)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ static void	check_door_interaction(t_game *game, int x, int y)
 	if (y >= 0 && x >= 0 && y < game->map_height && x < game->map_width
 		&& game->map[y][x] == 'D')
 	{
-		door = find_door_at_position(game, x, y);
+		door = find_door_atx_position(game, x, y);
 		if (door)
 		{
 			if (door->state == DOOR_CLOSED)
