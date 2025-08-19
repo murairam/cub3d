@@ -20,22 +20,22 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define BIG_FLOAT 1000000000.0f
-# define PI 3.14159265359
-# define WIDTH 1280
-# define HEIGHT 720
-# define CUBE 64
-# define LEFT 65361
-# define RIGHT 65363
-# define SPAWN_NORTH 4.71
-# define SPAWN_SOUTH 1.57
-# define SPAWN_WEST 3.14159265359
-# define SPAWN_EAST 0
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define ESC 65307
+# define BIG_FLOAT		1000000000.0f
+# define PI				3.14159265359
+# define WIDTH			1280
+# define HEIGHT			720
+# define CUBE			64
+# define LEFT			65361
+# define RIGHT			65363
+# define SPAWN_NORTH	4.71
+# define SPAWN_SOUTH	1.57
+# define SPAWN_WEST		3.14159265359
+# define SPAWN_EAST		0
+# define W				119
+# define A				97
+# define S				115
+# define D				100
+# define ESC			65307
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
@@ -56,8 +56,8 @@ typedef enum e_wall_dir
 typedef struct s_ray
 {
 	char		*pixel;
-	int			line_height;
-	int			draw_start;
+	int			l_height;
+	int			d_start;
 	int			draw_end;
 	int			color;
 	int			step_x;
@@ -69,7 +69,7 @@ typedef struct s_ray
 	int			tex_y;
 	int			hit;
 	float		step;
-	float		tex_pos;
+	float		tx_pos;
 	float		wall_x;
 	float		ray_dir_x;
 	float		ray_dir_y;
@@ -104,7 +104,7 @@ typedef struct s_texture
 	int			width;
 	int			height;
 	int			bpp;
-}				t_texture;
+}				t_text;
 
 typedef struct s_game
 {
@@ -124,10 +124,10 @@ typedef struct s_game
 	float		spawn_y;
 	char		orientation;
 	t_player	player;
-	t_texture	north;
-	t_texture	south;
-	t_texture	east;
-	t_texture	west;
+	t_text		north;
+	t_text		south;
+	t_text		east;
+	t_text		west;
 }				t_game;
 
 /* ****************************************************************************/
@@ -174,10 +174,10 @@ void			move_right(t_player *player, t_game *game, float cos_angle,
 void			ray_init(t_ray *ray, t_player *player, float angle);
 void			dda_finder(t_ray *ray, t_game *game);
 void			distance_wall(t_ray *ray, t_player *player);
-void			texture_cord(t_ray *ray, t_player *player, t_texture *text);
-void			vertical_texture(t_ray *ray, t_texture *text);
-t_texture		*get_wall_texture(t_game *game, t_ray *ray);
-void			wall_render(t_ray *ray, t_texture *text, t_game *game,
+void			texture_cord(t_ray *ray, t_player *player, t_text *text);
+void			vertical_texture(t_ray *ray, t_text *text);
+t_text			*get_wall_texture(t_game *game, t_ray *ray);
+void			wall_render(t_ray *ray, t_text *text, t_game *game,
 					int screen_x);
 
 /* ****************************************************************************/

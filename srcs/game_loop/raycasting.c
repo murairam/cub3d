@@ -48,18 +48,18 @@ void	distance_wall(t_ray *ray, t_player *player)
 				/ 2.0f) / ray->ray_dir_y;
 	if (ray->perp_wall_dist < 0.1f)
 		ray->perp_wall_dist = 0.1f;
-	ray->line_height = (int)(HEIGHT / ray->perp_wall_dist);
-	ray->draw_start = -ray->line_height / 2 + HEIGHT / 2;
-	if (ray->draw_start < 0)
-		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
+	ray->l_height = (int)(HEIGHT / ray->perp_wall_dist);
+	ray->d_start = -ray->l_height / 2 + HEIGHT / 2;
+	if (ray->d_start < 0)
+		ray->d_start = 0;
+	ray->draw_end = ray->l_height / 2 + HEIGHT / 2;
 	if (ray->draw_end >= HEIGHT)
 		ray->draw_end = HEIGHT - 1;
 }
 
 void	render_wall(t_game *game, t_ray *ray, int screen_x)
 {
-	t_texture	*text;
+	t_text	*text;
 
 	text = get_wall_texture(game, ray);
 	if (text && text->data)

@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-static void	render_pixel_transparency(t_game *game, t_texture *src,
+static void	render_pixel_transparency(t_game *game, t_text *src,
 		int indices[2])
 {
 	int				*dest_data;
@@ -14,7 +14,7 @@ static void	render_pixel_transparency(t_game *game, t_texture *src,
 		dest_data[indices[1]] = src_data[indices[0]];
 }
 
-void	draw_image_with_transparency(t_game *game, t_texture *src, int x, int y)
+void	draw_image_with_transparency(t_game *game, t_text *src, int x, int y)
 {
 	int	coords[2];
 	int	indices[2];

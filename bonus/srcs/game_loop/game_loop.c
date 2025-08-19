@@ -22,7 +22,7 @@ int	draw_loop(t_game *game)
 	t_player	*player;
 
 	if (!game->data)
-		printf("YA UN GROS LABUBUUUUUUUUU\n\n\n\n\n\n\n");
+		printf("Error Game Data couldn't load\n");
 	player = &game->player;
 	move_player(player, game);
 	clear_image(game);

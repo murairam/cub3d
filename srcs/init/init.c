@@ -20,7 +20,7 @@ static void	init_player(t_game *game, t_player *player)
 	player->right_rot = false;
 }
 
-static short	load_texture(t_game *game, t_texture *texture, char *path)
+static short	load_texture(t_game *game, t_text *texture, char *path)
 {
 	char	*err;
 

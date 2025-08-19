@@ -1,14 +1,14 @@
 #include "cub3d_bonus.h"
 
-void	wall_render(t_ray *ray, t_texture *text, t_game *game, int screen_x)
+void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
 {
 	int	y;
 
-	y = ray->draw_start - 1;
+	y = ray->d_start - 1;
 	while (++y < ray->draw_end)
 	{
-		ray->tex_y = (int)ray->tex_pos % (text->height - 1);
-		ray->tex_pos += ray->step;
+		ray->tex_y = (int)ray->tx_pos % (text->height - 1);
+		ray->tx_pos += ray->step;
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));
 		ray->color = *(int *)ray->pixel;
@@ -30,18 +30,18 @@ void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 	int	y;
 
 	y = -1;
-	while (++y < ray->draw_start)
+	while (++y < ray->d_start)
 		put_pixel(screen_x, y, game->color_c, game);
 }
 
-void	vertical_texture(t_ray *ray, t_texture *text)
+void	vertical_texture(t_ray *ray, t_text *text)
 {
-	ray->step = 1.0f * text->height / ray->line_height;
-	ray->tex_pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2)
+	ray->step = 1.0f * text->height / ray->l_height;
+	ray->tx_pos = (ray->d_start - HEIGHT / 2 + ray->l_height / 2)
 		* ray->step;
 }
 
-void	texture_cord(t_ray *ray, t_player *player, t_texture *text)
+void	texture_cord(t_ray *ray, t_player *player, t_text *text)
 {
 	if (ray->side == 0)
 		ray->wall_x = player->y / CUBE + ray->perp_wall_dist * ray->ray_dir_y;
