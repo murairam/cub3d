@@ -20,6 +20,8 @@ static int	parse_rgb(char *str, char **outer_split, t_game *game)
 	rgb = ft_split(str, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		cleanup_and_exit(rgb, outer_split, game, "RGB must have 3 values");
+	if (!ft_isdigit(*rgb[0]) || !ft_isdigit(*rgb[1]) || !ft_isdigit(*rgb[2]))
+		cleanup_and_exit(rgb, outer_split, game, "RGB values must be integers");
 	r = ft_atoi(rgb[0]);
 	g = ft_atoi(rgb[1]);
 	b = ft_atoi(rgb[2]);

@@ -1,4 +1,3 @@
-
 #include "cub3d.h"
 
 int	key_press(int keycode, t_game *game)
@@ -43,39 +42,25 @@ int	key_release(int keycode, t_game *game)
 	return (0);
 }
 
-void	move_player_keys(t_player *player, float cos_angle, float sin_angle,
-		int speed)
+void	move_player_keys(t_player *player, t_game *game, float cos_angle,
+		float sin_angle)
 {
 	if (player->key_up)
-	{
-		player->x += cos_angle * speed;
-		player->y += sin_angle * speed;
-	}
+		move_forward(player, game, cos_angle, sin_angle);
 	if (player->key_down)
-	{
-		player->x -= cos_angle * speed;
-		player->y -= sin_angle * speed;
-	}
+		move_backward(player, game, cos_angle, sin_angle);
 	if (player->key_left)
-	{
-		player->x += sin_angle * speed;
-		player->y -= cos_angle * speed;
-	}
+		move_left(player, game, cos_angle, sin_angle);
 	if (player->key_right)
-	{
-		player->x -= sin_angle * speed;
-		player->y += cos_angle * speed;
-	}
+		move_right(player, game, cos_angle, sin_angle);
 }
 
-void	move_player(t_player *player)
+void	move_player(t_player *player, t_game *game)
 {
-	int		speed;
 	float	angle_speed;
 	float	cos_angle;
 	float	sin_angle;
 
-	speed = 2;
 	angle_speed = 0.03;
 	if (player->left_rot)
 		player->angle -= angle_speed;
@@ -87,5 +72,5 @@ void	move_player(t_player *player)
 		player->angle = 2 * PI;
 	cos_angle = cos(player->angle);
 	sin_angle = sin(player->angle);
-	move_player_keys(player, cos_angle, sin_angle, speed);
+	move_player_keys(player, game, cos_angle, sin_angle);
 }

@@ -5,52 +5,68 @@
 /*                                INCLUDES                                   */
 /* ************************************************************************** */
 
-# include 	"../incs/libft/libft.h"
-# include 	"../incs/mlx/mlx.h"
-# include 	"../incs/mlx/mlx_int.h"
-# include 	<fcntl.h>
-# include	<stdio.h>
-# include	<stdbool.h>
-# include 	<stdlib.h>
-# include 	<unistd.h>
-# include	<math.h>
+# include "../incs/libft/libft.h"
+# include "../incs/mlx/mlx.h"
+# include "../incs/mlx/mlx_int.h"
+# include "parser_bonus.h"
+# include <fcntl.h>
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define BIG_FLOAT      1e30f
-# define PI		        3.14159265359
-# define WIDTH	        1920
-# define HEIGHT	        1080
-# define CUBE	        64
-# define LEFT	        65361
-# define RIGHT	        65363
-# define SPAWN_NORTH    4.71
-# define SPAWN_SOUTH    1.57
-# define SPAWN_WEST     3.14159265359
-# define SPAWN_EAST     0
-# define W		        119
-# define A		        97
-# define S		        115
-# define D		        100
-# define E		        101
-# define ESC	        65307
-# define SPACE          32
-# define SHIFT          65505
+# define BIG_FLOAT			1000000000.0f
+# define PI					3.14159265f
+# define WIDTH				1280
+# define HEIGHT				720
+# define CUBE				64
+# define LEFT				65361
+# define RIGHT				65363
+# define SPAWN_NORTH		4.71
+# define SPAWN_SOUTH		1.57
+# define SPAWN_WEST			3.14159265f
+# define SPAWN_EAST			0
+# define W					119
+# define A					97
+# define S					115
+# define D					100
+# define E					101
+# define ESC				65307
+# define SPACE				32
+# define SHIFT				65505
 
-# define MINIMAP_SIZE   150
-# define MINIMAP_SCALE  8
-# define MINIMAP_X      0
-# define MINIMAP_Y      0
+/* Minimap defines */
+# define MINIMAP_SIZE		150
+# define MINIMAP_SCALE		10
+# define MINIMAP_TILES_X	25
+# define MINIMAP_TILES_Y	18
+# define MINIMAP_X			0
+# define MINIMAP_Y			0
+# define MINIMAP_ALPHA		0.7f
 
-# define COLOR_WHITE    0xFFFFFF
-# define COLOR_BLACK    0x000000
-# define COLOR_RED      0xFF0000
-# define COLOR_GREEN    0x00FF00
-# define COLOR_BLUE     0x0000FF
-# define COLOR_YELLOW   0xFFFF00
-# define COLOR_GRAY     0x808080
+/* Colors */
+# define COLOR_WHITE		0xFFFFFF
+# define COLOR_BLACK		0x000000
+# define COLOR_RED			0xFF0000
+# define COLOR_GREEN		0x00FF00
+# define COLOR_BLUE			0x0000FF
+# define COLOR_YELLOW		0xFFFF00
+# define COLOR_GRAY			0x808080
+
+/* Texture paths */
+# define TEX_NORTH			"incs/assets/textures/Bricks_North1.xpm"
+# define TEX_SOUTH			"incs/assets/textures/Bricks_South1.xpm"
+# define TEX_EAST			"incs/assets/textures/Bricks_East1.xpm"
+# define TEX_WEST			"incs/assets/textures/Bricks_West1.xpm"
+# define TEX_LEFT_ARM		"incs/assets/textures/LeftArm.xpm"
+# define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
+# define TEX_DOOR			"incs/assets/textures/door.xpm"
+# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -58,19 +74,17 @@
 
 typedef enum e_wall_dir
 {
-    NORTH = 0,
-    SOUTH = 1,
-    EAST  = 2,
-    WEST  = 3
-}   t_wall_dir;
+	NORTH = 0,
+	SOUTH = 1,
+	EAST = 2,
+	WEST = 3
+}					t_wall_dir;
 
 typedef enum e_door_state
 {
-    DOOR_CLOSED = 0,
-    DOOR_OPENING = 1,
-    DOOR_OPEN = 2,
-    DOOR_CLOSING = 3
-}   t_door_state;
+	DOOR_CLOSED = 0,
+	DOOR_OPEN = 1
+}					t_door_state;
 
 /* ************************************************************************** */
 /*                                STRUCTURES                                 */
@@ -78,234 +92,268 @@ typedef enum e_door_state
 
 typedef struct s_arms
 {
-    bool is_moving;
-    float idle_speed;
-    float idle_amount;
-	float current_speed;
-    float walking_speed;
-    float walking_amount;
-	float current_amount;
-	float time_increment;
-    float target_intensity;
-}   t_arms;
+	bool			is_moving;
+	float			idle_speed;
+	float			idle_amount;
+	float			current_speed;
+	float			walking_speed;
+	float			walking_amount;
+	float			current_amount;
+	float			time_increment;
+	float			target_intensity;
+}					t_arms;
 
 typedef struct s_ray
 {
-    char    *pixel;
-    int     lineHeight;
-    int     drawStart;
-    int     drawEnd;
-    int     color;
-    int     stepX;
-    int     stepY;
-    int     mapX;
-    int     mapY;
-    int     side;
-    int     texX;
-    int     texY;
-    int     hit;
-    float   step;
-    float   angle;
-    float   texPos;
-    float   wallX;
-    float   rayDirX;
-    float   rayDirY;
-    float   deltaDistY;
-    float   deltaDistX;    
-    float   sideDistX;
-    float   sideDistY;
-    float   perpWallDist;
-}   t_ray;
+	char			*pixel;
+	int				l_height;
+	int				d_start;
+	int				draw_end;
+	int				color;
+	int				step_x;
+	int				step_y;
+	int				map_x;
+	int				map_y;
+	int				side;
+	int				tex_x;
+	int				tex_y;
+	int				hit;
+	float			angle;
+	float			step;
+	float			tx_pos;
+	float			wall_x;
+	float			ray_dir_x;
+	float			ray_dir_y;
+	float			delta_dist_y;
+	float			delta_dist_x;
+	float			side_dist_x;
+	float			side_dist_y;
+	float			perp_wall_dist;
+}					t_ray;
 
 typedef struct s_player
 {
-    float   x;
-    float   y;
-    float   angle;
-    char    *orientation;
-    bool    key_up;
-    bool    key_down;
-    bool    key_left;
-    bool    left_rot;
-    bool    key_right;
-    bool    right_rot;
-    bool    key_run;
-    int     mouse_x;
-    int     mouse_y;
-}   t_player;
+	float			x;
+	float			y;
+	float			angle;
+	char			*orientation;
+	bool			key_up;
+	bool			key_down;
+	bool			key_left;
+	bool			left_rot;
+	bool			key_right;
+	bool			right_rot;
+	bool			key_run;
+	int				mouse_x;
+	int				mouse_y;
+}					t_player;
 
 typedef struct s_texture
 {
-    void    *img;
-    char    *name;
-    int     *data;
-    int     lineHeight;
-    int     drawStart;
-    int     drawEnd;
-    int     size_line;
-    int     endian;
-    int     width;
-    int     height;
-    int     bpp;
-    int     y;
-    int     x;
-}   t_texture;
+	void			*img;
+	char			*name;
+	int				l_height;
+	int				d_start;
+	int				draw_end;	
+	int				*data;
+	int				size_line;
+	int				endian;
+	int				width;
+	int				height;
+	int				bpp;
+	int				x;
+	int				y;
+}					t_text;
 
 typedef struct s_door
 {
-    int             x;
-    int             y;
-    t_door_state    state;
-    float           animation_time;
-    float           open_amount;
-}   t_door;
+	int				x;
+	int				y;
+	t_door_state	state;
+}					t_door;
 
 typedef struct s_sprite
 {
-    float           x;
-    float           y;
-    int             texture_id;
-    float           distance;
-    bool            visible;
-    int             screen_x;
-    int             v_move_screen;
-    int             sprite_height;
-    int             draw_start_y;
-    int             draw_end_y;
-    int             sprite_width;
-    int             draw_start_x;
-    int             draw_end_x;
-}   t_sprite;
+	float			x;
+	float			y;
+	int				texture_id;
+	float			distance;
+	bool			visible;
+	int				screen_x;
+	int				v_move_screen;
+	int				sprite_height;
+	int				d_start_y;
+	int				draw_end_y;
+	int				sprite_width;
+	int				d_start_x;
+	int				draw_end_x;
+}					t_sprite;
 
 typedef struct s_minimap
 {
-    void    *img;
-    char    *data;
-    int     size_line;
-    int     endian;
-    int     bpp;
-    int     width;
-    int     height;
-}   t_minimap;
+	void			*img;
+	char			*data;
+	int				size_line;
+	int				endian;
+	int				bpp;
+	int				width;
+	int				height;
+}					t_minimap;
 
 typedef struct s_game
 {
-    int			fd;
-    int			bpp;
-    int			endian;
-    int         mouse_y;
-    int         mouse_x;
-	int			color_c;
-	int			color_f;
-    int			size_line;
-    int         door_count;
-    int         drag_start_x;
-    int         drag_start_y;
-    int         sprite_count;
-    int         sprite_list_count;
-    char        orientation;
-	char		*current_line;
-    void		*mlx;
-    void		*win;
-    void		*img;
-    char		**map;
-    char		*data;
-    float       *z_buffer;
-    float       arm_offset;
-    float       bob_intensity;
-    float       spawn_x;
-    float       spawn_y;
-    float       bob_time;
-    t_door      *doors;
-    t_sprite    *sprite_list;
-    t_player	player;
-    t_minimap   minimap;
-    t_texture   Left_arm;
-    t_texture   Right_arm;
-    t_texture	north;
-    t_texture	south;
-    t_texture	east;
-    t_texture   door;
-    t_texture   *sprites;
-    t_texture	west;
-    t_texture   mirror;
-    bool        mouse_dragging;
-    bool        show_minimap;
-}			t_game;
+	int				y;
+	int				fd;
+	int				bpp;
+	int				endian;
+	int				mouse_y;
+	int				mouse_x;
+	int				color_c;
+	int				color_f;
+	int				size_line;
+	int				door_count;
+	int				drag_start_x;
+	int				drag_start_y;
+	int				sprite_count;
+	int				sprite_list_count;
+	int				map_width;
+	int				map_height;
+	char			orientation;
+	char			*current_line;
+	char			**map;
+	char			*data;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	float			*z_buffer;
+	float			arm_offset;
+	float			bob_intensity;
+	float			spawn_x;
+	float			spawn_y;
+	float			bob_time;
+	t_door			*doors;
+	t_sprite		*sprite_list;
+	t_player		player;
+	t_minimap		minimap;
+	t_text			mirror;
+	t_text			left_arm;
+	t_text			right_arm;
+	t_text			north;
+	t_text			south;
+	t_text			east;
+	t_text			door;
+	t_text			*sprites;
+	t_text			west;
+	bool			mouse_dragging;
+	bool			show_minimap;
+}					t_game;
 
-# include "parser_bonus.h"
+/* ************************************************************************** */
+/*                                PROTOTYPES                                  */
+/* **************************************************************************/
 
-/* ****************************************************************************/
-/*                              ERROR HANDLING                                */
-/* ****************************************************************************/
-
-int		ft_error(const char *msg);
-void	ft_exit_error(const char *msg);
-void	ft_exit_error_with_cleanup(t_game *game, const char *msg);
+int					ft_error(const char *msg);
+void				ft_exit_error(const char *msg);
+void				ft_exit_error_with_cleanup(t_game *game, const char *msg);
 
 /* ****************************************************************************/
 /*                              MEMORY MANAGEMENT                             */
 /* ****************************************************************************/
 
-void	ft_free_split(char **split);
-void	ft_free_game(t_game *game);
+void				ft_free_split(char **split);
+void				ft_free_game(t_game *game);
+void				ft_free_mlx(t_game *game);
+void				ft_free_bonus(t_game *game);
+
+/* ****************************************************************************/
+/*                              PARSER                                        */
+/* ****************************************************************************/
+
+void				validate_content(char **map, t_game *game,
+						t_list **map_lines);
+void				validate_boundaries(char **map, t_game *game,
+						t_list **map_lines);
+void				validate_chars_and_count(char **map, int *player_count,
+						t_game *game, t_list **map_lines);
+void				validate_door_consistency(t_game *game, char **map,
+						t_list **map_lines);
+void				validate_door_texture_file(t_game *game,
+						t_list **map_lines);
+void				fetch_player_cords(char **map, t_game *game);
+void				store_doors(char **map, t_game *game);
 
 /* ****************************************************************************/
 /*                              INITIALIZATION                                */
 /* ****************************************************************************/
 
-void	init_game(t_game *game);
-int     game_init(t_game *game);
-int     key_press(int keycode, t_game *game);
-int     key_release(int keycode, t_game *game);
-int     close_game(t_game *game);
-int     mouse_move(int x, int y, t_game *game);
-int     mouse_press(int button, int x, int y, t_game *game);
-int     mouse_release(int button, int x, int y, t_game *game);
+void				init_game(t_game *game);
+int					game_init(t_game *game);
+short				load_texture(t_game *game, t_text *texture, char *path);
+int					key_press(int keycode, t_game *game);
+int					key_release(int keycode, t_game *game);
+void				cleanup_game(t_game *game);
+int					close_game(t_game *game);
+int					mouse_move(int x, int y, t_game *game);
 
 /* ****************************************************************************/
 /*                              GAME LOOP                                     */
 /* ****************************************************************************/
 
-void    game_loop(t_game *game);
-void    move_player(t_player *player, t_game *game);
-void    move_player_keys(t_player *player, float cos_angle, float sin_angle, int speed, t_game *game);
-bool    is_wall(t_game *game, float x, float y);
-bool    check_collision(float new_x, float new_y, t_game *game);
+void				game_loop(t_game *game);
+void				move_player(t_player *player, t_game *game);
+void				move_player_keys(t_player *player, t_game *game);
+bool				is_wall(t_game *game, float x, float y);
+void				update_arm_bobbing(t_game *game);
+void				draw_image_with_transparency(t_game *game, t_text *src,
+						int x, int y);
+void				render_game_arms(t_game *game);
 
 /* ****************************************************************************/
 /*                              RENDERING                                     */
 /* ****************************************************************************/
 
-void    put_pixel(int x, int y, int color, t_game *game);
-void    clear_image(t_game *game);
-void    draw_line(t_player *player, t_game *game, float rayAngle, int screenX);
-void draw_image_with_transparency(t_game *game, t_texture *src, int x, int y);
+void				put_pixel(int x, int y, int color, t_game *game);
+void				clear_image(t_game *game);
+void				draw_line(t_player *player, t_game *game, float ray_angle,
+						int screen_x);
+void				ray_init(t_ray *ray, t_player *player, float ray_angle);
+void				dda_finder(t_ray *ray, t_game *game);
+void				distance_wall(t_ray *ray, t_player *player);
+void				texture_cord(t_ray *ray, t_player *player, t_text *text);
+void				vertical_texture(t_ray *ray, t_text *text);
+void				ceiling_render(t_ray *ray, t_game *game, int screen_x);
+void				wall_render(t_ray *ray, t_text *text, t_game *game,
+						int screen_x);
+void				floor_render(t_ray *ray, t_game *game, int screen_x);
+void				draw_image_with_transparency(t_game *game, t_text *src,
+						int x, int y);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
 /* ****************************************************************************/
 
-void    init_minimap(t_game *game);
-void    draw_minimap(t_game *game);
-void    draw_minimap_player(t_game *game);
-void    draw_minimap_walls(t_game *game, int map_width, int map_height);
+void				init_minimap(t_game *game);
+void				draw_minimap(t_game *game);
+void				draw_minimap_player(t_game *game);
+void				draw_minimap_walls(t_game *game);
+void				put_pixel_minimap(t_game *game, int x, int y, int color);
+void				recreate_minimap_image(t_game *game, int width, int height);
+void				blend_pixel_colors(t_game *game, int x, int y);
+void				clear_minimap_properly(t_game *game);
+void				composite_minimap_to_main(t_game *game);
 
 /* ****************************************************************************/
 /*                              DOORS                                         */
 /* ****************************************************************************/
 
-void    init_doors(t_game *game);
-void    update_doors(t_game *game);
-void    interact_door(t_game *game);
-bool    is_door(char c);
+void				init_doors(t_game *game);
+void				interact_door(t_game *game);
+bool				is_door(char c);
 
 /* ****************************************************************************/
-/*                              SPRITES                                       */
+/*                               MIRROR                                       */
 /* ****************************************************************************/
 
-void    init_sprites(t_game *game);
-void    draw_sprites(t_game *game);
-void    sort_sprites(t_sprite *sprites, int count);
+void				reflection(t_ray *ray, t_game *game, int screenX);
 
 #endif
