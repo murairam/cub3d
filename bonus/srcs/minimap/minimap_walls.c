@@ -45,8 +45,10 @@ static int	get_tile_color(t_game *game, int map_x, int map_y)
 		|| map_x >= (int)ft_strlen(game->map[map_y]))
 		return (COLOR_BLACK);
 	tile = game->map[map_y][map_x];
-	if (tile == '1')
+	if (tile == '1' || tile == '2')
 		return (COLOR_WHITE);
+	else if (tile == 'M')
+		return (COLOR_YELLOW);
 	if (tile == 'D')
 		return (get_door_color(game, map_x, map_y));
 	if (tile == '0' || ft_strchr("NSEW", tile))

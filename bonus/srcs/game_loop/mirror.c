@@ -127,6 +127,7 @@ void	reflection(t_ray *ray, t_game *game, int screenX)
 	refl.step = 1.0 * text->height / text->l_height;
 	refl.tx_pos = (text->d_start - HEIGHT / 2 + text->l_height / 2) * refl.step;
 	reflect_put_pixel(&refl, text, game, screenX);
-	mirror_texture(game, ray, text, screenX);
+	if (game->mirror.data)
+		mirror_texture(game, ray, text, screenX);
 	floor_render(ray, game, screenX);
 }

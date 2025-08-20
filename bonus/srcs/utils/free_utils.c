@@ -18,20 +18,15 @@ static void	ft_free_mlx_sprites(t_game *game)
 
 void	ft_free_image_textures(t_game *game)
 {
-	if (game->north.img)
-		mlx_destroy_image(game->mlx, game->north.img);
-	if (game->south.img)
-		mlx_destroy_image(game->mlx, game->south.img);
-	if (game->east.img)
-		mlx_destroy_image(game->mlx, game->east.img);
-	if (game->west.img)
-		mlx_destroy_image(game->mlx, game->west.img);
+	ft_free_wall_textures(game);
 	if (game->door.img && game->door.img != game->north.img)
 		mlx_destroy_image(game->mlx, game->door.img);
 	if (game->left_arm.img)
 		mlx_destroy_image(game->mlx, game->left_arm.img);
 	if (game->right_arm.img)
 		mlx_destroy_image(game->mlx, game->right_arm.img);
+	if (game->right_chalk.img)
+		mlx_destroy_image(game->mlx, game->right_chalk.img);
 	if (game->minimap.img)
 		mlx_destroy_image(game->mlx, game->minimap.img);
 	if (game->mirror.img)

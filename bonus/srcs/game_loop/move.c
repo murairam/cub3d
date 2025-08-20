@@ -21,6 +21,8 @@ int	key_press(int keycode, t_game *game)
 		player->right_rot = true;
 	if (keycode == E)
 		interact_door(game);
+	if (keycode == F)
+		wall_tag(player, game);
 	return (0);
 }
 

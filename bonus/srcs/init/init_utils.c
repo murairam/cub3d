@@ -27,7 +27,7 @@ static void	init_player(t_game *game, t_player *player)
 	game->drag_start_y = 0;
 }
 
-static short	texture_init(t_game *game)
+static	short	wall_textures(t_game *game)
 {
 	if (load_texture(game, &game->north, TEX_NORTH))
 		return (1);
@@ -37,12 +37,29 @@ static short	texture_init(t_game *game)
 		return (1);
 	if (load_texture(game, &game->west, TEX_WEST))
 		return (1);
+	if (load_texture(game, &game->north_chalk, TEX_CHALK_N))
+		return (1);
+	if (load_texture(game, &game->south_chalk, TEX_CHALK_S))
+		return (1);
+	if (load_texture(game, &game->east_chalk, TEX_CHALK_E))
+		return (1);
+	if (load_texture(game, &game->west_chalk, TEX_CHALK_W))
+		return (1);
 	if (load_texture(game, &game->left_arm, TEX_LEFT_ARM))
 		return (1);
 	if (load_texture(game, &game->right_arm, TEX_RIGHT_ARM))
 		return (1);
+	if (load_texture(game, &game->right_chalk, TEX_CHALK_R_ARM))
+		return (1);
+	return (0);
+}
+
+static short	texture_init(t_game *game)
+{
+	if (wall_textures(game) == 1)
+		return (1);
 	if (load_texture(game, &game->mirror, TEX_MIRROR))
-		return	(1);		
+		return (1);
 	if (game->door.name)
 	{
 		if (load_texture(game, &game->door, TEX_DOOR))

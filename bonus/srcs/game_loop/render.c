@@ -1,5 +1,29 @@
 #include "cub3d_bonus.h"
 
+static	t_text	*north_south_walls(t_game *game, t_ray *ray)
+{
+	if (ray->ray_dir_y > 0 && game->map[ray->map_y][ray->map_x] == '1')
+		return (&game->south);
+	else if (ray->ray_dir_y > 0 && game->map[ray->map_y][ray->map_x] == '2')
+		return (&game->south_chalk);
+	else if (game->map[ray->map_y][ray->map_x] == '1')
+		return (&game->north);
+	else
+		return (&game->north_chalk);
+}
+
+static	t_text	*east_west_walls(t_game *game, t_ray *ray)
+{
+	if (ray->ray_dir_x > 0 && game->map[ray->map_y][ray->map_x] == '1')
+		return (&game->east);
+	else if (ray->ray_dir_x > 0 && game->map[ray->map_y][ray->map_x] == '2')
+		return (&game->east_chalk);
+	else if (game->map[ray->map_y][ray->map_x] == '1')
+		return (&game->west);
+	else
+		return (&game->west_chalk);
+}
+
 static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 {
 	if (ray->map_y >= 0 && ray->map_y < game->map_height
@@ -8,17 +32,9 @@ static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 		&& game->map[ray->map_y][ray->map_x] == 'D')
 		return (&game->door);
 	if (ray->side == 0)
-	{
-		if (ray->ray_dir_x > 0)
-			return (&game->east);
-		return (&game->west);
-	}
+		return (east_west_walls(game, ray));
 	else
-	{
-		if (ray->ray_dir_y > 0)
-			return (&game->south);
-		return (&game->north);
-	}
+		return (north_south_walls(game, ray));
 }
 
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
