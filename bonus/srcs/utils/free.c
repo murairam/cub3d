@@ -22,6 +22,10 @@ void	ft_free_game(t_game *game)
 	free(game->south.name);
 	free(game->east.name);
 	free(game->west.name);
+	free(game->north_chalk.name);
+	free(game->south_chalk.name);
+	free(game->east_chalk.name);
+	free(game->west_chalk.name);
 	free(game->door.name);
 	free(game->mirror.name);
 	if (game->map)

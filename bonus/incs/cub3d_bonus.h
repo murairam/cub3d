@@ -36,6 +36,7 @@
 # define S					115
 # define D					100
 # define E					101
+# define F					102
 # define ESC				65307
 # define SPACE				32
 # define SHIFT				65505
@@ -63,8 +64,13 @@
 # define TEX_SOUTH			"incs/assets/textures/Bricks_South1.xpm"
 # define TEX_EAST			"incs/assets/textures/Bricks_East1.xpm"
 # define TEX_WEST			"incs/assets/textures/Bricks_West1.xpm"
+# define TEX_CHALK_N		"incs/assets/textures/Bricks_North1X.xpm"
+# define TEX_CHALK_S		"incs/assets/textures/Bricks_South1X.xpm"
+# define TEX_CHALK_E		"incs/assets/textures/Bricks_East1X.xpm"
+# define TEX_CHALK_W		"incs/assets/textures/Bricks_West1X.xpm"
 # define TEX_LEFT_ARM		"incs/assets/textures/LeftArm.xpm"
 # define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
+# define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
 # define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
 
@@ -238,12 +244,17 @@ typedef struct s_game
 	t_text			mirror;
 	t_text			left_arm;
 	t_text			right_arm;
+	t_text			right_chalk;
 	t_text			north;
 	t_text			south;
 	t_text			east;
+	t_text			west;
+	t_text			north_chalk;
+	t_text			south_chalk;
+	t_text			east_chalk;
+	t_text			west_chalk;	
 	t_text			door;
 	t_text			*sprites;
-	t_text			west;
 	bool			mouse_dragging;
 	bool			show_minimap;
 }					t_game;
@@ -264,6 +275,7 @@ void				ft_free_split(char **split);
 void				ft_free_game(t_game *game);
 void				ft_free_mlx(t_game *game);
 void				ft_free_bonus(t_game *game);
+void				ft_free_wall_textures(t_game *game);
 
 /* ****************************************************************************/
 /*                              PARSER                                        */
@@ -343,12 +355,13 @@ void				clear_minimap_properly(t_game *game);
 void				composite_minimap_to_main(t_game *game);
 
 /* ****************************************************************************/
-/*                              DOORS                                         */
+/*                              INTERACTIONS                                  */
 /* ****************************************************************************/
 
 void				init_doors(t_game *game);
 void				interact_door(t_game *game);
 bool				is_door(char c);
+void				wall_tag(t_player *player, t_game *game);
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */
