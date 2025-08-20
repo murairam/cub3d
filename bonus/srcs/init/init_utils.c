@@ -18,6 +18,8 @@ static void	init_player(t_game *game, t_player *player)
 	player->key_right = false;
 	player->left_rot = false;
 	player->right_rot = false;
+	game->item_count = 0;
+	game->inventory = ft_calloc(MAX_ITEM, sizeof(char *));
 	game->mouse_x = WIDTH / 2;
 	game->mouse_y = HEIGHT / 2;
 	game->bob_time = 0.0f;

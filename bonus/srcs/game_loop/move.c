@@ -19,10 +19,12 @@ int	key_press(int keycode, t_game *game)
 		player->left_rot = true;
 	if (keycode == RIGHT)
 		player->right_rot = true;
-	if (keycode == E)
+	if (keycode == SPACE)
 		interact_door(game);
 	if (keycode == F)
 		wall_tag(player, game);
+	if (keycode == E)
+		pick_up_item(player, game);
 	return (0);
 }
 
