@@ -12,10 +12,8 @@ void	ft_free_split(char **split)
 	free(split);
 }
 
-void	ft_free_game(t_game *game)
+void	cleanup_game(t_game *game)
 {
-	char	*cleanup_line;
-
 	if (!game)
 		return ;
 	free(game->north.name);
@@ -28,6 +26,16 @@ void	ft_free_game(t_game *game)
 	free(game->west_chalk.name);
 	free(game->door.name);
 	free(game->mirror.name);
+	if (game->inventory)
+		ft_free_split(game->inventory);
+}
+
+void	ft_free_game(t_game *game)
+{
+	char	*cleanup_line;
+
+	if (!game)
+		return ;
 	if (game->map)
 		ft_free_split(game->map);
 	if (game->current_line)
@@ -47,16 +55,12 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 	ft_exit_error(msg);
 }
 
-void	cleanup_game(t_game *game)
+int	close_game(t_game *game)
 {
 	ft_free_mlx(game);
 	ft_free_bonus(game);
-	ft_free_game(game);
-}
-
-int	close_game(t_game *game)
-{
 	cleanup_game(game);
+	ft_free_game(game);
 	exit(0);
 	return (0);
 }

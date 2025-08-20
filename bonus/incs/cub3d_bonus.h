@@ -40,6 +40,7 @@
 # define ESC				65307
 # define SPACE				32
 # define SHIFT				65505
+# define MAX_ITEM			5
 
 /* Minimap defines */
 # define MINIMAP_SIZE		150
@@ -224,6 +225,8 @@ typedef struct s_game
 	int				sprite_list_count;
 	int				map_width;
 	int				map_height;
+	int				item_count;
+	char			**inventory;
 	char			orientation;
 	char			*current_line;
 	char			**map;
@@ -363,6 +366,8 @@ void				init_doors(t_game *game);
 void				interact_door(t_game *game);
 bool				is_door(char c);
 void				wall_tag(t_player *player, t_game *game);
+void				pick_up_item(t_player *player, t_game *game);
+int					has_item(t_game *game, char *to_find);
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */

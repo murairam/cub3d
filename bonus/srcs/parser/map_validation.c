@@ -2,7 +2,7 @@
 
 static int	is_valid_char(char c)
 {
-	return (ft_strchr("10NSEWDM \n\r", c) != NULL);
+	return (ft_strchr("10NSEWDMckm \n\r", c) != NULL);
 }
 
 void	validate_chars_and_count(char **map, int *player_count,
