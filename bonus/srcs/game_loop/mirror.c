@@ -52,36 +52,50 @@ void	reflect_put_pixel(t_ray *reflect, t_text *text,
 		t_game *game, int screenX)
 {
 	int		y;
+	int		pitch_offset;
+	int		render_y;
 	float	factor;
 
+	pitch_offset = -(int)(game->player.pitch * HEIGHT * 0.3f);
 	y = text->d_start - 1;
 	while (++y < text->draw_end)
 	{
-		reflect->tex_y = (int)reflect->tx_pos;
-		if (reflect->tex_y < 0)
-			reflect->tex_y = 0;
-		if (reflect->tex_y >= text->height)
-			reflect->tex_y = text->height - 1;
-		reflect->tx_pos += reflect->step;
-		if (reflect->tex_x < 0)
-			reflect->tex_x = 0;
-		if (reflect->tex_x >= text->width)
-			reflect->tex_x = text->width - 1;
-		reflect->pixel = (char *)text->data + (reflect->tex_y * text->size_line
-				+ reflect->tex_x * (text->bpp / 8));
-		factor = 1.0f / (1.0f + reflect->perp_wall_dist * 0.1f) + 0.2f;
-		if (reflect->side == 0)
-			factor *= 0.8f;
-		reflect->color = dim_color(*(int *)reflect->pixel, factor);
-		put_pixel(screenX, y, reflect->color, game);
+		render_y = y + pitch_offset;
+		if (render_y >= 0 && render_y < HEIGHT)
+		{
+			reflect->tex_y = (int)reflect->tx_pos;
+			if (reflect->tex_y < 0)
+				reflect->tex_y = 0;
+			if (reflect->tex_y >= text->height)
+				reflect->tex_y = text->height - 1;
+			reflect->tx_pos += reflect->step;
+			if (reflect->tex_x < 0)
+				reflect->tex_x = 0;
+			if (reflect->tex_x >= text->width)
+				reflect->tex_x = text->width - 1;
+			reflect->pixel = (char *)text->data + (reflect->tex_y * text->size_line
+					+ reflect->tex_x * (text->bpp / 8));
+			factor = 1.0f / (1.0f + reflect->perp_wall_dist * 0.1f) + 0.2f;
+			if (reflect->side == 0)
+				factor *= 0.8f;
+			reflect->color = dim_color(*(int *)reflect->pixel, factor);
+			put_pixel(screenX, render_y, reflect->color, game);
+		}
+		else
+		{
+			reflect->tx_pos += reflect->step;
+		}
 	}
 }
 
 void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX)
 {
 	t_text	*mir_tex;
+	int		pitch_offset;
+	int		render_y;
 	float	factor;
 
+	pitch_offset = -(int)(game->player.pitch * HEIGHT * 0.3f);
 	mir_tex = &game->mirror;
 	texture_cord(ray, &game->player, mir_tex);
 	ray->step = 1.0 * mir_tex->height / text->l_height;
@@ -89,18 +103,26 @@ void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX)
 	game->y = text->d_start - 1;
 	while (++game->y < text->draw_end)
 	{
-		ray->tex_y = (int)ray->tx_pos % (text->height - 1);
-		ray->tx_pos += ray->step;
-		if (ray->tex_x >= mir_tex->width)
-			ray->tex_x = mir_tex->width - 1;
-		ray->pixel = (char *)mir_tex->data + (ray->tex_y * mir_tex->size_line
-				+ ray->tex_x * (mir_tex->bpp / 8));
-		factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
-		if (ray->side == 0)
-			factor *= 0.8f;
-		ray->color = dim_color(*(int *)ray->pixel, factor);
-		if (ray->color != 0 && (unsigned)ray->color != 0xFF000000)
-			put_pixel(screenX, game->y, ray->color, game);
+		render_y = game->y + pitch_offset;
+		if (render_y >= 0 && render_y < HEIGHT)
+		{
+			ray->tex_y = (int)ray->tx_pos % (text->height - 1);
+			ray->tx_pos += ray->step;
+			if (ray->tex_x >= mir_tex->width)
+				ray->tex_x = mir_tex->width - 1;
+			ray->pixel = (char *)mir_tex->data + (ray->tex_y * mir_tex->size_line
+					+ ray->tex_x * (mir_tex->bpp / 8));
+			factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
+			if (ray->side == 0)
+				factor *= 0.8f;
+			ray->color = dim_color(*(int *)ray->pixel, factor);
+			if (ray->color != 0 && (unsigned)ray->color != 0xFF000000)
+				put_pixel(screenX, render_y, ray->color, game);
+		}
+		else
+		{
+			ray->tx_pos += ray->step;
+		}
 	}
 }
 

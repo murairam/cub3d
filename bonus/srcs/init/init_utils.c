@@ -4,6 +4,7 @@ static void	init_player(t_game *game, t_player *player)
 {
 	player->x = game->spawn_x;
 	player->y = game->spawn_y;
+	player->pitch = 0.0f;
 	if (game->orientation == 'N')
 		player->angle = SPAWN_NORTH;
 	else if (game->orientation == 'S')
@@ -18,6 +19,8 @@ static void	init_player(t_game *game, t_player *player)
 	player->key_right = false;
 	player->left_rot = false;
 	player->right_rot = false;
+	player->pitch_up = false;
+	player->pitch_down = false;
 	game->item_count = 0;
 	game->inventory = ft_calloc(MAX_ITEM, sizeof(char *));
 	game->mouse_x = WIDTH / 2;

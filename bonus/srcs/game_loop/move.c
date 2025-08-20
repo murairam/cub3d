@@ -19,6 +19,10 @@ int	key_press(int keycode, t_game *game)
 		player->left_rot = true;
 	if (keycode == RIGHT)
 		player->right_rot = true;
+	if (keycode == UP)
+		player->pitch_up = true;
+	if (keycode == DOWN)
+		player->pitch_down = true;
 	if (keycode == SPACE)
 		interact_door(game);
 	if (keycode == F)
@@ -45,6 +49,10 @@ int	key_release(int keycode, t_game *game)
 		player->left_rot = false;
 	if (keycode == RIGHT)
 		player->right_rot = false;
+	if (keycode == UP)
+		player->pitch_up = false;
+	if (keycode == DOWN)
+		player->pitch_down = false;
 	return (0);
 }
 
@@ -92,6 +100,18 @@ void	move_player(t_player *player, t_game *game)
 		player->angle -= angle_speed;
 	if (player->right_rot)
 		player->angle += angle_speed;
+	if (player->pitch_up)
+	{
+		player->pitch -= angle_speed;
+		if (player->pitch < -MAX_PITCH)
+			player->pitch = -MAX_PITCH;
+	}
+	if (player->pitch_down)
+	{
+		player->pitch += angle_speed;
+		if (player->pitch > MAX_PITCH)
+			player->pitch = MAX_PITCH;
+	}
 	if (player->angle > 2 * PI)
 		player->angle = 0;
 	if (player->angle < 0)

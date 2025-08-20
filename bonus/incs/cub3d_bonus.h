@@ -27,6 +27,9 @@
 # define CUBE				64
 # define LEFT				65361
 # define RIGHT				65363
+# define UP					65362
+# define DOWN				65364
+# define MAX_PITCH			(PI / 3.0f)
 # define SPAWN_NORTH		4.71
 # define SPAWN_SOUTH		1.57
 # define SPAWN_WEST			3.14159265f
@@ -143,6 +146,7 @@ typedef struct s_player
 	float			x;
 	float			y;
 	float			angle;
+	float			pitch;
 	char			*orientation;
 	bool			key_up;
 	bool			key_down;
@@ -150,6 +154,8 @@ typedef struct s_player
 	bool			left_rot;
 	bool			key_right;
 	bool			right_rot;
+	bool			pitch_up;
+	bool			pitch_down;
 	bool			key_run;
 	int				mouse_x;
 	int				mouse_y;
