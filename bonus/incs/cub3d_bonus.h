@@ -339,6 +339,7 @@ void				wall_render(t_ray *ray, t_text *text, t_game *game,
 void				floor_render(t_ray *ray, t_game *game, int screen_x);
 void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
+int					dim_color(int color, float factor);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */

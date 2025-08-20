@@ -2,7 +2,8 @@
 
 void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
 {
-	int	y;
+	int		y;
+	float	factor;
 
 	y = ray->d_start - 1;
 	while (++y < ray->draw_end)
@@ -11,7 +12,10 @@ void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
 		ray->tx_pos += ray->step;
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));
-		ray->color = *(int *)ray->pixel;
+		factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
+		if (ray->side == 0)
+			factor *= 0.8f;
+		ray->color = dim_color(*(int *)ray->pixel, factor);
 		put_pixel(screen_x, y, ray->color, game);
 	}
 }
