@@ -7,7 +7,7 @@ static void	render_rays(t_game *game, t_player *player)
 	int		i;
 
 	i = 0;
-	fraction = PI / 3 / WIDTH;
+	fraction = game->fov / WIDTH;
 	start_x = player->angle - PI / 6;
 	while (i < WIDTH)
 	{
@@ -36,6 +36,8 @@ int	draw_loop(t_game *game)
 
 void	game_loop(t_game *game)
 {
+	if (pthread_create(&game->thread, NULL, thread, game))
+		return ;
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 1L << 17, close_game, game);

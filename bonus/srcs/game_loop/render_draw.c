@@ -20,7 +20,10 @@ void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
 					+ ray->tex_x * (text->bpp / 8));
 			factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
 			if (ray->side == 0)
-				factor *= 0.8f;
+				factor *= 0.7f;
+			pthread_mutex_lock(&game->darken_lock);
+			factor *= game->darken_factor;
+			pthread_mutex_unlock(&game->darken_lock);
 			ray->color = dim_color(*(int *)ray->pixel, factor);
 			put_pixel(screen_x, render_y, ray->color, game);
 		}

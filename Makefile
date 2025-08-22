@@ -32,7 +32,7 @@ BONUS_SRC = main.c utils/error.c utils/free.c utils/free_utils.c parser/parser.c
 	game_loop/render_utils.c game_loop/raycasting_utils.c game_loop/render_draw.c chalk/wall_tag.c\
 	minimap/minimap.c minimap/minimap_draw.c minimap/minimap_walls.c minimap/minimap_player.c \
 	minimap/minimap_blend.c minimap/minimap_render.c utils/free_textures.c\
-	doors/doors.c doors/door_utils.c game_loop/mirror.c pick_up/item_pick_up.c \
+	doors/doors.c doors/door_utils.c game_loop/mirror.c pick_up/item_pick_up.c thread/thread.c\
 
 SRCS := $(addprefix srcs/, $(SRC))
 OBJS = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))

@@ -78,6 +78,9 @@ void	reflect_put_pixel(t_ray *reflect, t_text *text,
 			factor = 1.0f / (1.0f + reflect->perp_wall_dist * 0.1f) + 0.2f;
 			if (reflect->side == 0)
 				factor *= 0.8f;
+			pthread_mutex_lock(&game->darken_lock);
+			factor *= game->darken_factor;
+			pthread_mutex_unlock(&game->darken_lock);
 			reflect->color = dim_color(*(int *)reflect->pixel, factor);
 			put_pixel(screenX, render_y, reflect->color, game);
 		}
@@ -115,6 +118,9 @@ void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX)
 			factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
 			if (ray->side == 0)
 				factor *= 0.8f;
+			pthread_mutex_lock(&game->darken_lock);
+			factor *= game->darken_factor;
+			pthread_mutex_unlock(&game->darken_lock);
 			ray->color = dim_color(*(int *)ray->pixel, factor);
 			if (ray->color != 0 && (unsigned)ray->color != 0xFF000000)
 				put_pixel(screenX, render_y, ray->color, game);

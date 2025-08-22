@@ -15,11 +15,14 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
+# define MAX_TIME			10000
 # define BIG_FLOAT			1000000000.0f
 # define PI					3.14159265f
 # define WIDTH				1280
@@ -215,6 +218,7 @@ typedef struct s_minimap
 
 typedef struct s_game
 {
+	int				stop;
 	int				y;
 	int				fd;
 	int				bpp;
@@ -246,6 +250,11 @@ typedef struct s_game
 	float			spawn_x;
 	float			spawn_y;
 	float			bob_time;
+	float			fov;
+	float			darken_factor;
+	pthread_t		thread;
+	pthread_mutex_t	fov_lock;
+	pthread_mutex_t	darken_lock;
 	t_door			*doors;
 	t_sprite		*sprite_list;
 	t_player		player;
@@ -374,6 +383,7 @@ bool				is_door(char c);
 void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
+void				*thread(void *arg);
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */

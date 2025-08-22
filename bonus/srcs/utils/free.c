@@ -57,6 +57,8 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 
 int	close_game(t_game *game)
 {
+	game->stop = 1;
+	usleep(50000);
 	ft_free_mlx(game);
 	ft_free_bonus(game);
 	cleanup_game(game);

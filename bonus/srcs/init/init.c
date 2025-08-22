@@ -17,4 +17,7 @@ void	init_game(t_game *game)
 	game->spawn_x = 0;
 	game->spawn_y = 0;
 	game->orientation = 0;
+	game->fov = PI/3;
+	game->stop = 0;
+	game->darken_factor = 1;
 }
