@@ -47,6 +47,8 @@ void	ft_free_game(t_game *game)
 		if (cleanup_line)
 			free(cleanup_line);
 	}
+	pthread_join(game->thread, NULL);
+	pthread_mutex_destroy(&game->darken_lock);
 }
 
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
@@ -58,7 +60,6 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 int	close_game(t_game *game)
 {
 	game->stop = 1;
-	usleep(50000);
 	ft_free_mlx(game);
 	ft_free_bonus(game);
 	cleanup_game(game);

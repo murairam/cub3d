@@ -20,4 +20,6 @@ void	init_game(t_game *game)
 	game->fov = PI/3;
 	game->stop = 0;
 	game->darken_factor = 1;
+	// if condition to check whether the mutex worked then cascade if it didnt :'(
+	pthread_mutex_init(&game->darken_lock, NULL);
 }
