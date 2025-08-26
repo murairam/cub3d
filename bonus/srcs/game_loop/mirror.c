@@ -1,24 +1,29 @@
 #include "cub3d_bonus.h"
 
-int	dim_color(int color, float factor)
+t_text *choose_mirror_texture(t_ray *ray, t_game *game, float nx, float ny, float dot)
 {
-	int	r;
-	int	g;
-	int	b;
+    t_text *tex = &game->mirror;
+	float len;
+	float vx;
+	float vy;
 
-	r = (color >> 16) & 0xFF;
-	g = (color >> 8) & 0xFF;
-	b = color & 0xFF;
-	r = (int)(r * factor);
-	g = (int)(g * factor);
-	b = (int)(b * factor);
-	if (r > 255)
-		r = 255;
-	if (g > 255)
-		g = 255;
-	if (b > 255)
-		b = 255;
-	return ((r << 16) | (g << 8) | b);
+    if (ray->side == 0)
+    {    
+		if (ray->ray_dir_x > 0)
+			nx = -1;
+	}
+	else 
+    {    
+		if (ray->ray_dir_y > 0)
+			ny = -1;
+	}
+    len = sqrtf(ray->ray_dir_x * ray->ray_dir_x + ray->ray_dir_y * ray->ray_dir_y);
+    vx = -ray->ray_dir_x / len;
+    vy = -ray->ray_dir_y / len;
+    dot = vx * nx + vy * ny;
+    if (dot > 0.9f && game->char_mirror.data)
+        tex = &game->char_mirror;
+    return (tex);
 }
 
 void	text_filler(t_game *game, t_ray *reflect, t_text **text, t_ray *ray)
@@ -85,21 +90,17 @@ void	reflect_put_pixel(t_ray *reflect, t_text *text,
 			put_pixel(screenX, render_y, reflect->color, game);
 		}
 		else
-		{
 			reflect->tx_pos += reflect->step;
-		}
 	}
 }
 
-void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX)
+void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX, t_text *mir_tex)
 {
-	t_text	*mir_tex;
 	int		pitch_offset;
 	int		render_y;
 	float	factor;
 
 	pitch_offset = -(int)(game->player.pitch * HEIGHT * 0.3f);
-	mir_tex = &game->mirror;
 	texture_cord(ray, &game->player, mir_tex);
 	ray->step = 1.0 * mir_tex->height / text->l_height;
 	ray->tx_pos = (text->d_start - HEIGHT / 2 + text->l_height / 2) * ray->step;
@@ -126,17 +127,15 @@ void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX)
 				put_pixel(screenX, render_y, ray->color, game);
 		}
 		else
-		{
 			ray->tx_pos += ray->step;
-		}
 	}
 }
 
-void	reflection(t_ray *ray, t_game *game, int screenX)
+t_text	*reflection_init(t_ray *ray, t_game *game, int screenX)
 {
-	t_ray		refl;
 	t_player	p_player;
 	t_text		*text;
+	t_ray		refl;
 	float		reflect_angle;
 
 	refl = *ray;
@@ -144,9 +143,11 @@ void	reflection(t_ray *ray, t_game *game, int screenX)
 		refl.ray_dir_x = -ray->ray_dir_x;
 	else
 		refl.ray_dir_y = -ray->ray_dir_y;
+
 	p_player.x = (ray->map_x + 0.5f) * CUBE + 0.01f * ray->ray_dir_x * CUBE;
 	p_player.y = (ray->map_y + 0.5f) * CUBE + 0.01f * ray->ray_dir_y * CUBE;
 	reflect_angle = atan2f(refl.ray_dir_y, refl.ray_dir_x);
+
 	ray_init(&refl, &p_player, reflect_angle);
 	dda_finder(&refl, game);
 	distance_wall(&refl, &p_player);
@@ -156,7 +157,21 @@ void	reflection(t_ray *ray, t_game *game, int screenX)
 	refl.step = 1.0 * text->height / text->l_height;
 	refl.tx_pos = (text->d_start - HEIGHT / 2 + text->l_height / 2) * refl.step;
 	reflect_put_pixel(&refl, text, game, screenX);
-	if (game->mirror.data)
-		mirror_texture(game, ray, text, screenX);
+	return (text);
+}
+
+void	reflection(t_ray *ray, t_game *game, int screenX)
+{
+	t_text		*text;
+	t_text		*mir_tex;
+
+	text = reflection_init(ray, game, screenX);
+	mir_tex = &game->mirror;
+	if (game->map[ray->map_y][ray->map_x] == 'M')
+	{
+		if (game->char_mirror.data)
+			mir_tex = choose_mirror_texture(ray, game, 1, 1, 0);
+		mirror_texture(game, ray, text, screenX, mir_tex);
+	}
 	floor_render(ray, game, screenX);
 }

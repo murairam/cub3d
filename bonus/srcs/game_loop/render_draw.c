@@ -28,9 +28,7 @@ void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
 			put_pixel(screen_x, render_y, ray->color, game);
 		}
 		else
-		{
 			ray->tx_pos += ray->step;
-		}
 	}
 }
 
@@ -85,8 +83,8 @@ void	texture_cord(t_ray *ray, t_player *player, t_text *text)
 		ray->wall_x = player->x / CUBE + ray->perp_wall_dist * ray->ray_dir_x;
 	ray->wall_x -= floor(ray->wall_x);
 	ray->tex_x = (int)(ray->wall_x * (float)(text->width));
-	if (ray->side == 0 && ray->ray_dir_x > 0)
-		ray->tex_x = text->width - ray->tex_x - 1;
-	if (ray->side == 1 && ray->ray_dir_y < 0)
-		ray->tex_x = text->width - ray->tex_x - 1;
+	if (ray->side == 0 && ray->ray_dir_x < 0)
+	    ray->tex_x = text->width - ray->tex_x - 1;
+	if (ray->side == 1 && ray->ray_dir_y > 0)
+    	ray->tex_x = text->width - ray->tex_x - 1;
 }

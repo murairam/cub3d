@@ -67,19 +67,21 @@
 # define COLOR_GRAY			0x808080
 
 /* Texture paths */
-# define TEX_NORTH			"incs/assets/textures/Bricks_North1.xpm"
-# define TEX_SOUTH			"incs/assets/textures/Bricks_South1.xpm"
-# define TEX_EAST			"incs/assets/textures/Bricks_East1.xpm"
-# define TEX_WEST			"incs/assets/textures/Bricks_West1.xpm"
-# define TEX_CHALK_N		"incs/assets/textures/Bricks_North1X.xpm"
-# define TEX_CHALK_S		"incs/assets/textures/Bricks_South1X.xpm"
-# define TEX_CHALK_E		"incs/assets/textures/Bricks_East1X.xpm"
-# define TEX_CHALK_W		"incs/assets/textures/Bricks_West1X.xpm"
+# define TEX_NORTH			"incs/assets/textures/Bricks_North.xpm"
+# define TEX_SOUTH			"incs/assets/textures/Bricks_South.xpm"
+# define TEX_EAST			"incs/assets/textures/Bricks_East.xpm"
+# define TEX_WEST			"incs/assets/textures/Bricks_West.xpm"
+# define TEX_CHALK_N		"incs/assets/textures/Bricks_NorthX.xpm"
+# define TEX_CHALK_S		"incs/assets/textures/Bricks_SouthX.xpm"
+# define TEX_CHALK_E		"incs/assets/textures/Bricks_EastX.xpm"
+# define TEX_CHALK_W		"incs/assets/textures/Bricks_WestX.xpm"
 # define TEX_LEFT_ARM		"incs/assets/textures/LeftArm.xpm"
 # define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
 # define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
-# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
+# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
+# define TEX_CHARACTER		"incs/assets/textures/Char.xpm"
+# define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -87,16 +89,16 @@
 
 typedef enum e_wall_dir
 {
-	NORTH = 0,
-	SOUTH = 1,
-	EAST = 2,
-	WEST = 3
+	NORTH	= 0,
+	SOUTH	= 1,
+	EAST	= 2,
+	WEST	= 3
 }					t_wall_dir;
 
 typedef enum e_door_state
 {
 	DOOR_CLOSED = 0,
-	DOOR_OPEN = 1
+	DOOR_OPEN	= 1
 }					t_door_state;
 
 /* ************************************************************************** */
@@ -259,18 +261,20 @@ typedef struct s_game
 	t_sprite		*sprite_list;
 	t_player		player;
 	t_minimap		minimap;
-	t_text			mirror;
-	t_text			left_arm;
-	t_text			right_arm;
-	t_text			right_chalk;
 	t_text			north;
 	t_text			south;
 	t_text			east;
 	t_text			west;
+	t_text			mirror;
+	t_text			char_mirror;
+	t_text			left_arm;
+	t_text			right_arm;
+	t_text			right_chalk;
 	t_text			north_chalk;
 	t_text			south_chalk;
 	t_text			east_chalk;
 	t_text			west_chalk;	
+	t_text			character;
 	t_text			door;
 	t_text			*sprites;
 	bool			mouse_dragging;

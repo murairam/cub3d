@@ -56,6 +56,8 @@ static	short	wall_textures(t_game *game)
 		return (1);
 	if (load_texture(game, &game->right_chalk, TEX_CHALK_R_ARM))
 		return (1);
+	if (load_texture(game, &game->character, TEX_CHARACTER))
+		return (1);	
 	return (0);
 }
 
@@ -64,6 +66,8 @@ static short	texture_init(t_game *game)
 	if (wall_textures(game) == 1)
 		return (1);
 	if (load_texture(game, &game->mirror, TEX_MIRROR))
+		return (1);
+	if (load_texture(game, &game->char_mirror, TEX_CHAR_MIRROR))
 		return (1);
 	if (game->door.name)
 	{

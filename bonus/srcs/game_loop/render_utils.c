@@ -1,5 +1,26 @@
 #include "cub3d_bonus.h"
 
+int	dim_color(int color, float factor)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = (color >> 16) & 0xFF;
+	g = (color >> 8) & 0xFF;
+	b = color & 0xFF;
+	r = (int)(r * factor);
+	g = (int)(g * factor);
+	b = (int)(b * factor);
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if (b > 255)
+		b = 255;
+	return ((r << 16) | (g << 8) | b);
+}
+
 void	put_pixel(int x, int y, int color, t_game *game)
 {
 	int	index;
