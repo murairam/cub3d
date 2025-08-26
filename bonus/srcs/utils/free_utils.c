@@ -31,6 +31,8 @@ void	ft_free_image_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->minimap.img);
 	if (game->mirror.img)
 		mlx_destroy_image(game->mlx, game->mirror.img);
+	if (game->char_mirror.img)
+		mlx_destroy_image(game->mlx, game->char_mirror.img);
 }
 
 void	ft_free_mlx(t_game *game)

@@ -26,7 +26,7 @@ static void	calculate_step_and_side_dist(t_ray *ray, t_player *player)
 	}
 }
 
-static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x, int map_y)
+static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x, int map_y, t_player *player)
 {
 	char	tile;
 	int		i;
@@ -37,7 +37,7 @@ static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x, int map_y)
 	if (map_x >= (int)ft_strlen(game->map[map_y]))
 		return (true);
 	tile = game->map[map_y][map_x];
-	if (tile == '1')
+	if (tile == '1' && fabs(map_x + map_y - (player->x / CUBE + player->y / CUBE)) < 3)
 		game->map[map_y][map_x] = '2';
 	if (tile == 'M' || tile == '2')
 		return (true);
@@ -53,7 +53,7 @@ static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x, int map_y)
 	return (true);
 }
 
-void	dda_finder_chalk(t_ray *ray, t_game *game)
+void	dda_finder_chalk(t_ray *ray, t_game *game, t_player *player)
 {
 	ray->hit = 0;
 	ray->side = 0;
@@ -71,7 +71,7 @@ void	dda_finder_chalk(t_ray *ray, t_game *game)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (is_wall_or_closed_door_chalk(game, ray->map_x, ray->map_y))
+		if (is_wall_or_closed_door_chalk(game, ray->map_x, ray->map_y, player))
 			ray->hit = 1;
 	}
 }
@@ -100,5 +100,5 @@ void	wall_tag(t_player *player, t_game *game)
 	if (has_item(game, "Chalk") != 0)
 		return ;
 	ray_init_chalk(&ray, player, player->angle);
-	dda_finder_chalk(&ray, game);
+	dda_finder_chalk(&ray, game, player);
 }

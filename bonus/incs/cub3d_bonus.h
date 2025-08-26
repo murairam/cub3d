@@ -80,7 +80,6 @@
 # define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
 # define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
-# define TEX_CHARACTER		"incs/assets/textures/Char.xpm"
 # define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
 
 /* ************************************************************************** */
@@ -388,6 +387,8 @@ void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
 void				*thread(void *arg);
+int					is_close_enough(t_game *game, t_player *player, char to_find);
+
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */
