@@ -1,4 +1,14 @@
 #include "cub3d_bonus.h"
+int chalk_count_in_inventory(t_game *game)
+{
+	int count = 0;
+	for (int i = 0; i < game->item_count; i++) {
+		if (ft_strncmp(game->inventory[i], "Chalk", 5) == 0)
+			count++;
+	}
+	return count;
+}
+#include "cub3d_bonus.h"
 
 int	has_item(t_game *game, char *to_find)
 {

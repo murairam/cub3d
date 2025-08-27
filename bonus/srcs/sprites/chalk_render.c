@@ -39,6 +39,7 @@ void	calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 	double	sprite_angle;
 	double	angle_diff;
 
+	// Direct calculation without cache
 	dx = sprite->x - game->player.x;
 	dy = sprite->y - game->player.y;
 	*distance = sqrt(dx * dx + dy * dy);

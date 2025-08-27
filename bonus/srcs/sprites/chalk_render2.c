@@ -60,6 +60,8 @@ static void	draw_sprite_pixel(t_game *game, t_chalk_sprite *sprite,
 
 	if (params->sprite_width <= 0 || params->sprite_height <= 0)
 		return ;
+	if (!sprite->data || sprite->width <= 0 || sprite->height <= 0)
+		return ;
 	tex_x = (params->x - params->start_x) * sprite->width
 		/ params->sprite_width;
 	tex_y = (params->y - params->start_y) * sprite->height
@@ -68,6 +70,8 @@ static void	draw_sprite_pixel(t_game *game, t_chalk_sprite *sprite,
 		|| tex_y >= sprite->height)
 		return ;
 	tex_index = tex_y * sprite->width + tex_x;
+	if (tex_index < 0 || tex_index >= (sprite->width * sprite->height))
+		return ;
 	pixel_color = sprite->data[tex_index];
 	if ((pixel_color & 0x00FFFFFF) != 0x000000)
 		put_pixel(params->x, params->y, pixel_color, game);

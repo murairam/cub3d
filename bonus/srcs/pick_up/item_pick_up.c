@@ -40,13 +40,12 @@ static int	check_chalk_pickup(t_game *game, t_player *player, int i)
 	distance = sqrt(dx * dx + dy * dy);
 	if (distance < PICKUP_RADIUS)
 	{
-		game->chalk_sprites[i].visible = 0;
-		game->chalk_sprites[i].collected = 1;
-		game->chalk_collected++;
-		add_to_inv(game, ft_strdup("Chalk"));
-		add_to_inv(game, ft_strdup("Chalk"));
-		add_to_inv(game, ft_strdup("Chalk"));
-		return (1);
+	   game->chalk_sprites[i].visible = 0;
+	   game->chalk_sprites[i].collected = 1;
+	   game->chalk_collected++;
+	   for (int c = 0; c < 3; c++)
+		   add_to_inv(game, ft_strdup("Chalk"));
+	   return (1);
 	}
 	return (0);
 }
@@ -60,8 +59,7 @@ static void	check_chalk_sprites(t_game *game, t_player *player)
 	i = 0;
 	while (i < game->chalk_sprite_count)
 	{
-		if (check_chalk_pickup(game, player, i))
-			return ;
+	   check_chalk_pickup(game, player, i);
 		i++;
 	}
 }

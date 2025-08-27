@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../incs/cub3d_bonus.h"
+#include <string.h>
 
 static int	count_chalks(t_game *game)
 {
@@ -43,6 +44,15 @@ static void	setup_chalk_sprite(t_game *game, int row, int col)
 	world_x = col * CUBE + (CUBE / 2);
 	world_y = row * CUBE + (CUBE / 2);
 	idx = game->chalk_sprite_count;
+	
+	// Initialize all fields to prevent corruption
+	game->chalk_sprites[idx].img = NULL;
+	game->chalk_sprites[idx].data = NULL;
+	game->chalk_sprites[idx].width = 0;
+	game->chalk_sprites[idx].height = 0;
+	game->chalk_sprites[idx].bpp = 0;
+	game->chalk_sprites[idx].size_line = 0;
+	game->chalk_sprites[idx].endian = 0;
 	game->chalk_sprites[idx].x = world_x;
 	game->chalk_sprites[idx].y = world_y;
 	game->chalk_sprites[idx].base_x = world_x;
@@ -90,6 +100,8 @@ int	parse_map_for_chalks(t_game *game)
 	game->chalk_sprites = malloc(sizeof(t_chalk_sprite) * count);
 	if (!game->chalk_sprites)
 		return (0);
+	// Zero initialize the memory to prevent corruption
+	memset(game->chalk_sprites, 0, sizeof(t_chalk_sprite) * count);
 	game->chalk_sprite_count = 0;
 	store_chalk_positions(game);
 	return (1);

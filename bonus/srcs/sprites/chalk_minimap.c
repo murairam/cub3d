@@ -20,8 +20,8 @@ static void	draw_chalk_square(t_game *game, int center_x, int center_y)
 	char			*dst;
 	unsigned int	chalk_color;
 
-	chalk_color = 0x0066FF;
-	chalk_size = MINIMAP_SCALE / 2;
+	chalk_color = 0x00FF00; // bright green for chalk
+	chalk_size = MINIMAP_SCALE / 3; // smaller for overlap visibility
 	y = center_y - chalk_size / 2;
 	while (y <= center_y + chalk_size / 2)
 	{

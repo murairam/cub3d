@@ -17,17 +17,19 @@ void	render_chalks(t_game *game)
 {
 	int	i;
 
-	if (!game->chalk_sprites || game->chalk_sprite_count == 0)
+	if (!game || !game->chalk_sprites || game->chalk_sprite_count <= 0)
 		return ;
 	i = 0;
 	while (i < game->chalk_sprite_count)
 	{
-		if (game->chalk_sprites[i].visible && !game->chalk_sprites[i].collected)
+		// Render only if not collected and visible (matches pickup logic)
+		if (!game->chalk_sprites[i].collected && game->chalk_sprites[i].visible)
 		{
-			if (is_in_fov(game, game->chalk_sprites[i].x,
-					game->chalk_sprites[i].y)
-				&& is_chalk_visible(game, &game->chalk_sprites[i]))
-				render_chalk_sprite(game, &game->chalk_sprites[i]);
+			if (game->chalk_sprites[i].img && game->chalk_sprites[i].data)
+			{
+				if (is_chalk_visible(game, &game->chalk_sprites[i]))
+					render_chalk_sprite(game, &game->chalk_sprites[i]);
+			}
 		}
 		i++;
 	}

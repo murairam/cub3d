@@ -97,7 +97,7 @@ void	wall_tag(t_player *player, t_game *game)
 {
 	t_ray	ray;
 
-	if (has_item(game, "Chalk") != 0)
+	if (chalk_count_in_inventory(game) <= 0)
 		return ;
 	ray_init_chalk(&ray, player, player->angle);
 	dda_finder_chalk(&ray, game);
