@@ -19,30 +19,26 @@ static void	render_rays(t_game *game, t_player *player)
 
 int	draw_loop(t_game *game)
 {
-	t_player	*player;
+	t_player		*player;
 	static double	last_time = 0.0;
 	double			current_time;
 	double			delta_time;
 
 	if (!game->data)
 		printf("Error Game Data couldn't load\n");
-	
 	// Calculate delta time for smooth animation
 	current_time = get_current_time();
 	if (last_time == 0.0)
 		last_time = current_time;
 	delta_time = current_time - last_time;
 	last_time = current_time;
-	
 	player = &game->player;
 	move_player(player, game);
 	clear_image(game);
 	render_rays(game, player);
-	
 	// Animate and render chalk sprites after 3D scene but before UI
 	animate_chalks(game, delta_time);
 	render_chalks(game);
-	
 	update_arm_bobbing(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	draw_minimap(game);

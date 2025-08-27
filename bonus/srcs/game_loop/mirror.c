@@ -48,8 +48,8 @@ void	text_filler(t_game *game, t_ray *reflect, t_text **text, t_ray *ray)
 		(*text)->draw_end = HEIGHT - 1;
 }
 
-void	reflect_put_pixel(t_ray *reflect, t_text *text,
-		t_game *game, int screenX)
+void	reflect_put_pixel(t_ray *reflect, t_text *text, t_game *game,
+		int screenX)
 {
 	int		y;
 	int		pitch_offset;
@@ -73,8 +73,8 @@ void	reflect_put_pixel(t_ray *reflect, t_text *text,
 				reflect->tex_x = 0;
 			if (reflect->tex_x >= text->width)
 				reflect->tex_x = text->width - 1;
-			reflect->pixel = (char *)text->data + (reflect->tex_y * text->size_line
-					+ reflect->tex_x * (text->bpp / 8));
+			reflect->pixel = (char *)text->data + (reflect->tex_y
+					* text->size_line + reflect->tex_x * (text->bpp / 8));
 			factor = 1.0f / (1.0f + reflect->perp_wall_dist * 0.1f) + 0.2f;
 			if (reflect->side == 0)
 				factor *= 0.8f;
@@ -110,8 +110,8 @@ void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX)
 			ray->tx_pos += ray->step;
 			if (ray->tex_x >= mir_tex->width)
 				ray->tex_x = mir_tex->width - 1;
-			ray->pixel = (char *)mir_tex->data + (ray->tex_y * mir_tex->size_line
-					+ ray->tex_x * (mir_tex->bpp / 8));
+			ray->pixel = (char *)mir_tex->data + (ray->tex_y
+					* mir_tex->size_line + ray->tex_x * (mir_tex->bpp / 8));
 			factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
 			if (ray->side == 0)
 				factor *= 0.8f;

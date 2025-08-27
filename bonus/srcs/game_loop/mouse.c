@@ -14,13 +14,13 @@ int	mouse_move(int x, int y, t_game *game)
 			game->player.angle += 2 * PI;
 	}
 	if (y != game->mouse_y)
-    {
-        game->player.pitch += (y - game->mouse_y) * mouse_sensitivity;
-        if (game->player.pitch > MAX_PITCH)
-            game->player.pitch = MAX_PITCH;
-        if (game->player.pitch < -MAX_PITCH)
-            game->player.pitch = -MAX_PITCH;
-    }
+	{
+		game->player.pitch += (y - game->mouse_y) * mouse_sensitivity;
+		if (game->player.pitch > MAX_PITCH)
+			game->player.pitch = MAX_PITCH;
+		if (game->player.pitch < -MAX_PITCH)
+			game->player.pitch = -MAX_PITCH;
+	}
 	game->mouse_x = x;
 	game->mouse_y = y;
 	return (0);

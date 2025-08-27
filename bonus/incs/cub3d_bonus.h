@@ -85,9 +85,11 @@
 # define PICKUP_RADIUS		48.0
 # define MAX_RENDER_DISTANCE	500.0
 # define FOV_DEGREES		60.0
-# define CHALK_AMPLITUDE	0.05		// Very small amplitude for subtle movement
-# define CHALK_FREQUENCY	0.8			// Slow frequency for gentle floating
-# define SPRITE_SCALE_FACTOR	48.0	// Scale factor for proper distance rendering
+# define FOV_RADIANS		1.0471975511965976	// FOV_DEGREES * M_PI / 180.0
+# define FOV_HALF_RADIANS	0.5235987755982988	// FOV_RADIANS / 2.0
+# define CHALK_AMPLITUDE	0.2		// Reduced amplitude for more subtle movement
+# define CHALK_FREQUENCY	3.0			// Much faster frequency for very noticeable movement
+# define SPRITE_SCALE_FACTOR	72.0	// Scale factor for proper distance rendering
 # define SPRITE_HEIGHT_OFFSET	120		// Higher up from ground
 
 /* Animation constants */
@@ -240,6 +242,24 @@ typedef struct s_chalk_sprite
 	int				collected;		// Collection flag
 	int				id;				// Unique identifier
 }					t_chalk_sprite;
+
+typedef struct s_bounds
+{
+	int				start_x;
+	int				end_x;
+	int				start_y;
+	int				end_y;
+}					t_bounds;
+
+typedef struct s_draw_params
+{
+	int				x;
+	int				y;
+	int				start_x;
+	int				start_y;
+	int				sprite_width;
+	int				sprite_height;
+}					t_draw_params;
 
 typedef struct s_minimap
 {
@@ -417,6 +437,7 @@ bool				is_door(char c);
 void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
+int					remove_from_inv(t_game *game, char *to_remove);
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */
@@ -435,11 +456,13 @@ void				animate_chalks(t_game *game, double delta_time);
 void				animate_chalk_sprite(t_chalk_sprite *sprite, double delta_time);
 void				render_chalks(t_game *game);
 void				render_chalk_sprite(t_game *game, t_chalk_sprite *sprite);
-void				render_chalk_pixel(t_game *game, int screen_x, int screen_y, int color);
 void				cleanup_chalk_sprites(t_game *game);
 double				get_current_time(void);
+double				normalize_angle(double angle);
 int					is_in_fov(t_game *game, double sprite_x, double sprite_y);
-void				world_to_screen(t_game *game, double world_x, double world_y, int *screen_x, int *screen_y, double *distance);
 void				draw_chalks_on_minimap(t_game *game);
+void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
+						int *screen_x, double *distance);
+void				calc_sprite_size(double distance, int *width, int *height);
 
 #endif

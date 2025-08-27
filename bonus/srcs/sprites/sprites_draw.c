@@ -14,6 +14,5 @@
 
 void	draw_sprites(t_game *game)
 {
-	// TODO: Implement sprite drawing
 	(void)game;
 }
