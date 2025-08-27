@@ -14,7 +14,7 @@ static void	check_redraw_needed(t_game *game, int *coords, double *last_angle)
 	{
 		clear_minimap_properly(game);
 		draw_minimap_walls(game);
-		draw_chalks_on_minimap(game);  // Add chalk sprites to minimap
+		draw_chalks_on_minimap(game);
 		draw_minimap_player(game);
 		coords[0] = current_map_x;
 		coords[1] = current_map_y;

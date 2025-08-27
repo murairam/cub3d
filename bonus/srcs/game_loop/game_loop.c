@@ -26,7 +26,6 @@ int	draw_loop(t_game *game)
 
 	if (!game->data)
 		printf("Error Game Data couldn't load\n");
-	// Calculate delta time for smooth animation
 	current_time = get_current_time();
 	if (last_time == 0.0)
 		last_time = current_time;
@@ -36,7 +35,6 @@ int	draw_loop(t_game *game)
 	move_player(player, game);
 	clear_image(game);
 	render_rays(game, player);
-	// Animate and render chalk sprites after 3D scene but before UI
 	animate_chalks(game, delta_time);
 	render_chalks(game);
 	update_arm_bobbing(game);

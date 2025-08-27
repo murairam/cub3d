@@ -48,7 +48,7 @@ static void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 
 void	draw_line(t_player *player, t_game *game, float angle, int screen_x)
 {
-	t_ray		ray;
+	t_ray	ray;
 	t_text	*text;
 
 	ray_init(&ray, player, angle);

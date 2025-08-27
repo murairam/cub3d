@@ -379,9 +379,14 @@ void				store_doors(char **map, t_game *game);
 
 void				init_game(t_game *game);
 int					game_init(t_game *game);
+void				init_game_vars(t_game *game);
 short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
+void				handle_movement_keys(int keycode, t_player *player);
+void				handle_view_keys(int keycode, t_player *player);
+void				handle_action_keys(int keycode, t_game *game,
+						t_player *player);
 void				cleanup_game(t_game *game);
 int					close_game(t_game *game);
 int					mouse_move(int x, int y, t_game *game);
@@ -444,6 +449,7 @@ bool				is_door(char c);
 void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
+void				add_to_inv(t_game *game, char *item);
 int					remove_from_inv(t_game *game, char *to_remove);
 
 /* ****************************************************************************/
@@ -451,6 +457,8 @@ int					remove_from_inv(t_game *game, char *to_remove);
 /* ****************************************************************************/
 
 void				reflection(t_ray *ray, t_game *game, int screenX);
+void				mirror_texture(t_game *game, t_ray *ray, t_text *text,
+						int screenX);
 
 /* ****************************************************************************/
 /*                              CHALK SPRITES                                */
@@ -474,4 +482,12 @@ void				draw_chalks_on_minimap(t_game *game);
 void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 						int *screen_x, double *distance);
 void				calc_sprite_size(double distance, int *width, int *height);
+
+/* ****************************************************************************/
+/*                              TEXTURES                                      */
+/* ****************************************************************************/
+
+short				wall_textures(t_game *game);
+short				texture_init(t_game *game);
+
 #endif
