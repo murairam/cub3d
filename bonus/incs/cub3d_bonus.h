@@ -92,6 +92,13 @@
 # define SPRITE_SCALE_FACTOR	72.0
 # define SPRITE_HEIGHT_OFFSET	120
 
+/* Performance optimization constants */
+# define ANIM_TABLE_SIZE	360
+# define GRID_SIZE			8
+# define CACHE_UPDATE_THRESHOLD	32.0
+# define VISIBILITY_CACHE_FRAMES	4
+# define CLOSE_VISIBILITY_RANGE		64.0
+
 /* Animation constants */
 # ifndef M_PI
 #  define M_PI			3.14159265358979323846
@@ -467,5 +474,4 @@ void				draw_chalks_on_minimap(t_game *game);
 void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 						int *screen_x, double *distance);
 void				calc_sprite_size(double distance, int *width, int *height);
-bool				is_chalk_visible(t_game *game, t_chalk_sprite *sprite);
 #endif
