@@ -74,20 +74,7 @@ void	reflect_put_pixel(t_ray *reflect, t_text *text,
 				reflect->tex_x = text->width - 1;
 			reflect->pixel = (char *)text->data + (reflect->tex_y * text->size_line
 					+ reflect->tex_x * (text->bpp / 8));
-						float distance;
-			distance = reflect->perp_wall_dist;
-			if (distance <= 3)
-				factor = 1.0 - (distance / 3) * 0.1;
-			else if (distance <= 4)
-				factor = 0.9 - (distance - 3) * 0.4;
-			else
-				factor = 0.5 * exp(-1.5 * (distance - 4));
-			//factor = 1.0f / (1.0f + reflect->perp_wall_dist * 0.1f) + 0.2f;
-			if (reflect->side == 0)
-				factor *= 0.8f;
-			//pthread_mutex_lock(&game->darken_lock);
-			//factor *= game->darken_factor;
-			//pthread_mutex_unlock(&game->darken_lock);
+			factor = factor_calculator(reflect, game);
 			reflect->color = dim_color(*(int *)reflect->pixel, factor);
 			put_pixel(screenX, render_y, reflect->color, game);
 		}
@@ -118,20 +105,7 @@ void	mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX, t_text 
 				ray->tex_x = mir_tex->width - 1;
 			ray->pixel = (char *)mir_tex->data + (ray->tex_y * mir_tex->size_line
 					+ ray->tex_x * (mir_tex->bpp / 8));
-			float distance;
-			distance = ray->perp_wall_dist;
-			if (distance <= 3)
-				factor = 1.0 - (distance / 3) * 0.1;
-			else if (distance <= 4)
-				factor = 0.9 - (distance - 3) * 0.4;
-			else
-				factor = 0.5 * exp(-1.5 * (distance - 4));
-			//factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
-			if (ray->side == 0)
-				factor *= 0.8f;
-			// pthread_mutex_lock(&game->darken_lock);
-			// factor *= game->darken_factor;
-			// pthread_mutex_unlock(&game->darken_lock);
+			factor = factor_calculator(ray, game);
 			ray->color = dim_color(*(int *)ray->pixel, factor);
 			if (ray->color != 0 && (unsigned)ray->color != 0xFF000000)
 				put_pixel(screenX, render_y, ray->color, game);

@@ -21,6 +21,26 @@ int	dim_color(int color, float factor)
 	return ((r << 16) | (g << 8) | b);
 }
 
+float	factor_calculator(t_ray *ray, t_game *game)
+{
+	float	distance;
+	float	factor;
+
+	distance = ray->perp_wall_dist;
+	if (distance <= 3)
+		factor = 1.0 - (distance / 3) * 0.1;
+	else if (distance <= 4)
+		factor = 0.9 - (distance - 3) * 0.4;
+	else
+		factor = 0.5 * exp(-1.5 * (distance - 4));
+	if (ray->side == 0)
+		factor *= 0.8f;
+	pthread_mutex_lock(&game->darken_lock);
+	factor *= game->darken_factor;
+	pthread_mutex_unlock(&game->darken_lock);
+	return (factor);
+}
+
 void	put_pixel(int x, int y, int color, t_game *game)
 {
 	int	index;
