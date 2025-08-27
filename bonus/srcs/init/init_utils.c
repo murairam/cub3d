@@ -99,6 +99,8 @@ int	game_init(t_game *game)
 		return (ft_error("Failed to initialize textures"), 1);
 	init_minimap(game);
 	init_doors(game);
+	if (!init_chalk_sprite_system(game))
+		return (ft_error("Failed to initialize chalk sprite system"), 1);
 	game->z_buffer = malloc(sizeof(float) * WIDTH);
 	if (!game->z_buffer)
 		return (ft_error("Z-buffer memory allocation failed"), 1);

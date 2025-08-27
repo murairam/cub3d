@@ -57,6 +57,7 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 
 int	close_game(t_game *game)
 {
+	cleanup_chalk_sprites(game);  // Cleanup chalk sprites before MLX cleanup
 	ft_free_mlx(game);
 	ft_free_bonus(game);
 	cleanup_game(game);

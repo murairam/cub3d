@@ -15,6 +15,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/time.h>
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
@@ -77,6 +78,22 @@
 # define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
 # define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
+# define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
+
+/* Sprite constants */
+# define MAX_SPRITES		50
+# define PICKUP_RADIUS		48.0
+# define MAX_RENDER_DISTANCE	500.0
+# define FOV_DEGREES		60.0
+# define CHALK_AMPLITUDE	0.05		// Very small amplitude for subtle movement
+# define CHALK_FREQUENCY	0.8			// Slow frequency for gentle floating
+# define SPRITE_SCALE_FACTOR	48.0	// Scale factor for proper distance rendering
+# define SPRITE_HEIGHT_OFFSET	120		// Higher up from ground
+
+/* Animation constants */
+# ifndef M_PI
+#  define M_PI			3.14159265358979323846
+# endif
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -202,6 +219,28 @@ typedef struct s_sprite
 	int				draw_end_x;
 }					t_sprite;
 
+// Chalk sprite structure for 3D rendering
+typedef struct s_chalk_sprite
+{
+	void			*img;			// MLX image pointer
+	int				*data;			// Image data array
+	int				width;			// Sprite width
+	int				height;			// Sprite height
+	int				bpp;			// Bits per pixel
+	int				size_line;		// Line size
+	int				endian;			// Endianness
+	double			x;				// World X position
+	double			y;				// World Y position
+	double			base_x;			// Original X position (fixed)
+	double			base_y;			// Original Y position (for animation)
+	double			time;			// Animation timer
+	double			amplitude;		// Float amplitude
+	double			frequency;		// Float speed
+	int				visible;		// Visibility flag
+	int				collected;		// Collection flag
+	int				id;				// Unique identifier
+}					t_chalk_sprite;
+
 typedef struct s_minimap
 {
 	void			*img;
@@ -263,6 +302,10 @@ typedef struct s_game
 	t_text			east_chalk;
 	t_text			west_chalk;	
 	t_text			door;
+	t_chalk_sprite	*chalk_sprites;		// Array of chalk sprites
+	int				chalk_sprite_count;	// Number of chalk sprites
+	int				chalk_collected;	// Number of chalk collected
+	double			game_time;			// For animation timing
 	t_text			*sprites;
 	bool			mouse_dragging;
 	bool			show_minimap;
@@ -380,5 +423,23 @@ int					has_item(t_game *game, char *to_find);
 /* ****************************************************************************/
 
 void				reflection(t_ray *ray, t_game *game, int screenX);
+
+/* ****************************************************************************/
+/*                              CHALK SPRITES                                */
+/* ****************************************************************************/
+
+int					parse_map_for_chalks(t_game *game);
+int					init_chalk_sprite_system(t_game *game);
+int					load_chalk_sprite_texture(t_game *game, t_chalk_sprite *sprite);
+void				animate_chalks(t_game *game, double delta_time);
+void				animate_chalk_sprite(t_chalk_sprite *sprite, double delta_time);
+void				render_chalks(t_game *game);
+void				render_chalk_sprite(t_game *game, t_chalk_sprite *sprite);
+void				render_chalk_pixel(t_game *game, int screen_x, int screen_y, int color);
+void				cleanup_chalk_sprites(t_game *game);
+double				get_current_time(void);
+int					is_in_fov(t_game *game, double sprite_x, double sprite_y);
+void				world_to_screen(t_game *game, double world_x, double world_y, int *screen_x, int *screen_y, double *distance);
+void				draw_chalks_on_minimap(t_game *game);
 
 #endif
