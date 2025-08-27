@@ -5,9 +5,9 @@
 /*                                INCLUDES                                   */
 /* ************************************************************************** */
 
-# include "../incs/libft/libft.h"
-# include "../incs/mlx/mlx.h"
-# include "../incs/mlx/mlx_int.h"
+# include "../../incs/libft/libft.h"
+# include "../../incs/mlx/mlx.h"
+# include "../../incs/mlx/mlx_int.h"
 # include "parser_bonus.h"
 # include <fcntl.h>
 # include <math.h>
@@ -458,6 +458,7 @@ void				animate_chalk_sprite(t_chalk_sprite *sprite,
 						double delta_time);
 void				render_chalks(t_game *game);
 void				render_chalk_sprite(t_game *game, t_chalk_sprite *sprite);
+bool				is_chalk_visible(t_game *game, t_chalk_sprite *sprite);
 void				cleanup_chalk_sprites(t_game *game);
 double				get_current_time(void);
 double				normalize_angle(double angle);
@@ -466,5 +467,5 @@ void				draw_chalks_on_minimap(t_game *game);
 void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 						int *screen_x, double *distance);
 void				calc_sprite_size(double distance, int *width, int *height);
-
+bool				is_chalk_visible(t_game *game, t_chalk_sprite *sprite);
 #endif

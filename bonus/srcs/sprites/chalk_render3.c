@@ -25,7 +25,8 @@ void	render_chalks(t_game *game)
 		if (game->chalk_sprites[i].visible && !game->chalk_sprites[i].collected)
 		{
 			if (is_in_fov(game, game->chalk_sprites[i].x,
-					game->chalk_sprites[i].y))
+					game->chalk_sprites[i].y)
+				&& is_chalk_visible(game, &game->chalk_sprites[i]))
 				render_chalk_sprite(game, &game->chalk_sprites[i]);
 		}
 		i++;
