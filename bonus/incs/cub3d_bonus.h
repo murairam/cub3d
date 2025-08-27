@@ -30,7 +30,7 @@
 # define RIGHT				65363
 # define UP					65362
 # define DOWN				65364
-# define MAX_PITCH			(PI / 3.0f)
+# define MAX_PITCH			1.047197551f
 # define SPAWN_NORTH		4.71
 # define SPAWN_SOUTH		1.57
 # define SPAWN_WEST			3.14159265f
@@ -85,12 +85,12 @@
 # define PICKUP_RADIUS		48.0
 # define MAX_RENDER_DISTANCE	500.0
 # define FOV_DEGREES		60.0
-# define FOV_RADIANS		1.0471975511965976	// FOV_DEGREES * M_PI / 180.0
-# define FOV_HALF_RADIANS	0.5235987755982988	// FOV_RADIANS / 2.0
-# define CHALK_AMPLITUDE	0.2		// Reduced amplitude for more subtle movement
-# define CHALK_FREQUENCY	3.0			// Much faster frequency for very noticeable movement
-# define SPRITE_SCALE_FACTOR	72.0	// Scale factor for proper distance rendering
-# define SPRITE_HEIGHT_OFFSET	120		// Higher up from ground
+# define FOV_RADIANS		1.0471975511965976
+# define FOV_HALF_RADIANS	0.5235987755982988
+# define CHALK_AMPLITUDE	0.2
+# define CHALK_FREQUENCY	3.0
+# define SPRITE_SCALE_FACTOR	72.0
+# define SPRITE_HEIGHT_OFFSET	120
 
 /* Animation constants */
 # ifndef M_PI
@@ -224,23 +224,23 @@ typedef struct s_sprite
 // Chalk sprite structure for 3D rendering
 typedef struct s_chalk_sprite
 {
-	void			*img;			// MLX image pointer
-	int				*data;			// Image data array
-	int				width;			// Sprite width
-	int				height;			// Sprite height
-	int				bpp;			// Bits per pixel
-	int				size_line;		// Line size
-	int				endian;			// Endianness
-	double			x;				// World X position
-	double			y;				// World Y position
-	double			base_x;			// Original X position (fixed)
-	double			base_y;			// Original Y position (for animation)
-	double			time;			// Animation timer
-	double			amplitude;		// Float amplitude
-	double			frequency;		// Float speed
-	int				visible;		// Visibility flag
-	int				collected;		// Collection flag
-	int				id;				// Unique identifier
+	void			*img;
+	int				*data;
+	int				width;
+	int				height;
+	int				bpp;
+	int				size_line;
+	int				endian;
+	double			x;
+	double			y;
+	double			base_x;
+	double			base_y;
+	double			time;
+	double			amplitude;
+	double			frequency;
+	int				visible;
+	int				collected;
+	int				id;
 }					t_chalk_sprite;
 
 typedef struct s_bounds
@@ -322,10 +322,10 @@ typedef struct s_game
 	t_text			east_chalk;
 	t_text			west_chalk;	
 	t_text			door;
-	t_chalk_sprite	*chalk_sprites;		// Array of chalk sprites
-	int				chalk_sprite_count;	// Number of chalk sprites
-	int				chalk_collected;	// Number of chalk collected
-	double			game_time;			// For animation timing
+	t_chalk_sprite	*chalk_sprites;
+	int				chalk_sprite_count;
+	int				chalk_collected;
+	double			game_time;
 	t_text			*sprites;
 	bool			mouse_dragging;
 	bool			show_minimap;
@@ -451,9 +451,11 @@ void				reflection(t_ray *ray, t_game *game, int screenX);
 
 int					parse_map_for_chalks(t_game *game);
 int					init_chalk_sprite_system(t_game *game);
-int					load_chalk_sprite_texture(t_game *game, t_chalk_sprite *sprite);
+int					load_chalk_sprite_texture(t_game *game,
+						t_chalk_sprite *sprite);
 void				animate_chalks(t_game *game, double delta_time);
-void				animate_chalk_sprite(t_chalk_sprite *sprite, double delta_time);
+void				animate_chalk_sprite(t_chalk_sprite *sprite,
+						double delta_time);
 void				render_chalks(t_game *game);
 void				render_chalk_sprite(t_game *game, t_chalk_sprite *sprite);
 void				cleanup_chalk_sprites(t_game *game);

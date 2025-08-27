@@ -102,9 +102,5 @@ void	wall_tag(t_player *player, t_game *game)
 	ray_init_chalk(&ray, player, player->angle);
 	dda_finder_chalk(&ray, game);
 	if (ray.hit)
-	{
 		remove_from_inv(game, "Chalk");
-		printf("Used chalk to mark wall! Remaining chalk in inventory: %s\n", 
-			(has_item(game, "Chalk") == 0) ? "Yes" : "No");
-	}
 }
