@@ -18,23 +18,12 @@ int	key_press(int keycode, t_game *game)
 	t_player	*player;
 
 	player = &game->player;
-	if (keycode == W && game->stop != 1)
-		player->key_up = true;
-	if (keycode == S && game->stop != 1)
-		player->key_down = true;
-	if (keycode == A && game->stop != 1)
-		player->key_left = true;
-	if (keycode == D && game->stop != 1)
-		player->key_right = true;
-	if (keycode == LEFT && game->stop != 1)
-		player->left_rot = true;
-	if (keycode == RIGHT && game->stop != 1)
-		player->right_rot = true;
-	if (keycode == UP && game->stop != 1)
-		player->pitch_up = true;
-	if (keycode == DOWN && game->stop != 1)
-		player->pitch_down = true;
-	return (key_press_utils(keycode, game, player));
+	if (keycode == ESC)
+		close_game(game);
+	handle_movement_keys(keycode, player);
+	handle_view_keys(keycode, player);
+	handle_action_keys(keycode, game, player);
+	return (0);
 }
 
 int	key_release(int keycode, t_game *game)
@@ -58,6 +47,8 @@ int	key_release(int keycode, t_game *game)
 		player->pitch_up = false;
 	if (keycode == DOWN)
 		player->pitch_down = false;
+	if (keycode == F)
+		player->key_f_pressed = false; 
 	return (0);
 }
 

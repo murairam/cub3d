@@ -83,3 +83,40 @@ void	move_player_keys(t_player *player, t_game *game)
 	if (player->key_right)
 		perform_move(game, -sin_angle * speed, cos_angle * speed);
 }
+
+void	handle_movement_keys(int keycode, t_player *player)
+{
+	if (keycode == W)
+		player->key_up = true;
+	if (keycode == S)
+		player->key_down = true;
+	if (keycode == A)
+		player->key_left = true;
+	if (keycode == D)
+		player->key_right = true;
+}
+
+void	handle_view_keys(int keycode, t_player *player)
+{
+	if (keycode == LEFT)
+		player->left_rot = true;
+	if (keycode == RIGHT)
+		player->right_rot = true;
+	if (keycode == UP)
+		player->pitch_up = true;
+	if (keycode == DOWN)
+		player->pitch_down = true;
+}
+
+void	handle_action_keys(int keycode, t_game *game, t_player *player)
+{
+	if (keycode == SPACE)
+		interact_door(game);
+	if (keycode == F && !player->key_f_pressed)
+	{
+		wall_tag(player, game);
+		player->key_f_pressed = true;
+	}
+	if (keycode == E)
+		pick_up_item(player, game);
+}

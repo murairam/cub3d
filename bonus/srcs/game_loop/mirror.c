@@ -89,9 +89,6 @@ t_text	*reflection_init(t_ray *ray, t_game *game, int screenX)
 	distance_wall(&refl, &p_player);
 	text_filler(game, &refl, &text, ray);
 	ceiling_render(ray, game, screenX);
-	texture_cord(&refl, &p_player, text);
-	refl.step = 1.0 * text->height / text->l_height;
-	refl.tx_pos = (text->d_start - HEIGHT / 2 + text->l_height / 2) * refl.step;
 	reflect_put_pixel(&refl, text, game, screenX);
 	return (text);
 }

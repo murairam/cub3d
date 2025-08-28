@@ -36,6 +36,29 @@ static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 	else
 		return (north_south_walls(game, ray));
 }
+void	draw_line_fast(t_player *player, t_game *game, t_ray_table *table,
+		int screen_x)
+{
+	t_ray	ray;
+	t_text	*text;
+	float	ray_angle;
+
+	ray_angle = player->angle + table->ray_angles[screen_x];
+	ray_init(&ray, player, ray_angle);
+	dda_finder(&ray, game);
+	distance_wall(&ray, player);
+	if (game->map[ray.map_y][ray.map_x] == 'M')
+	{
+		reflection(&ray, game, screen_x);
+		return ;
+	}
+	text = get_wall_texture(game, &ray);
+	texture_cord(&ray, player, text);
+	vertical_texture(&ray, text);
+	ceiling_render(&ray, game, screen_x);
+	wall_render(&ray, text, game, screen_x);
+	floor_render(&ray, game, screen_x);
+}
 
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {

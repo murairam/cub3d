@@ -5,9 +5,9 @@
 /*                                INCLUDES                                   */
 /* ************************************************************************** */
 
-# include "../incs/libft/libft.h"
-# include "../incs/mlx/mlx.h"
-# include "../incs/mlx/mlx_int.h"
+# include "../../incs/libft/libft.h"
+# include "../../incs/mlx/mlx.h"
+# include "../../incs/mlx/mlx_int.h"
 # include "parser_bonus.h"
 # include <fcntl.h>
 # include <math.h>
@@ -32,7 +32,7 @@
 # define RIGHT				65363
 # define UP					65362
 # define DOWN				65364
-# define MAX_PITCH			(PI / 3.0f)
+# define MAX_PITCH			1.047197551f
 # define SPAWN_NORTH		4.71
 # define SPAWN_SOUTH		1.57
 # define SPAWN_WEST			3.14159265f
@@ -80,9 +80,34 @@
 # define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
 # define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
-# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
+# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
 # define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
 # define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
+# define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
+
+/* Sprite constants */
+# define MAX_SPRITES		50
+# define PICKUP_RADIUS		48.0
+# define MAX_RENDER_DISTANCE	500.0
+# define FOV_DEGREES		60.0
+# define FOV_RADIANS		1.0471975511965976
+# define FOV_HALF_RADIANS	0.5235987755982988
+# define CHALK_AMPLITUDE	0.2
+# define CHALK_FREQUENCY	3.0
+# define SPRITE_SCALE_FACTOR	72.0
+# define SPRITE_HEIGHT_OFFSET	120
+
+/* Performance optimization constants */
+# define ANIM_TABLE_SIZE	360
+# define GRID_SIZE			8
+# define CACHE_UPDATE_THRESHOLD	32.0
+# define VISIBILITY_CACHE_FRAMES	4
+# define CLOSE_VISIBILITY_RANGE		64.0
+
+/* Animation constants */
+# ifndef M_PI
+#  define M_PI			3.14159265358979323846
+# endif
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -165,6 +190,7 @@ typedef struct s_player
 	bool			key_run;
 	int				mouse_x;
 	int				mouse_y;
+	bool			key_f_pressed; 
 }					t_player;
 
 typedef struct s_texture
@@ -208,6 +234,45 @@ typedef struct s_sprite
 	int				draw_end_x;
 }					t_sprite;
 
+typedef struct s_chalk_sprite
+{
+	void			*img;
+	int				*data;
+	int				width;
+	int				height;
+	int				bpp;
+	int				size_line;
+	int				endian;
+	double			x;
+	double			y;
+	double			base_x;
+	double			base_y;
+	double			time;
+	double			amplitude;
+	double			frequency;
+	int				visible;
+	int				collected;
+	int				id;
+}					t_chalk_sprite;
+
+typedef struct s_bounds
+{
+	int				start_x;
+	int				end_x;
+	int				start_y;
+	int				end_y;
+}					t_bounds;
+
+typedef struct s_draw_params
+{
+	int				x;
+	int				y;
+	int				start_x;
+	int				start_y;
+	int				sprite_width;
+	int				sprite_height;
+}					t_draw_params;
+
 typedef struct s_minimap
 {
 	void			*img;
@@ -218,6 +283,14 @@ typedef struct s_minimap
 	int				width;
 	int				height;
 }					t_minimap;
+
+typedef struct s_ray_table
+{
+	float			ray_angles[WIDTH];
+	float			ray_cos[WIDTH];
+	float			ray_sin[WIDTH];
+	bool			initialized;
+}					t_ray_table;
 
 typedef struct s_game
 {
@@ -282,7 +355,12 @@ typedef struct s_game
 	t_text			west_chalk;	
 	t_text			character;
 	t_text			door;
+	t_chalk_sprite	*chalk_sprites;
+	int				chalk_sprite_count;
+	int				chalk_collected;
+	double			game_time;
 	t_text			*sprites;
+	t_ray_table		ray_table;
 	bool			mouse_dragging;
 	bool			show_minimap;
 }					t_game;
@@ -328,9 +406,14 @@ void				store_doors(char **map, t_game *game);
 
 void				init_game(t_game *game);
 int					game_init(t_game *game);
+void				init_game_vars(t_game *game);
 short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
+void				handle_movement_keys(int keycode, t_player *player);
+void				handle_view_keys(int keycode, t_player *player);
+void				handle_action_keys(int keycode, t_game *game,
+						t_player *player);
 void				cleanup_game(t_game *game);
 int					close_game(t_game *game);
 int					mouse_move(int x, int y, t_game *game);
@@ -369,6 +452,8 @@ void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
 int					dim_color(int color, float factor);
 float				factor_calculator(t_ray *ray, t_game *game);
+void				draw_line_fast(t_player *player, t_game *game,
+						t_ray_table *table, int screen_x);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
@@ -398,6 +483,8 @@ void				*thread(void *arg);
 int					is_close_enough(t_game *game, t_player *player, char to_find);
 bool				teleport_check(t_game *game, float x, float y);
 
+void				add_to_inv(t_game *game, char *item);
+int					remove_from_inv(t_game *game, char *to_remove);
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */
@@ -415,5 +502,36 @@ t_text				*choose_mirror_texture(t_ray *ray, t_game *game,
 
 long				get_timestamp_ms(long start_time);
 long				get_start_time(void);
+
+/* ****************************************************************************/
+/*                              CHALK SPRITES                                */
+/* ****************************************************************************/
+
+int					parse_map_for_chalks(t_game *game);
+int					init_chalk_sprite_system(t_game *game);
+int					load_chalk_sprite_texture(t_game *game,
+						t_chalk_sprite *sprite);
+void				animate_chalks(t_game *game, double delta_time);
+void				animate_chalk_sprite(t_chalk_sprite *sprite,
+						double delta_time);
+void				render_chalks(t_game *game);
+void				render_chalk_sprite(t_game *game, t_chalk_sprite *sprite);
+bool				is_chalk_visible(t_game *game, t_chalk_sprite *sprite);
+void				cleanup_chalk_sprites(t_game *game);
+double				get_current_time(void);
+double				normalize_angle(double angle);
+int					is_in_fov(t_game *game, double sprite_x, double sprite_y);
+void				draw_chalks_on_minimap(t_game *game);
+void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
+						int *screen_x, double *distance);
+void				calc_sprite_size(double distance, int *width, int *height);
+int					chalk_count_in_inventory(t_game *game);
+
+/* ****************************************************************************/
+/*                              TEXTURES                                      */
+/* ****************************************************************************/
+
+short				wall_textures(t_game *game);
+short				texture_init(t_game *game);
 
 #endif
