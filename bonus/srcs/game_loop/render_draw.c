@@ -15,9 +15,7 @@ static void	render_wall_pixel(t_ray *ray, t_text *text, t_game *game,
 		ray->tx_pos += ray->step;
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));
-		factor = 1.0f / (1.0f + ray->perp_wall_dist * 0.1f) + 0.2f;
-		if (ray->side == 0)
-			factor *= 0.8f;
+		factor = factor_calculator(ray, game);
 		ray->color = dim_color(*(int *)ray->pixel, factor);
 		put_pixel(screen_x, render_y, ray->color, game);
 	}

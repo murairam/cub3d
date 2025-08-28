@@ -71,7 +71,6 @@ int	close_game(t_game *game)
 	ft_free_bonus(game);
 	ft_free_game(game);
 	cleanup_game(game);
-	
 	exit(0);
 	return (0);
 }
