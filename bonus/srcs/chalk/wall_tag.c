@@ -26,7 +26,8 @@ static void	calculate_step_and_side_dist(t_ray *ray, t_player *player)
 	}
 }
 
-static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x, int map_y, t_player *player)
+static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x,
+			int map_y, t_player *player)
 {
 	char	tile;
 	int		i;
@@ -37,7 +38,8 @@ static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x, int map_y, t_p
 	if (map_x >= (int)ft_strlen(game->map[map_y]))
 		return (true);
 	tile = game->map[map_y][map_x];
-	if (tile == '1' && fabs(map_x + map_y - (player->x / CUBE + player->y / CUBE)) < 3)
+	if (tile == '1' && fabs(map_x + map_y
+			- (player->x / CUBE + player->y / CUBE)) < 3)
 		game->map[map_y][map_x] = '2';
 	if (tile == 'M' || tile == '2')
 		return (true);

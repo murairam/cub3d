@@ -1,9 +1,9 @@
 #include "cub3d_bonus.h"
 
-int is_in_tile(t_game *game, int x, int y, char to_find)
+int	is_in_tile(t_game *game, int x, int y, char to_find)
 {
 	if (game->map[y][x] == to_find)
-	{	
+	{
 		if (to_find == 'c')
 			game->map[y][x] = '0';
 		return (0);
@@ -19,7 +19,6 @@ int	is_close_enough(t_game *game, t_player *player, char to_find)
 
 	map_x = (int)(player->x / CUBE);
 	map_y = (int)(player->y / CUBE);
-	//add a 'is in map' function
 	if (is_in_tile(game, map_x, map_y, to_find) == 0)
 		return (0);
 	else if (is_in_tile(game, map_x + 1, map_y, to_find) == 0)
@@ -32,7 +31,7 @@ int	is_close_enough(t_game *game, t_player *player, char to_find)
 		return (0);
 	else if (is_in_tile(game, map_x - 1, map_y, to_find) == 0)
 		return (0);
-	else if (is_in_tile(game, map_x - 1, map_y  -1, to_find) == 0)
+	else if (is_in_tile(game, map_x - 1, map_y - 1, to_find) == 0)
 		return (0);
 	else if (is_in_tile(game, map_x, map_y - 1, to_find) == 0)
 		return (0);
@@ -72,7 +71,6 @@ void	pick_up_item(t_player *player, t_game *game)
 	tile = game->map[map_y][map_x];
 	if (is_close_enough(game, player, 'c') == 0)
 		add_to_inv(game, ft_strdup("Chalk"));
-
 	else if (tile == 'k')
 	{
 		add_to_inv(game, ft_strdup("Key"));

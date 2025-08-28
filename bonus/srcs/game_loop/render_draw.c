@@ -38,8 +38,7 @@ void	floor_render(t_ray *ray, t_game *game, int screen_x)
 	if (floor_start < 0)
 		floor_start = 0;
 	if (floor_start > HEIGHT)
-		return;
-	
+		return ;
 	y = floor_start - 1;
 	while (++y < HEIGHT)
 		put_pixel(screen_x, y, game->color_f, game);
@@ -57,7 +56,6 @@ void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 		ceiling_end = 0;
 	if (ceiling_end > HEIGHT)
 		ceiling_end = HEIGHT;
-	
 	y = -1;
 	while (++y < ceiling_end)
 		put_pixel(screen_x, y, game->color_c, game);
@@ -79,7 +77,7 @@ void	texture_cord(t_ray *ray, t_player *player, t_text *text)
 	ray->wall_x -= floor(ray->wall_x);
 	ray->tex_x = (int)(ray->wall_x * (float)(text->width));
 	if (ray->side == 0 && ray->ray_dir_x < 0)
-	    ray->tex_x = text->width - ray->tex_x - 1;
+		ray->tex_x = text->width - ray->tex_x - 1;
 	if (ray->side == 1 && ray->ray_dir_y > 0)
-    	ray->tex_x = text->width - ray->tex_x - 1;
+		ray->tex_x = text->width - ray->tex_x - 1;
 }

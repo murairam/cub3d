@@ -1,5 +1,40 @@
 #include "cub3d_bonus.h"
 
+static bool	check_tile_collision(t_game *game, int map_x, int map_y)
+{
+	char	tile;
+	int		i;
+
+	if (map_y < 0 || map_x < 0 || map_y >= game->map_height
+		|| !game->map[map_y])
+		return (true);
+	if (map_x >= (int)ft_strlen(game->map[map_y]))
+		return (true);
+	tile = game->map[map_y][map_x];
+	if (tile == '1' || tile == 'M' || tile == '2')
+		return (true);
+	if (tile != 'D')
+		return (false);
+	i = 0;
+	while (i < game->door_count)
+	{
+		if (game->doors[i].x == map_x && game->doors[i].y == map_y)
+			return (game->doors[i].state == DOOR_CLOSED);
+		i++;
+	}
+	return (true);
+}
+
+bool	is_wall(t_game *game, float x, float y)
+{
+	int	map_x;
+	int	map_y;
+
+	map_x = (int)(x / CUBE);
+	map_y = (int)(y / CUBE);
+	return (check_tile_collision(game, map_x, map_y));
+}
+
 bool	teleport_check(t_game *game, float x, float y)
 {
 	int	map_x;

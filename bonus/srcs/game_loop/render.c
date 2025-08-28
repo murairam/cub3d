@@ -44,9 +44,9 @@ void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 
 	if (game->random_flag == 1)
 	{
-		    player->x = game->random_x;
-		    player->y = game->random_y;
-			game->random_flag = 0;
+		player->x = game->random_x;
+		player->y = game->random_y;
+		game->random_flag = 0;
 	}
 	else
 	{

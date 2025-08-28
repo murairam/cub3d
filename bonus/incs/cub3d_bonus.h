@@ -404,5 +404,16 @@ bool				teleport_check(t_game *game, float x, float y);
 /* ****************************************************************************/
 
 void				reflection(t_ray *ray, t_game *game, int screenX);
+void				mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX);
+
+t_text				*choose_mirror_texture(t_ray *ray, t_game *game,
+					 float nx, float ny);
+
+/* ****************************************************************************/
+/*                               TIME                                         */
+/* ****************************************************************************/
+
+long				get_timestamp_ms(long start_time);
+long				get_start_time(void);
 
 #endif

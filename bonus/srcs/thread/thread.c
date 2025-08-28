@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-void	random_move(t_game *game, long time, int *stop)
+static void	random_move(t_game *game, long time, int *stop)
 {
 	int		counter;
 	float	new_x;
@@ -18,7 +18,8 @@ void	random_move(t_game *game, long time, int *stop)
 	if (counter < 20)
 	{
 		game->random_y = (time % game->map_height) * CUBE;
-		game->random_x = (time % ft_strlen(game->map[game->map_height - 1])) * CUBE;
+		game->random_x = (time % ft_strlen(game->map[game->map_height
+					- 1])) * CUBE;
 		game->random_flag = 1;
 	}
 	else
@@ -26,7 +27,7 @@ void	random_move(t_game *game, long time, int *stop)
 	*stop += 1;
 }
 
-void	update_fov(t_game *game, long time)
+static void	update_fov(t_game *game, long time)
 {
 	float	time_to_die;
 	float	factor;
@@ -44,39 +45,19 @@ void	update_fov(t_game *game, long time)
 	}
 }
 
-long	get_timestamp_ms(long start_time)
+static void	thread_loop(t_game *game, int *counter, long current_time)
 {
-	struct timeval	tv;
-	long			time;
-
-	gettimeofday(&tv, NULL);
-	time = tv.tv_sec * 1000;
-	time += tv.tv_usec / 1000;
-	time -= start_time;
-	return (time);
-}
-
-static long	get_start_time(void)
-{
-	struct timeval	tv;
-	long			time;
-
-	gettimeofday(&tv, NULL);
-	time = tv.tv_sec * 1000;
-	time += tv.tv_usec / 1000;
-	return (time);
-}
-
-void	thread_loop(t_game *game, int *counter, long current_time)
-{
-	pthread_mutex_lock(&game->darken_lock);
-	if (game->darken_factor > 0.3)
-	game->darken_factor -= 0.0001f;
-	pthread_mutex_unlock(&game->darken_lock);
-	update_fov(game, current_time);
-	if (current_time > MAX_TIME)
-		random_move(game, current_time, counter);
-	usleep(1000);
+	if (game->stop != 1)
+	{
+		pthread_mutex_lock(&game->darken_lock);
+		if (game->darken_factor > 0.3)
+			game->darken_factor -= 0.0001f;
+		pthread_mutex_unlock(&game->darken_lock);
+		update_fov(game, current_time);
+		if (current_time > MAX_TIME)
+			random_move(game, current_time, counter);
+		usleep(1000);
+	}
 }
 
 void	*thread(void *arg)
@@ -92,7 +73,7 @@ void	*thread(void *arg)
 	while (game->stop != 1 && counter < MAX_CYCLE)
 	{
 		current_time = get_timestamp_ms(start_time);
-		while (current_time <= MAX_TIME)
+		while (game->stop != 1 && current_time <= MAX_TIME)
 		{
 			current_time = get_timestamp_ms(start_time);
 			thread_loop(game, &counter, current_time);
