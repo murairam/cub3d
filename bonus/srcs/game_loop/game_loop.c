@@ -77,25 +77,21 @@ int	draw_loop(t_game *game)
 
 	if (!game->data)
 		printf("Error Game Data couldn't load\n");
-	if (game->stop == 1)
-	{
-		clear_image(game);
-		mlx_put_image_to_window(game->mlx, game->win,
-			game->screen_over.img, 0, 0);
-	}
-	else
-	{
-		player = &game->player;
-		move_player(player, game);
-		clear_image(game);
-		render_rays_optimized(game, player);
-		animate_chalks(game, delta_time);
-		render_chalks(game);
-		update_arm_bobbing(game);
-		mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
-		draw_minimap(game);
-		render_game_arms(game);
-	}
+	current_time = get_current_time();
+	if (last_time == 0.0)
+		last_time = current_time;
+	delta_time = current_time - last_time;
+	last_time = current_time;
+	player = &game->player;
+	move_player(player, game);
+	clear_image(game);
+	render_rays_optimized(game, player);
+	animate_chalks(game, delta_time);
+	render_chalks(game);
+	update_arm_bobbing(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	draw_minimap(game);
+	render_game_arms(game);
 	return (0);
 }
 

@@ -1,5 +1,32 @@
 #include "cub3d_bonus.h"
 
+int	remove_from_inv(t_game *game, char *to_remove)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->item_count && i < MAX_ITEM)
+	{
+		if (ft_strncmp(game->inventory[i], to_remove,
+				ft_strlen(to_remove)) == 0)
+		{
+			free(game->inventory[i]);
+			j = i;
+			while (j < game->item_count - 1)
+			{
+				game->inventory[j] = game->inventory[j + 1];
+				j++;
+			}
+			game->inventory[game->item_count - 1] = NULL;
+			game->item_count--;
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	is_in_tile(t_game *game, int x, int y, char to_find)
 {
 	if (game->map[y][x] == to_find)
@@ -49,8 +76,8 @@ int	has_item(t_game *game, char *to_find)
 	i = 0;
 	while (i < game->item_count && i < MAX_ITEM)
 	{
-		if (ft_strncmp(game->inventory[i], to_remove,
-				ft_strlen(to_remove)) == 0)
+		if (ft_strncmp(game->inventory[i], to_find,
+				ft_strlen(to_find)) == 0)
 		{
 			free(game->inventory[i]);
 			j = i;

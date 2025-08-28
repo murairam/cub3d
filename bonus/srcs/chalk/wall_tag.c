@@ -102,7 +102,7 @@ void	wall_tag(t_player *player, t_game *game)
 	if (chalk_count_in_inventory(game) <= 0)
 		return ;
 	ray_init_chalk(&ray, player, player->angle);
-	dda_finder_chalk(&ray, game);
+	dda_finder_chalk(&ray, game, player);
 	if (ray.hit)
 		remove_from_inv(game, "Chalk");
 }
