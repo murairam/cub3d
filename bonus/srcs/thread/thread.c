@@ -1,5 +1,31 @@
 #include "cub3d_bonus.h"
 
+void	random_move(t_game *game, long time, int *stop)
+{
+	int		counter;
+	float	new_x;
+	float	new_y;
+
+	counter = -1;
+	new_y = (time % game->map_height) * CUBE;
+	new_x = (time % ft_strlen(game->map[game->map_height - 1])) * CUBE;
+	while (teleport_check(game, new_x, new_y) && ++counter <= 20)
+	{
+		time += 3;
+		new_y = (time % game->map_height) * CUBE;
+		new_x = (time % ft_strlen(game->map[game->map_height - 1])) * CUBE;
+	}
+	if (counter < 20)
+	{
+		game->random_y = (time % game->map_height) * CUBE;
+		game->random_x = (time % ft_strlen(game->map[game->map_height - 1])) * CUBE;
+		game->random_flag = 1;
+	}
+	else
+		printf("Too many walls...\n");
+	*stop += 1;
+}
+
 void	update_fov(t_game *game, long time)
 {
 	float	time_to_die;
@@ -40,26 +66,44 @@ static long	get_start_time(void)
 	return (time);
 }
 
+void	thread_loop(t_game *game, int *counter, long current_time)
+{
+	pthread_mutex_lock(&game->darken_lock);
+	game->darken_factor -= 0.0001f;
+	if (game->darken_factor < 0.3)
+		game->darken_factor = 0.3;
+	pthread_mutex_unlock(&game->darken_lock);
+	update_fov(game, current_time);
+	if (current_time > MAX_TIME)
+		random_move(game, current_time, counter);
+	usleep(1000);
+}
+
 void	*thread(void *arg)
 {
 	t_game	*game;
+	int		counter;
 	long	start_time;
 	long	current_time;
 
+	counter = 0;
 	game = (t_game *)arg;
 	start_time = get_start_time();
-	while (game->stop != 1)
+	while (game->stop != 1 && counter < MAX_CYCLE)
 	{
 		current_time = get_timestamp_ms(start_time);
-		pthread_mutex_lock(&game->darken_lock);
-		game->darken_factor -= 0.0001f;
-		if (game->darken_factor < 0.3)
-			game->darken_factor = 0.3;
-		pthread_mutex_unlock(&game->darken_lock);
-		update_fov(game, current_time);
-		if (current_time > MAX_TIME)
-			break ;
-		usleep(1000);
+		while (current_time <= MAX_TIME)
+		{
+			current_time = get_timestamp_ms(start_time);
+			thread_loop(game, &counter, current_time);
+		}
+		start_time = get_start_time();
+		game->darken_factor = 1;
+	}
+	if (counter >= MAX_CYCLE)
+	{
+		printf("GG it's finished\n");
+		game->stop = 1;
 	}
 	return (0);
 }

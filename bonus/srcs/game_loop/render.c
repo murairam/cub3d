@@ -42,18 +42,24 @@ void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 	t_ray		ray;
 	t_text		*text;
 
-	ray_init(&ray, player, ray_angle);
-	dda_finder(&ray, game);
-	distance_wall(&ray, player);
-	if (game->map[ray.map_y][ray.map_x] == 'M')
+	if (game->random_flag == 1)
 	{
-		reflection(&ray, game, screen_x);
-		return ;
+		    player->x = game->random_x;
+		    player->y = game->random_y;
+			game->random_flag = 0;
 	}
-	text = get_wall_texture(game, &ray);
-	texture_cord(&ray, player, text);
-	vertical_texture(&ray, text);
-	ceiling_render(&ray, game, screen_x);
-	wall_render(&ray, text, game, screen_x);
-	floor_render(&ray, game, screen_x);
+	else
+	{
+		ray_init(&ray, player, ray_angle);
+		dda_finder(&ray, game);
+		distance_wall(&ray, player);
+		if (game->map[ray.map_y][ray.map_x] == 'M')
+			return (reflection(&ray, game, screen_x));
+		text = get_wall_texture(game, &ray);
+		texture_cord(&ray, player, text);
+		vertical_texture(&ray, text);
+		ceiling_render(&ray, game, screen_x);
+		wall_render(&ray, text, game, screen_x);
+		floor_render(&ray, game, screen_x);
+	}
 }

@@ -47,6 +47,7 @@
 # define SPACE				32
 # define SHIFT				65505
 # define MAX_ITEM			5
+# define MAX_CYCLE			2
 
 /* Minimap defines */
 # define MINIMAP_SIZE		150
@@ -219,6 +220,7 @@ typedef struct s_minimap
 
 typedef struct s_game
 {
+	int				random_flag;
 	int				stop;
 	int				y;
 	int				fd;
@@ -237,6 +239,8 @@ typedef struct s_game
 	int				map_width;
 	int				map_height;
 	int				item_count;
+	float			random_x;
+	float			random_y;
 	char			**inventory;
 	char			orientation;
 	char			*current_line;
@@ -389,6 +393,7 @@ void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
 void				*thread(void *arg);
 int					is_close_enough(t_game *game, t_player *player, char to_find);
+bool				teleport_check(t_game *game, float x, float y);
 
 
 /* ****************************************************************************/
