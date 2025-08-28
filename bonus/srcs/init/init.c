@@ -12,6 +12,7 @@ void	init_game(t_game *game)
 	game->east.name = NULL;
 	game->west.name = NULL;
 	game->door.name = NULL;
+	game->ray_table.initialized = false;
 	game->sprite_count = 0;
 	game->door_count = 0;
 	game->spawn_x = 0;

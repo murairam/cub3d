@@ -34,6 +34,8 @@ int	key_release(int keycode, t_game *game)
 		player->pitch_up = false;
 	if (keycode == DOWN)
 		player->pitch_down = false;
+	if (keycode == F)
+		player->key_f_pressed = false; 
 	return (0);
 }
 

@@ -64,8 +64,11 @@ void	handle_action_keys(int keycode, t_game *game, t_player *player)
 {
 	if (keycode == SPACE)
 		interact_door(game);
-	if (keycode == F)
+	if (keycode == F && !player->key_f_pressed)
+	{
 		wall_tag(player, game);
+		player->key_f_pressed = true;
+	}
 	if (keycode == E)
 		pick_up_item(player, game);
 }

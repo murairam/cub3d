@@ -185,6 +185,7 @@ typedef struct s_player
 	bool			key_run;
 	int				mouse_x;
 	int				mouse_y;
+	bool			key_f_pressed; 
 }					t_player;
 
 typedef struct s_texture
@@ -228,7 +229,6 @@ typedef struct s_sprite
 	int				draw_end_x;
 }					t_sprite;
 
-// Chalk sprite structure for 3D rendering
 typedef struct s_chalk_sprite
 {
 	void			*img;
@@ -278,6 +278,14 @@ typedef struct s_minimap
 	int				width;
 	int				height;
 }					t_minimap;
+
+typedef struct s_ray_table
+{
+	float			ray_angles[WIDTH];
+	float			ray_cos[WIDTH];
+	float			ray_sin[WIDTH];
+	bool			initialized;
+}					t_ray_table;
 
 typedef struct s_game
 {
@@ -334,11 +342,10 @@ typedef struct s_game
 	int				chalk_collected;
 	double			game_time;
 	t_text			*sprites;
+	t_ray_table		ray_table;
 	bool			mouse_dragging;
 	bool			show_minimap;
 }					t_game;
-
-int chalk_count_in_inventory(t_game *game);
 
 /* ************************************************************************** */
 /*                                PROTOTYPES                                  */
@@ -426,6 +433,8 @@ void				floor_render(t_ray *ray, t_game *game, int screen_x);
 void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
 int					dim_color(int color, float factor);
+void				draw_line_fast(t_player *player, t_game *game,
+						t_ray_table *table, int screen_x);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
@@ -484,6 +493,7 @@ void				draw_chalks_on_minimap(t_game *game);
 void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 						int *screen_x, double *distance);
 void				calc_sprite_size(double distance, int *width, int *height);
+int					chalk_count_in_inventory(t_game *game);
 
 /* ****************************************************************************/
 /*                              TEXTURES                                      */

@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/27 20:32:27 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:10:38 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,29 @@ static bool	check_line_of_sight(t_game *game, double dx, double dy,
 	return (true);
 }
 
+static bool	is_close_to_player(double dx, double dy)
+{
+	double	distance_squared;
+
+	distance_squared = dx * dx + dy * dy;
+	return (distance_squared < 32.0 * 32.0);
+}
+
+static double	calculate_distance_when_needed(double dx, double dy)
+{
+	return (sqrt(dx * dx + dy * dy));
+}
+
 bool	is_chalk_visible(t_game *game, t_chalk_sprite *sprite)
 {
 	double	dx;
 	double	dy;
-	double	distance;
 
 	dx = sprite->x - game->player.x;
 	dy = sprite->y - game->player.y;
-	distance = sqrt(dx * dx + dy * dy);
-	if (distance < 32.0)
+	
+	if (is_close_to_player(dx, dy))
 		return (true);
-	return (check_line_of_sight(game, dx, dy, distance));
+	return (check_line_of_sight(game, dx, dy, 
+		calculate_distance_when_needed(dx, dy)));
 }

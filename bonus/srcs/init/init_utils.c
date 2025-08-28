@@ -25,6 +25,7 @@ static void	init_player_keys(t_player *player)
 	player->right_rot = false;
 	player->pitch_up = false;
 	player->pitch_down = false;
+	player->key_f_pressed = false; 
 }
 
 static void	init_game_state(t_game *game)
@@ -60,5 +61,6 @@ int	game_init(t_game *game)
 	game->z_buffer = malloc(sizeof(float) * WIDTH);
 	if (!game->z_buffer)
 		return (ft_error("Z-buffer memory allocation failed"), 1);
+	game->ray_table.initialized = false;
 	return (0);
 }
