@@ -7,27 +7,27 @@ int	key_press(int keycode, t_game *game)
 	player = &game->player;
 	if (keycode == ESC)
 		close_game(game);
-	if (keycode == W)
+	if (keycode == W && game->stop != 1)
 		player->key_up = true;
-	if (keycode == S)
+	if (keycode == S && game->stop != 1)
 		player->key_down = true;
-	if (keycode == A)
+	if (keycode == A && game->stop != 1)
 		player->key_left = true;
-	if (keycode == D)
+	if (keycode == D && game->stop != 1)
 		player->key_right = true;
-	if (keycode == LEFT)
+	if (keycode == LEFT && game->stop != 1)
 		player->left_rot = true;
-	if (keycode == RIGHT)
+	if (keycode == RIGHT && game->stop != 1)
 		player->right_rot = true;
-	if (keycode == UP)
+	if (keycode == UP && game->stop != 1)
 		player->pitch_up = true;
-	if (keycode == DOWN)
+	if (keycode == DOWN && game->stop != 1)
 		player->pitch_down = true;
-	if (keycode == SPACE)
+	if (keycode == SPACE && game->stop != 1)
 		interact_door(game);
-	if (keycode == F)
+	if (keycode == F && game->stop != 1)
 		wall_tag(player, game);
-	if (keycode == E)
+	if (keycode == E && game->stop != 1)
 		pick_up_item(player, game);
 	return (0);
 }

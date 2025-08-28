@@ -33,6 +33,8 @@ void	ft_free_image_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->mirror.img);
 	if (game->char_mirror.img)
 		mlx_destroy_image(game->mlx, game->char_mirror.img);
+	if (game->screen_over.img)
+		mlx_destroy_image(game->mlx, game->screen_over.img);
 }
 
 void	ft_free_mlx(t_game *game)

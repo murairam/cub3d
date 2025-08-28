@@ -47,7 +47,7 @@
 # define SPACE				32
 # define SHIFT				65505
 # define MAX_ITEM			5
-# define MAX_CYCLE			2
+# define MAX_CYCLE			1
 
 /* Minimap defines */
 # define MINIMAP_SIZE		150
@@ -82,6 +82,7 @@
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
 # define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
 # define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
+# define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
 
 /* ************************************************************************** */
 /*                                ENUMS                                     */
@@ -264,6 +265,8 @@ typedef struct s_game
 	t_sprite		*sprite_list;
 	t_player		player;
 	t_minimap		minimap;
+	t_text			screen_over;
+	t_text			screen_win;
 	t_text			north;
 	t_text			south;
 	t_text			east;

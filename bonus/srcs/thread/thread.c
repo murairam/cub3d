@@ -34,12 +34,13 @@ void	update_fov(t_game *game, long time)
 	float	pulse;
 
 	time_to_die = (MAX_TIME - time) / 1000.0f;
-	if (time_to_die < 5.0f)
+	if (time_to_die < 5.0f && game->darken_factor > 0.0f)
 	{
 		factor = (5.0f - time_to_die) / 5.0f;
 		pulse = sin(time * 0.0005f * (1.0f + factor * 5.0f));
 		intensity = factor * (PI / 36);
 		game->fov = PI / 3 + pulse * intensity;
+		game->darken_factor -= 0.00005f;
 	}
 }
 
@@ -69,9 +70,8 @@ static long	get_start_time(void)
 void	thread_loop(t_game *game, int *counter, long current_time)
 {
 	pthread_mutex_lock(&game->darken_lock);
+	if (game->darken_factor > 0.3)
 	game->darken_factor -= 0.0001f;
-	if (game->darken_factor < 0.3)
-		game->darken_factor = 0.3;
 	pthread_mutex_unlock(&game->darken_lock);
 	update_fov(game, current_time);
 	if (current_time > MAX_TIME)

@@ -23,14 +23,22 @@ int	draw_loop(t_game *game)
 
 	if (!game->data)
 		printf("Error Game Data couldn't load\n");
-	player = &game->player;
-	move_player(player, game);
-	clear_image(game);
-	render_rays(game, player);
-	update_arm_bobbing(game);
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
-	draw_minimap(game);
-	render_game_arms(game);
+	if (game->stop == 1)
+	{
+		clear_image(game);
+		mlx_put_image_to_window(game->mlx, game->win, game->screen_over.img, 0, 0);
+	}
+	else
+	{
+		player = &game->player;
+		move_player(player, game);
+		clear_image(game);
+		render_rays(game, player);
+		update_arm_bobbing(game);
+		mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+		draw_minimap(game);
+		render_game_arms(game);
+	}
 	return (0);
 }
 
