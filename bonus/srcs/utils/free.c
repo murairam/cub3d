@@ -8,7 +8,11 @@ void	ft_free_split(char **split)
 		return ;
 	i = 0;
 	while (split[i])
-		free(split[i++]);
+	{
+		free(split[i]);
+		split[i] = NULL;
+		i++;
+	}
 	free(split);
 }
 
@@ -57,11 +61,14 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 
 int	close_game(t_game *game)
 {
+	if (!game)
+		exit(0);
 	cleanup_chalk_sprites(game);
 	ft_free_mlx(game);
 	ft_free_bonus(game);
-	cleanup_game(game);
 	ft_free_game(game);
+	cleanup_game(game);
+	
 	exit(0);
 	return (0);
 }

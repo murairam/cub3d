@@ -14,17 +14,11 @@ void	put_pixel(int x, int y, int color, t_game *game)
 
 void	clear_image(t_game *game)
 {
-	int	y;
-	int	x;
-
-	y = -1;
-	while (++y < HEIGHT)
-	{
-		x = -1;
-		while (++x < WIDTH)
-			put_pixel(x, y, 0, game);
-	}
+	if (!game || !game->data)
+		return ;
+	ft_memset(game->data, 0, HEIGHT * game->size_line);
 }
+
 
 int	dim_color(int color, float factor)
 {

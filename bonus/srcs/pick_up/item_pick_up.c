@@ -31,21 +31,21 @@ static int	check_chalk_pickup(t_game *game, t_player *player, int i)
 {
 	double	dx;
 	double	dy;
-	double	distance;
+	double	distance_squared;
 
 	if (game->chalk_sprites[i].collected || !game->chalk_sprites[i].visible)
 		return (0);
 	dx = game->chalk_sprites[i].x - player->x;
 	dy = game->chalk_sprites[i].y - player->y;
-	distance = sqrt(dx * dx + dy * dy);
-	if (distance < PICKUP_RADIUS)
+	distance_squared = dx * dx + dy * dy;
+	if (distance_squared < PICKUP_RADIUS * PICKUP_RADIUS) 
 	{
-	   game->chalk_sprites[i].visible = 0;
-	   game->chalk_sprites[i].collected = 1;
-	   game->chalk_collected++;
-	   for (int c = 0; c < 3; c++)
-		   add_to_inv(game, ft_strdup("Chalk"));
-	   return (1);
+		game->chalk_sprites[i].visible = 0;
+		game->chalk_sprites[i].collected = 1;
+		game->chalk_collected++;
+		for (int c = 0; c < 3; c++)
+			add_to_inv(game, ft_strdup("Chalk"));
+		return (1);
 	}
 	return (0);
 }
