@@ -100,7 +100,10 @@ void	wall_tag(t_player *player, t_game *game)
 	t_ray	ray;
 
 	if (chalk_count_in_inventory(game) <= 0)
+	{
+		game->print_flag = 1;
 		return ;
+	}
 	ray_init_chalk(&ray, player, player->angle);
 	dda_finder_chalk(&ray, game, player);
 	if (ray.hit)

@@ -51,6 +51,23 @@
 // 		i++;
 // 	}
 // }
+
+static void	loop_handler(t_game *game)
+{
+	static int counter = 50;
+
+	if (game->print_flag == 1)
+	{
+		mlx_string_put(game->mlx, game->win, WIDTH / 2, HEIGHT / 2, 0xFFFFFF, "You don't have chalk");
+		counter--;
+		if (counter <= 0)
+		{
+			counter = 50;
+			game->print_flag = 0;
+		}
+	}
+}
+
 static void	render_rays(t_game *game, t_player *player)
 {
 	float	fraction;
@@ -96,6 +113,8 @@ int	draw_loop(t_game *game)
 		mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 		draw_minimap(game);
 		render_game_arms(game);
+		if (game->print_flag == 1)
+			loop_handler(game);	
 	}
 	return (0);
 }

@@ -294,6 +294,7 @@ typedef struct s_ray_table
 
 typedef struct s_game
 {
+	int				print_flag;
 	int				random_flag;
 	int				stop;
 	int				y;
