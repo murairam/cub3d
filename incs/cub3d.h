@@ -20,6 +20,11 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
+# define TEX_NORTH			"incs/assets/textures/Bricks_North.xpm"
+# define TEX_SOUTH			"incs/assets/textures/Bricks_South.xpm"
+# define TEX_EAST			"incs/assets/textures/Bricks_East.xpm"
+# define TEX_WEST			"incs/assets/textures/Bricks_West.xpm"
+
 # define BIG_FLOAT		1000000000.0f
 # define PI				3.14159265359
 # define WIDTH			1280

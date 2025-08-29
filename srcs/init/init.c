@@ -24,8 +24,8 @@ static short	load_texture(t_game *game, t_text *texture, char *path)
 {
 	char	*err;
 
-	texture->img = mlx_xpm_file_to_image(game->mlx, path, &texture->width, \
-		&texture->height);
+	texture->img = mlx_xpm_file_to_image(game->mlx, path, &texture->width,
+			&texture->height);
 	if (!texture->img)
 	{
 		err = ft_strjoin("Error: failed to load texture ", path);
@@ -34,20 +34,20 @@ static short	load_texture(t_game *game, t_text *texture, char *path)
 		free(err);
 		return (1);
 	}
-	texture->data = (int *)mlx_get_data_addr(texture->img, &texture->bpp, \
-		&texture->size_line, &texture->endian);
+	texture->data = (int *)mlx_get_data_addr(texture->img, &texture->bpp,
+			&texture->size_line, &texture->endian);
 	return (0);
 }
 
 static short	texture_init(t_game *game)
 {
-	if (load_texture(game, &game->north, game->north.name))
+	if (load_texture(game, &game->north, TEX_NORTH))
 		return (1);
-	if (load_texture(game, &game->south, game->south.name))
+	if (load_texture(game, &game->south, TEX_SOUTH))
 		return (1);
-	if (load_texture(game, &game->east, game->east.name))
+	if (load_texture(game, &game->east, TEX_EAST))
 		return (1);
-	if (load_texture(game, &game->west, game->west.name))
+	if (load_texture(game, &game->west, TEX_WEST))
 		return (1);
 	return (0);
 }
@@ -64,8 +64,8 @@ int	game_init(t_game *game)
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->img)
 		return (ft_putstr_fd("Error\nFailed to create image\n", 2), 1);
-	game->data = mlx_get_data_addr(game->img, &game->bpp, \
-		&game->size_line, &game->endian);
+	game->data = mlx_get_data_addr(game->img, &game->bpp,
+			&game->size_line, &game->endian);
 	if (!game->data)
 		return (ft_putstr_fd("Error\nFailed to get image data\n", 2), 1);
 	if (texture_init(game))

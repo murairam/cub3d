@@ -33,6 +33,7 @@ void	texture_cord(t_ray *ray, t_player *player, t_text *text)
 		ray->tex_x = text->width - ray->tex_x - 1;
 	if (ray->side == 1 && ray->ray_dir_y < 0)
 		ray->tex_x = text->width - ray->tex_x - 1;
+	ray->tex_x = text->width - ray->tex_x - 1;
 }
 
 void	ray_init2(t_ray *ray, t_player *player)
