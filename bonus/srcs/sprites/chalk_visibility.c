@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/28 13:10:38 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:06:40 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static bool	check_line_of_sight(t_game *game, double dx, double dy,
 	while (i < steps)
 	{
 		if (is_wall_blocking(game, (int)((game->player.x + dx * i * step_size)
-				/ CUBE), (int)((game->player.y + dy * i * step_size) / CUBE)))
+					/ CUBE), (int)((game->player.y + dy * i * step_size)
+					/ CUBE)))
 			return (false);
 		i++;
 	}
@@ -77,9 +78,8 @@ bool	is_chalk_visible(t_game *game, t_chalk_sprite *sprite)
 
 	dx = sprite->x - game->player.x;
 	dy = sprite->y - game->player.y;
-	
 	if (is_close_to_player(dx, dy))
 		return (true);
-	return (check_line_of_sight(game, dx, dy, 
-		calculate_distance_when_needed(dx, dy)));
+	return (check_line_of_sight(game, dx, dy, calculate_distance_when_needed(dx,
+				dy)));
 }
