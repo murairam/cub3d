@@ -57,6 +57,7 @@ static void	draw_sprite_pixel(t_game *game, t_chalk_sprite *sprite,
 	int	tex_y;
 	int	tex_index;
 	int	pixel_color;
+	float	factor;
 
 	if (params->sprite_width <= 0 || params->sprite_height <= 0)
 		return ;
@@ -72,7 +73,8 @@ static void	draw_sprite_pixel(t_game *game, t_chalk_sprite *sprite,
 	tex_index = tex_y * sprite->width + tex_x;
 	if (tex_index < 0 || tex_index >= (sprite->width * sprite->height))
 		return ;
-	pixel_color = sprite->data[tex_index];
+	factor = factor_calculator(NULL, game);
+	pixel_color = dim_color(sprite->data[tex_index], factor);
 	if ((pixel_color & 0x00FFFFFF) != 0x000000)
 		put_pixel(params->x, params->y, pixel_color, game);
 }

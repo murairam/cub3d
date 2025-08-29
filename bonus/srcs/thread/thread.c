@@ -41,7 +41,7 @@ static void	update_fov(t_game *game, long time)
 		pulse = sin(time * 0.0005f * (1.0f + factor * 5.0f));
 		intensity = factor * (PI / 36);
 		game->fov = PI / 3 + pulse * intensity;
-		game->darken_factor -= 0.00005f;
+		game->darken_factor -= 0.0001f;
 	}
 }
 
@@ -78,13 +78,13 @@ void	*thread(void *arg)
 			current_time = get_timestamp_ms(start_time);
 			thread_loop(game, &counter, current_time);
 		}
+		if (counter >= MAX_CYCLE)
+		{
+			game->stop = 1;
+			break ;
+		}	
 		start_time = get_start_time();
 		game->darken_factor = 1;
-	}
-	if (counter >= MAX_CYCLE)
-	{
-		printf("GG it's finished\n");
-		game->stop = 1;
 	}
 	return (0);
 }

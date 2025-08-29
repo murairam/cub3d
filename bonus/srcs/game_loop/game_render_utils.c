@@ -6,12 +6,15 @@ static void	render_pixel_transparency(t_game *game, t_text *src,
 	int				*dest_data;
 	int				*src_data;
 	unsigned int	color;
+	float			factor;
 
 	dest_data = (int *)(game->data);
 	src_data = (int *)(src->data);
+	factor = factor_calculator(NULL, game);
 	color = (unsigned int)src_data[indices[0]];
+	color = dim_color(color, factor);
 	if (color != 0 && color != 0xFF000000)
-		dest_data[indices[1]] = src_data[indices[0]];
+		dest_data[indices[1]] = color;
 }
 
 void	draw_image_with_transparency(t_game *game, t_text *src, int x, int y)

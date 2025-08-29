@@ -26,15 +26,19 @@ float	factor_calculator(t_ray *ray, t_game *game)
 	float	distance;
 	float	factor;
 
-	distance = ray->perp_wall_dist;
-	if (distance <= 3)
-		factor = 1.0 - (distance / 3) * 0.1;
-	else if (distance <= 4)
-		factor = 0.9 - (distance - 3) * 0.4;
-	else
-		factor = 0.5 * exp(-1.5 * (distance - 4));
-	if (ray->side == 0)
-		factor *= 0.8f;
+	factor = 1;
+	if (ray)
+	{
+		distance = ray->perp_wall_dist;
+		if (distance <= 3)
+			factor = 1.0 - (distance / 3) * 0.1;
+		else if (distance <= 4)
+			factor = 0.9 - (distance - 3) * 0.4;
+		else
+			factor = 0.5 * exp(-1.5 * (distance - 4));
+		if (ray->side == 0)
+			factor *= 0.8f;
+	}
 	pthread_mutex_lock(&game->darken_lock);
 	factor *= game->darken_factor;
 	pthread_mutex_unlock(&game->darken_lock);
@@ -72,4 +76,5 @@ void	texture_cord(t_ray *ray, t_player *player, t_text *text)
 		ray->tex_x = text->width - ray->tex_x - 1;
 	if (ray->side == 1 && ray->ray_dir_y < 0)
 		ray->tex_x = text->width - ray->tex_x - 1;
+	ray->tex_x = text->width - ray->tex_x - 1;
 }
