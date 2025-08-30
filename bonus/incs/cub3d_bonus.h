@@ -104,9 +104,18 @@
 # define VISIBILITY_CACHE_FRAMES	4
 # define CLOSE_VISIBILITY_RANGE		64.0
 
+/* Helpers printed */
+# define NO_PRINT			110
+# define NO_CHALK			111
+# define PICK_CHALK			112
+# define PICK_KEY			113
+# define HELP_CHALK			114
+# define HELP_KEY			115
+# define REPLACE			116
 /* Animation constants */
 # ifndef M_PI
 #  define M_PI			3.14159265358979323846
+
 # endif
 
 /* ************************************************************************** */
@@ -481,7 +490,8 @@ void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
 void				*thread(void *arg);
-int					is_close_enough(t_game *game, t_player *player, char to_find);
+int					is_close_enough(t_game *game, t_player *player,
+						char to_find);
 bool				teleport_check(t_game *game, float x, float y);
 
 void				add_to_inv(t_game *game, char *item);

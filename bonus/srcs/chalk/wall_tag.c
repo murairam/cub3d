@@ -112,7 +112,7 @@ void	wall_tag(t_player *player, t_game *game)
 
 	if (chalk_count_in_inventory(game) <= 0)
 	{
-		game->print_flag = 1;
+		game->print_flag = NO_CHALK;
 		return ;
 	}
 	ray_init_chalk(&ray, player, player->angle);

@@ -27,45 +27,42 @@ int	remove_from_inv(t_game *game, char *to_remove)
 	return (1);
 }
 
-int	is_in_tile(t_game *game, int x, int y, char to_find)
+int	is_in_tile(char *map_tile, char to_find, bool replace)
 {
-	if (game->map[y][x] == to_find)
+	if (*map_tile == to_find && replace == true)
 	{
-		if (to_find == 'c')
-			game->map[y][x] = '0';
+		*map_tile = '0';
 		return (0);
 	}
+	else if (*map_tile == to_find && replace == false)
+		return (0);
 	else
 		return (1);
 }
 
-int	is_close_enough(t_game *game, t_player *player, char to_find)
+int is_close_enough(t_game *game, t_player *player, char to_find)
 {
-	int	map_x;
-	int	map_y;
+    double 	dx;
+	double 	dy;
+	double 	distance_squared;
+	int		i;
 
-	map_x = (int)(player->x / CUBE);
-	map_y = (int)(player->y / CUBE);
-	if (is_in_tile(game, map_x, map_y, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x + 1, map_y, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x + 1, map_y + 1, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x, map_y + 1, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x - 1, map_y + 1, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x - 1, map_y, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x - 1, map_y - 1, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x, map_y - 1, to_find) == 0)
-		return (0);
-	else if (is_in_tile(game, map_x + 1, map_y + 1, to_find) == 0)
-		return (0);
-	else
-		return (1);
+	i = -1;
+    if (to_find == 'c')
+    {
+        while (++i < game->chalk_sprite_count)
+        {
+            if (!game->chalk_sprites[i].collected && game->chalk_sprites[i].visible)
+            {
+                dx = game->chalk_sprites[i].x - player->x;
+                dy = game->chalk_sprites[i].y - player->y;
+                distance_squared = dx * dx + dy * dy;
+                if (distance_squared < PICKUP_RADIUS * PICKUP_RADIUS)
+                    return (0);
+            }
+        }
+    }
+    return (1);
 }
 
 int	has_item(t_game *game, char *to_find)
