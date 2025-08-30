@@ -98,7 +98,10 @@ static void	add_single_chalk_item(t_game *game)
 
 	chalk_item = ft_strdup("Chalk");
 	if (chalk_item)
+	{	
 		add_to_inv(game, chalk_item);
+		game->print_flag = HELP_CHALK;
+	}
 }
 
 static void	add_chalk_items_to_inventory(t_game *game)
