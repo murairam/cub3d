@@ -41,7 +41,7 @@ static void	update_fov(t_game *game, long time)
 		pulse = sin(time * 0.0005f * (1.0f + factor * 5.0f));
 		intensity = factor * (PI / 36);
 		game->fov = PI / 3 + pulse * intensity;
-		game->darken_factor -= 0.0001f;
+		game->darken_factor -= 0.000086f;
 	}
 }
 

@@ -107,8 +107,8 @@ static void	add_single_chalk_item(t_game *game)
 static void	add_chalk_items_to_inventory(t_game *game)
 {
 	add_single_chalk_item(game);
-	add_single_chalk_item(game);
-	add_single_chalk_item(game);
+	// add_single_chalk_item(game);
+	// add_single_chalk_item(game);
 }
 
 static int	check_chalk_pickup(t_game *game, t_player *player, int i)
