@@ -22,7 +22,6 @@ void	render_chalks(t_game *game)
 	i = 0;
 	while (i < game->chalk_sprite_count)
 	{
-		// Render only if not collected and visible (matches pickup logic)
 		if (!game->chalk_sprites[i].collected && game->chalk_sprites[i].visible)
 		{
 			if (game->chalk_sprites[i].img && game->chalk_sprites[i].data)

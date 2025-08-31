@@ -199,7 +199,7 @@ typedef struct s_player
 	bool			key_run;
 	int				mouse_x;
 	int				mouse_y;
-	bool			key_f_pressed; 
+	bool			key_f_pressed;
 }					t_player;
 
 typedef struct s_texture
@@ -440,6 +440,7 @@ void				update_arm_bobbing(t_game *game);
 void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
 void				render_game_arms(t_game *game);
+void				print_handler(t_game *game, t_player *player);
 
 /* ****************************************************************************/
 /*                              RENDERING                                     */
@@ -493,19 +494,21 @@ void				*thread(void *arg);
 int					is_close_enough(t_game *game, t_player *player,
 						char to_find);
 bool				teleport_check(t_game *game, float x, float y);
-
 void				add_to_inv(t_game *game, char *item);
 int					remove_from_inv(t_game *game, char *to_remove);
+void				perform_move(t_game *game, float x_offset, float y_offset);
+bool				check_tile_collision(t_game *game, int map_x, int map_y);
+double				delta_calculator(void);
 
 /* ****************************************************************************/
 /*                               MIRROR                                       */
 /* ****************************************************************************/
 
 void				reflection(t_ray *ray, t_game *game, int screenX);
-void				mirror_texture(t_game *game, t_ray *ray, t_text *text, int screenX);
-
+void				mirror_texture(t_game *game, t_ray *ray, t_text *text,
+						int screenX);
 t_text				*choose_mirror_texture(t_ray *ray, t_game *game,
-					 float nx, float ny);
+						float nx, float ny);
 
 /* ****************************************************************************/
 /*                               TIME                                         */
@@ -537,6 +540,9 @@ void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 						int *screen_x, double *distance);
 void				calc_sprite_size(double distance, int *width, int *height);
 int					chalk_count_in_inventory(t_game *game);
+void				ray_handler(t_ray *ray);
+void				check_legacy_items(t_game *game, t_player *player);
+void				check_chalk_sprites(t_game *game, t_player *player);
 
 /* ****************************************************************************/
 /*                              TEXTURES                                      */

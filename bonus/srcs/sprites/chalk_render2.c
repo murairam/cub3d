@@ -53,10 +53,10 @@ static void	apply_offsets(t_game *game, t_chalk_sprite *sprite,
 static void	draw_sprite_pixel(t_game *game, t_chalk_sprite *sprite,
 	t_draw_params *params)
 {
-	int	tex_x;
-	int	tex_y;
-	int	tex_index;
-	int	pixel_color;
+	int		tex_x;
+	int		tex_y;
+	int		tex_index;
+	int		pixel_color;
 	float	factor;
 
 	if (params->sprite_width <= 0 || params->sprite_height <= 0)

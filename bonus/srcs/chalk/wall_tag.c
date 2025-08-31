@@ -57,24 +57,13 @@ static bool	is_wall_or_closed_door_chalk(t_game *game, int map_x,
 
 void	dda_finder_chalk(t_ray *ray, t_game *game, t_player *player)
 {
-	static int counter = 0;
+	static int	counter = 0;
 
 	ray->hit = 0;
 	ray->side = 0;
 	while (ray->hit == 0)
 	{
-		if (ray->side_dist_x < ray->side_dist_y)
-		{
-			ray->side_dist_x += ray->delta_dist_x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
-		}
-		else
-		{
-			ray->side_dist_y += ray->delta_dist_y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
-		}
+		ray_handler(ray);
 		if (is_wall_or_closed_door_chalk(game, ray->map_x, ray->map_y, player))
 		{
 			counter++;

@@ -35,17 +35,14 @@ static int	count_chalks(t_game *game)
 	return (count);
 }
 
-static void	setup_chalk_sprite(t_game *game, int row, int col)
+static void	setup_chalk_sprite(t_game *game, int row, int col, int idx)
 {
 	double	world_x;
 	double	world_y;
-	int		idx;
 
 	world_x = col * CUBE + (CUBE / 2);
 	world_y = row * CUBE + (CUBE / 2);
 	idx = game->chalk_sprite_count;
-	
-	// Initialize all fields to prevent corruption
 	game->chalk_sprites[idx].img = NULL;
 	game->chalk_sprites[idx].data = NULL;
 	game->chalk_sprites[idx].width = 0;
@@ -71,7 +68,9 @@ static void	store_chalk_positions(t_game *game)
 {
 	int	row;
 	int	col;
+	int	idx;
 
+	idx = 0;
 	row = 0;
 	while (row < game->map_height)
 	{
@@ -79,7 +78,7 @@ static void	store_chalk_positions(t_game *game)
 		while (game->map[row] && game->map[row][col])
 		{
 			if (game->map[row][col] == 'c')
-				setup_chalk_sprite(game, row, col);
+				setup_chalk_sprite(game, row, col, idx);
 			col++;
 		}
 		row++;
@@ -100,7 +99,6 @@ int	parse_map_for_chalks(t_game *game)
 	game->chalk_sprites = malloc(sizeof(t_chalk_sprite) * count);
 	if (!game->chalk_sprites)
 		return (0);
-	// Zero initialize the memory to prevent corruption
 	memset(game->chalk_sprites, 0, sizeof(t_chalk_sprite) * count);
 	game->chalk_sprite_count = 0;
 	store_chalk_positions(game);

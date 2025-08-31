@@ -36,6 +36,7 @@ static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 	else
 		return (north_south_walls(game, ray));
 }
+
 void	draw_line_fast(t_player *player, t_game *game, t_ray_table *table,
 		int screen_x)
 {

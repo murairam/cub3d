@@ -82,7 +82,7 @@ void	*thread(void *arg)
 		{
 			game->stop = 1;
 			break ;
-		}	
+		}
 		start_time = get_start_time();
 		game->darken_factor = 1;
 	}

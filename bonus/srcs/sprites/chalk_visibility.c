@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chalk_visibility.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/28 13:10:38 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:43:06 by obajja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ bool	is_chalk_visible(t_game *game, t_chalk_sprite *sprite)
 
 	dx = sprite->x - game->player.x;
 	dy = sprite->y - game->player.y;
-	
 	if (is_close_to_player(dx, dy))
 		return (true);
-	return (check_line_of_sight(game, dx, dy, 
-		calculate_distance_when_needed(dx, dy)));
+	return (check_line_of_sight(game, dx, dy,
+			calculate_distance_when_needed(dx, dy)));
 }

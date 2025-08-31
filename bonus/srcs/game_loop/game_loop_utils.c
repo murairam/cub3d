@@ -1,5 +1,19 @@
 #include "cub3d_bonus.h"
 
+double	delta_calculator(void)
+{
+	static double	last_time = 0.0;
+	double			current_time;
+	double			delta_time;
+
+	current_time = get_current_time();
+	if (last_time == 0.0)
+		last_time = current_time;
+	delta_time = current_time - last_time;
+	last_time = current_time;
+	return (delta_time);
+}
+
 static void	calculate_arm_values(t_arms *arms, t_player *player, t_game *game)
 {
 	arms->walking_amount = 8.0f;

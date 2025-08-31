@@ -70,4 +70,3 @@ void	vertical_texture(t_ray *ray, t_text *text)
 	ray->tx_pos = (ray->d_start - HEIGHT / 2 + ray->l_height / 2)
 		* ray->step;
 }
-

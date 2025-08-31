@@ -1,12 +1,18 @@
 #include "cub3d_bonus.h"
-int chalk_count_in_inventory(t_game *game)
+
+int	chalk_count_in_inventory(t_game *game)
 {
-	int count = 0;
-	for (int i = 0; i < game->item_count; i++) {
+	int	count;
+	int	i;
+
+	i = -1;
+	count = 0;
+	while (++i < game->item_count)
+	{
 		if (ft_strncmp(game->inventory[i], "Chalk", 5) == 0)
 			count++;
 	}
-	return count;
+	return (count);
 }
 
 void	add_to_inv(t_game *game, char *item)

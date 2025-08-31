@@ -5,8 +5,8 @@ void	init_parsing(const char *filename, t_game *game)
 	char	*extension;
 
 	extension = ft_strrchr(filename, '.');
-	if (!extension || ft_strncmp(extension, ".cub", 4) != 0 \
-	|| ft_strlen(extension) != 4)
+	if (!extension || ft_strncmp(extension, ".cub", 4) != 0
+		|| ft_strlen(extension) != 4)
 		ft_exit_error("File must have .cub extension");
 	game->fd = open(filename, O_RDONLY);
 	if (game->fd < 0)

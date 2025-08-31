@@ -51,54 +51,6 @@
 // 		i++;
 // 	}
 // }
-static int	print_finder(t_game *game, t_player	*player)
-{
-	if (is_close_enough(game, player, 'c') == 0)
-		return (PICK_CHALK);
-	else if (is_close_enough(game, player, 'k') == 0)
-		return (PICK_KEY);
-	else
-		return (NO_PRINT);	
-}
-
-static void	print_executer(t_game *game, char *to_print)
-{
-	static int counter = 100;
-
-	mlx_string_put(game->mlx, game->win, WIDTH / 2, HEIGHT / 2, 0xFFFFFF, to_print);
-	counter--;
-	if (counter <= 0)
-	{
-		counter = 100;
-		game->print_flag = NO_PRINT;
-	}
-}
-
-static void	print_handler(t_game *game, t_player *player)
-{
-	static int delay = 50;
-
-	if (game->print_flag == NO_CHALK)
-		print_executer(game, "You need Chalk to do this");
-	else
-	{
-		if (game->print_flag == PICK_CHALK)
-			print_executer(game, "Press E to pick up this piece of chalk");
-		else if (game->print_flag == PICK_KEY)
-			print_executer(game, "Press E to pick up this key");
-		else if (game->print_flag == HELP_CHALK)
-		{
-			--delay;
-			if (delay <= 0)
-				print_executer(game, "Press F to mark the wall");
-		}
-		else
-		{
-			game->print_flag = print_finder(game, player);
-			delay = 50;
-		}
-	}
-}
 
 static void	render_rays(t_game *game, t_player *player)
 {
@@ -120,19 +72,14 @@ static void	render_rays(t_game *game, t_player *player)
 int	draw_loop(t_game *game)
 {
 	t_player		*player;
-	static double	last_time = 0.0;
-	double			current_time;
 	double			delta_time;
 
 	if (game->stop == 1)
-		mlx_put_image_to_window(game->mlx, game->win, game->screen_over.img, 0, 0);
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->screen_over.img, 0, 0);
 	else
 	{
-		current_time = get_current_time();
-		if (last_time == 0.0)
-			last_time = current_time;
-		delta_time = current_time - last_time;
-		last_time = current_time;
+		delta_time = delta_calculator();
 		player = &game->player;
 		move_player(player, game);
 		clear_image(game);
@@ -143,7 +90,7 @@ int	draw_loop(t_game *game)
 		mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 		draw_minimap(game);
 		render_game_arms(game);
-		print_handler(game, player);	
+		print_handler(game, player);
 	}
 	return (0);
 }

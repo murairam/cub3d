@@ -61,16 +61,15 @@ int	init_chalk_sprite_system(t_game *game)
 	i = 0;
 	while (i < game->chalk_sprite_count)
 	{
-	   if (!load_chalk_sprite_texture(game, &game->chalk_sprites[i]))
-	   {
-		   printf("[ERROR] Failed to load chalk sprite texture for sprite %d\n", i);
-		   game->chalk_sprites[i].img = NULL;
-		   game->chalk_sprites[i].data = NULL;
-		   // Do not increment i, but mark as invisible and collected
-		   game->chalk_sprites[i].visible = 0;
-		   game->chalk_sprites[i].collected = 1;
-	   }
-	   i++;
+		if (!load_chalk_sprite_texture(game, &game->chalk_sprites[i]))
+		{
+			printf("[ERROR] Failed to load sprite texture for sprite %d\n", i);
+			game->chalk_sprites[i].img = NULL;
+			game->chalk_sprites[i].data = NULL;
+			game->chalk_sprites[i].visible = 0;
+			game->chalk_sprites[i].collected = 1;
+		}
+		i++;
 	}
 	game->chalk_collected = 0;
 	game->game_time = 0.0;

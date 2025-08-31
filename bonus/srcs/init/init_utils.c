@@ -25,7 +25,7 @@ static void	init_player_keys(t_player *player)
 	player->right_rot = false;
 	player->pitch_up = false;
 	player->pitch_down = false;
-	player->key_f_pressed = false; 
+	player->key_f_pressed = false;
 }
 
 static void	init_game_state(t_game *game)
