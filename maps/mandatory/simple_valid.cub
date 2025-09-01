@@ -2,12 +2,13 @@ NO incs/assets/textures/Bricks_North1.xpm
 SO incs/assets/textures/Bricks_South1.xpm
 WE incs/assets/textures/Bricks_West1.xpm
 EA incs/assets/textures/Bricks_East1.xpm
+DR ./incs/assets/textures/door.xpm
 
 F 0,0,0
 C 3,3,3
 
 1111111
-10E0001
-1000001
-1k000c1
+10E00011
+100000D1
+1k000c11
 111M111
