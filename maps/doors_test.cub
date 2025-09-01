@@ -4,8 +4,8 @@ WE ./incs/assets/textures/Bricks_West1.xpm
 EA ./incs/assets/textures/Bricks_East1.xpm
 DR ./incs/assets/textures/door.xpm
 
-F 100,50,0
-C 0,100,200
+F 0,0,0
+C 0,0,0
 
 1111111111
 100cD00001
