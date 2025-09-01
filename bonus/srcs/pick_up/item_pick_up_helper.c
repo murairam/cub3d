@@ -67,7 +67,7 @@ int	is_close_enough(t_game *game, t_player *player, char to_find)
 int	has_item(t_game *game, char *to_find)
 {
 	int	i;
-	int	j;
+	// int	j;
 
 	i = 0;
 	while (i < game->item_count && i < MAX_ITEM)
@@ -75,15 +75,16 @@ int	has_item(t_game *game, char *to_find)
 		if (ft_strncmp(game->inventory[i], to_find,
 				ft_strlen(to_find)) == 0)
 		{
-			free(game->inventory[i]);
-			j = i;
-			while (j < game->item_count - 1)
-			{
-				game->inventory[j] = game->inventory[j + 1];
-				j++;
-			}
-			game->inventory[game->item_count - 1] = NULL;
-			game->item_count--;
+			printf("Nyooom\n");
+			// free(game->inventory[i]);
+			// j = i;
+			// while (j < game->item_count - 1)
+			// {
+			// 	game->inventory[j] = game->inventory[j + 1];
+			// 	j++;
+			// }
+			// game->inventory[game->item_count - 1] = NULL;
+			// game->item_count--;
 			return (0);
 		}
 		i++;

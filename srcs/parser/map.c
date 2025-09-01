@@ -2,7 +2,7 @@
 
 static int	is_valid_char(char c)
 {
-	return (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'M'
+	return (c == '1' || c == '0' || c == 'N' || c == 'S'
 		|| c == 'E' || c == 'W' || c == ' ' || c == '\n' || c == '\r');
 }
 

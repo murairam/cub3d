@@ -2,7 +2,7 @@
 
 static int	is_valid_char(char c)
 {
-	return (ft_strchr("10NSEWDMckm \n\r", c) != NULL);
+	return (ft_strchr("10NSEWDMXckm \n\r", c) != NULL);
 }
 
 void	validate_chars_and_count(char **map, int *player_count,
@@ -62,7 +62,7 @@ void	validate_door_consistency(t_game *game, char **map,
 	{
 		j = -1;
 		while (map[i][++j])
-			if (map[i][j] == 'D')
+			if (map[i][j] == 'D' || map[i][j] == 'X')
 				has_doors = true;
 	}
 	if ((has_texture && !has_doors) || (!has_texture && has_doors))

@@ -24,6 +24,27 @@ static bool	is_player_on_door(t_game *game, int door_x, int door_y)
 	return (player_map_x == door_x && player_map_y == door_y);
 }
 
+static void	check_exit_interaction(t_game *game, int x, int y)
+{
+	t_door	*door;
+
+	if (y >= 0 && x >= 0 && y < game->map_height && x < game->map_width
+		&& game->map[y][x] == 'X' && has_item(game, "Key") == 0)
+	{
+		door = find_door_atx_position(game, x, y);
+		if (door && game->inventory)
+		{
+			if (door->state == DOOR_CLOSED)
+				door->state = DOOR_OPEN;
+			else if (door->state == DOOR_OPEN)
+			{
+				if (!is_player_on_door(game, x, y))
+					door->state = DOOR_CLOSED;
+			}
+		}
+	}
+}
+
 static void	check_door_interaction(t_game *game, int x, int y)
 {
 	t_door	*door;
@@ -66,6 +87,7 @@ void	interact_door(t_game *game)
 				continue ;
 			}
 			check_door_interaction(game, x, y);
+			check_exit_interaction(game, x, y);
 			x++;
 		}
 		y++;
