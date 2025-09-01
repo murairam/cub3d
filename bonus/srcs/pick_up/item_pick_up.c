@@ -19,7 +19,16 @@ static void	add_single_chalk_item(t_game *game, char item)
 
 static void	add_chalk_items_to_inventory(t_game *game, char item)
 {
-	add_single_chalk_item(game, item);
+	int i;
+
+	i = -1;
+	if (item == 'c')
+	{
+		while (++i < 3)
+			add_single_chalk_item(game, item);
+	}
+	else
+		add_single_chalk_item(game, item);
 }
 
 static int	check_chalk_pickup(t_game *game, t_player *player, int i)
