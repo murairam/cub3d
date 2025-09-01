@@ -6,7 +6,7 @@
 /*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/01 10:13:45 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/01 10:15:28 by obajja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,5 @@ void	setup_chalk_sprite(t_game *game, int row, int col, int idx)
 	game->chalk_sprites[idx].base_y = world_y;
 	game->chalk_sprites[idx].img = NULL;
 	game->chalk_sprites[idx].data = NULL;
+	setup_chalk_sprite_utils(game, row, col, idx);
 }
