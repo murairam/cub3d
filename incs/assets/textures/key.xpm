@@ -1,0 +1,51 @@
+/* XPM */
+static char *chalk_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"64 32 6 1",
+/* colors */
+/* colors */
+". c None",
+"a c #8B5A00",  /* Dark gold shadow */
+"b c #C6973D",  /* Medium gold */
+"c c #DEAE44",  /* Light gold */
+"d c #F7C868",  /* Very light gold */
+"O c #FFD700",  /* Pure gold highlight */
+/* pixels */
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"....aabbccddddddddddddddddddddddddddddddddddddddddddddccbbaa....",
+"...abbccddddddddddddddddddddddddddddddddddddddddddddddddccbba...",
+"..abccddOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOddccba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcdOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdcba..",
+"..abcddOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOddcba..",
+"..abccddOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdddccba...",
+"...abbccdddddddddddddddddddddddddddddddddddddddddddddddccbba....",
+"....aabbccddddddddddddddddddddddddddddddddddddddddddccbbaa......",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................",
+"................................................................"
+};

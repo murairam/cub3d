@@ -17,7 +17,8 @@ bool	teleport_check(t_game *game, float x, float y)
 
 	map_x = (int)(x / CUBE);
 	map_y = (int)(y / CUBE);
-	if (game->map[map_y][map_x] == '0' || game->map[map_y][map_x] == 'c' )
+	if (game->map[map_y][map_x] == '0' || game->map[map_y][map_x] == 'c'
+		|| game->map[map_y][map_x] == 'k')
 		return (false);
 	else
 		return (true);

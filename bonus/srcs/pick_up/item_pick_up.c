@@ -55,18 +55,8 @@ void	check_chalk_sprites(t_game *game, t_player *player)
 
 void	check_legacy_items(t_game *game, t_player *player)
 {
-	int		map_x;
-	int		map_y;
-	char	tile;
-
-	map_x = (int)(player->x / CUBE);
-	map_y = (int)(player->y / CUBE);
-	tile = game->map[map_y][map_x];
 	if (is_close_enough(game, player, 'c') == 0)
 		add_to_inv(game, ft_strdup("Chalk"));
-	else if (tile == 'k')
-	{
+	else if (is_close_enough(game, player, 'k') == 0)
 		add_to_inv(game, ft_strdup("Key"));
-		game->map[map_y][map_x] = '0';
-	}
 }

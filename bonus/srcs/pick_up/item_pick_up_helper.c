@@ -48,19 +48,17 @@ int	is_close_enough(t_game *game, t_player *player, char to_find)
 	int		i;
 
 	i = -1;
-	if (to_find == 'c')
+	while (++i < game->chalk_sprite_count)
 	{
-		while (++i < game->chalk_sprite_count)
+		if (!game->chalk_sprites[i].collected
+			&& game->chalk_sprites[i].visible)
 		{
-			if (!game->chalk_sprites[i].collected
-				&& game->chalk_sprites[i].visible)
-			{
-				dx = game->chalk_sprites[i].x - player->x;
-				dy = game->chalk_sprites[i].y - player->y;
-				distance_squared = dx * dx + dy * dy;
-				if (distance_squared < PICKUP_RADIUS * PICKUP_RADIUS)
-					return (0);
-			}
+			dx = game->chalk_sprites[i].x - player->x;
+			dy = game->chalk_sprites[i].y - player->y;
+			distance_squared = dx * dx + dy * dy;
+			if (distance_squared < PICKUP_RADIUS * PICKUP_RADIUS
+				&& game->chalk_sprites[i].type == to_find)
+				return (0);
 		}
 	}
 	return (1);

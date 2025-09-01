@@ -26,42 +26,13 @@ static int	count_chalks(t_game *game)
 		col = 0;
 		while (game->map[row] && game->map[row][col])
 		{
-			if (game->map[row][col] == 'c')
+			if (game->map[row][col] == 'c' || game->map[row][col] == 'k')
 				count++;
 			col++;
 		}
 		row++;
 	}
 	return (count);
-}
-
-static void	setup_chalk_sprite(t_game *game, int row, int col, int idx)
-{
-	double	world_x;
-	double	world_y;
-
-	world_x = col * CUBE + (CUBE / 2);
-	world_y = row * CUBE + (CUBE / 2);
-	idx = game->chalk_sprite_count;
-	game->chalk_sprites[idx].img = NULL;
-	game->chalk_sprites[idx].data = NULL;
-	game->chalk_sprites[idx].width = 0;
-	game->chalk_sprites[idx].height = 0;
-	game->chalk_sprites[idx].bpp = 0;
-	game->chalk_sprites[idx].size_line = 0;
-	game->chalk_sprites[idx].endian = 0;
-	game->chalk_sprites[idx].x = world_x;
-	game->chalk_sprites[idx].y = world_y;
-	game->chalk_sprites[idx].base_x = world_x;
-	game->chalk_sprites[idx].base_y = world_y;
-	game->chalk_sprites[idx].visible = 1;
-	game->chalk_sprites[idx].collected = 0;
-	game->chalk_sprites[idx].id = idx;
-	game->chalk_sprites[idx].time = idx * 0.3;
-	game->chalk_sprites[idx].amplitude = CHALK_AMPLITUDE;
-	game->chalk_sprites[idx].frequency = CHALK_FREQUENCY + (idx * 0.05);
-	game->map[row][col] = '0';
-	game->chalk_sprite_count++;
 }
 
 static void	store_chalk_positions(t_game *game)
@@ -77,7 +48,7 @@ static void	store_chalk_positions(t_game *game)
 		col = 0;
 		while (game->map[row] && game->map[row][col])
 		{
-			if (game->map[row][col] == 'c')
+			if (game->map[row][col] == 'c' || game->map[row][col] == 'k')
 				setup_chalk_sprite(game, row, col, idx);
 			col++;
 		}
@@ -107,8 +78,12 @@ int	parse_map_for_chalks(t_game *game)
 
 int	load_chalk_sprite_texture(t_game *game, t_chalk_sprite *sprite)
 {
-	sprite->img = mlx_xpm_file_to_image(game->mlx, TEX_CHALK_ITEM,
-			&sprite->width, &sprite->height);
+	if (sprite->type == 'c')
+		sprite->img = mlx_xpm_file_to_image(game->mlx, TEX_CHALK_ITEM,
+				&sprite->width, &sprite->height);
+	else if (sprite->type == 'k')
+		sprite->img = mlx_xpm_file_to_image(game->mlx, TEX_KEY_ITEM,
+				&sprite->width, &sprite->height);
 	if (!sprite->img)
 		return (0);
 	sprite->data = (int *)mlx_get_data_addr(sprite->img, &sprite->bpp,

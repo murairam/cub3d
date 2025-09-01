@@ -84,6 +84,7 @@
 # define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
 # define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
 # define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
+# define TEX_KEY_ITEM		"incs/assets/textures/key.xpm"
 
 /* Sprite constants */
 # define MAX_SPRITES		50
@@ -252,6 +253,7 @@ typedef struct s_chalk_sprite
 	int				bpp;
 	int				size_line;
 	int				endian;
+	char			type;
 	double			x;
 	double			y;
 	double			base_x;
@@ -427,6 +429,7 @@ void				handle_action_keys(int keycode, t_game *game,
 void				cleanup_game(t_game *game);
 int					close_game(t_game *game);
 int					mouse_move(int x, int y, t_game *game);
+void				setup_chalk_sprite(t_game *game, int row, int col, int idx);
 
 /* ****************************************************************************/
 /*                              GAME LOOP                                     */
