@@ -16,8 +16,8 @@ void	validate_content(char **map, t_game *game, t_list **map_lines)
 			ft_exit_error_with_cleanup(game, "Multiple players found in map");
 	}
 	validate_boundaries(map, game, map_lines);
-	validate_door_consistency(game, map, map_lines);
-	validate_door_texture_file(game, map_lines);
+	// validate_door_consistency(game, map, map_lines);
+	// validate_door_texture_file(game, map_lines);
 }
 
 void	parse_map(t_list **map_lines, t_game *game)

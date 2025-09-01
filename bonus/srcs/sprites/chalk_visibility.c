@@ -6,7 +6,7 @@
 /*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/31 17:43:06 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/01 14:12:01 by obajja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	is_wall_blocking(t_game *game, int map_x, int map_y)
 		return (true);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == '2')
 		return (true);
-	if (game->map[map_y][map_x] == 'D')
+	if (game->map[map_y][map_x] == 'D' || game->map[map_y][map_x] == 'X')
 	{
 		i = 0;
 		while (i < game->door_count)

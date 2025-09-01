@@ -37,11 +37,12 @@ static void	initialize_doors(char **map, t_game *game)
 		j = -1;
 		while (map[i][++j])
 		{
-			if (map[i][j] == 'D')
+			if (map[i][j] == 'D' || map[i][j] == 'X')
 			{
 				game->doors[door_index].x = j;
 				game->doors[door_index].y = i;
 				game->doors[door_index].state = DOOR_CLOSED;
+				game->doors[door_index].type = map[i][j];
 				door_index++;
 			}
 		}
@@ -60,7 +61,7 @@ void	store_doors(char **map, t_game *game)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == 'D')
+			if (map[i][j] == 'D' || map[i][j] == 'X')
 				game->door_count++;
 			j++;
 		}

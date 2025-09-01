@@ -1,20 +1,25 @@
 #include "cub3d_bonus.h"
 
-static void	add_single_chalk_item(t_game *game)
+static void	add_single_chalk_item(t_game *game, char item)
 {
 	char	*chalk_item;
 
-	chalk_item = ft_strdup("Chalk");
-	if (chalk_item)
-	{
-		add_to_inv(game, chalk_item);
+	if (item == 'c')
+		chalk_item = ft_strdup("Chalk");
+	else
+		chalk_item = ft_strdup("Key");
+	if (!chalk_item)
+		return ;
+	add_to_inv(game, chalk_item);
+	if (item == 'c')
 		game->print_flag = HELP_CHALK;
-	}
+	else if (item == 'k')
+		game->print_flag = HELP_KEY;
 }
 
-static void	add_chalk_items_to_inventory(t_game *game)
+static void	add_chalk_items_to_inventory(t_game *game, char item)
 {
-	add_single_chalk_item(game);
+	add_single_chalk_item(game, item);
 }
 
 static int	check_chalk_pickup(t_game *game, t_player *player, int i)
@@ -33,7 +38,7 @@ static int	check_chalk_pickup(t_game *game, t_player *player, int i)
 		game->chalk_sprites[i].visible = 0;
 		game->chalk_sprites[i].collected = 1;
 		game->chalk_collected++;
-		add_chalk_items_to_inventory(game);
+		add_chalk_items_to_inventory(game, game->chalk_sprites[i].type);
 		return (1);
 	}
 	return (0);
