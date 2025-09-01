@@ -52,7 +52,7 @@ static bool    is_wall_or_closed_door_chalk(t_game *game, int map_x,
     return (true);
 }
 
-void    dda_finder_chalk(t_ray *ray, t_game *game, t_player *player)
+void    dda_finder_chalk(t_ray *ray, t_game *game)
 {
     ray->hit = 0;
     ray->side = 0;
@@ -84,8 +84,6 @@ void	ray_init_chalk(t_ray *ray, t_player *player, float ray_angle)
 void    wall_tag(t_player *player, t_game *game)
 {
     t_ray   ray;
-    int     map_x;
-	int		map_y;
 
     if (chalk_count_in_inventory(game) <= 0)
     {
@@ -93,7 +91,7 @@ void    wall_tag(t_player *player, t_game *game)
         return ;
     }
     ray_init_chalk(&ray, player, player->angle);
-    dda_finder_chalk(&ray, game, player);
+    dda_finder_chalk(&ray, game);
     if (ray.map_y >= 0 && ray.map_y < game->map_height && 
         ray.map_x >= 0 && game->map[ray.map_y] && 
         ray.map_x < (int)ft_strlen(game->map[ray.map_y]) &&

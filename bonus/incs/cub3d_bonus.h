@@ -86,6 +86,7 @@
 # define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
 # define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
 # define TEX_KEY_ITEM		"incs/assets/textures/key.xpm"
+# define TEX_GAME_WIN		"incs/assets/textures/GameWin.xpm"
 
 /* Sprite constants */
 # define MAX_SPRITES		50

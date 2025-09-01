@@ -35,7 +35,7 @@ static void	check_exit_interaction(t_game *game, int x, int y)
 		if (door && game->inventory)
 		{
 			if (door->state == DOOR_CLOSED)
-				door->state = DOOR_OPEN;
+				game->stop = 2;
 			else if (door->state == DOOR_OPEN)
 			{
 				if (!is_player_on_door(game, x, y))
