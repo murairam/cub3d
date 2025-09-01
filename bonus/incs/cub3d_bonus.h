@@ -409,8 +409,6 @@ void				validate_boundaries(char **map, t_game *game,
 						t_list **map_lines);
 void				validate_chars_and_count(char **map, int *player_count,
 						t_game *game, t_list **map_lines);
-void				validate_door_consistency(t_game *game, char **map,
-						t_list **map_lines);
 void				validate_door_texture_file(t_game *game,
 						t_list **map_lines);
 void				fetch_player_cords(char **map, t_game *game);
