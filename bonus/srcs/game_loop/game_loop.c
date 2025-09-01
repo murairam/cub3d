@@ -1,56 +1,14 @@
 #include "cub3d_bonus.h"
 
-// static void	calculate_ray_angles(t_ray_table *table, t_game *game)
-// {
-// 	float	fraction;
-// 	float	base_angle;
-// 	int		i;
-
-// 	fraction = PI/3 / WIDTH;
-// 	base_angle = -PI / 6;
-// 	i = 0;
-// 	while (i < WIDTH)
-// 	{
-// 		table->ray_angles[i] = base_angle + i * fraction;
-// 		i++;
-// 	}
-// }
-
-// static void	calculate_ray_trigonometry(t_ray_table *table)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < WIDTH)
-// 	{
-// 		table->ray_cos[i] = cos(table->ray_angles[i]);
-// 		table->ray_sin[i] = sin(table->ray_angles[i]);
-// 		i++;
-// 	}
-// }
-
-// static void	init_ray_table(t_ray_table *table, t_game *game)
-// {
-// 	if (table->initialized)
-// 		return ;
-// 	calculate_ray_angles(table, game);
-// 	calculate_ray_trigonometry(table);
-// 	table->initialized = true;
-// }
-
-// static void	render_rays_optimized(t_game *game, t_player *player)
-// {
-// 	int	i;
-
-// 	if (!game->ray_table.initialized)
-// 		init_ray_table(&game->ray_table, game);
-// 	i = 0;
-// 	while (i < WIDTH)
-// 	{
-// 		draw_line_fast(player, game, &game->ray_table, i);
-// 		i++;
-// 	}
-// }
+static void end_screen(t_game *game)
+{
+	if (game->stop == 1)
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->screen_over.img, 0, 0);
+	if (game->stop == 2)
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->screen_win.img, 0, 0);
+}
 
 static void	render_rays(t_game *game, t_player *player)
 {
@@ -74,9 +32,8 @@ int	draw_loop(t_game *game)
 	t_player		*player;
 	double			delta_time;
 
-	if (game->stop == 1)
-		mlx_put_image_to_window(game->mlx, game->win,
-			game->screen_over.img, 0, 0);
+	if (game->stop != 0)
+		end_screen(game);
 	else
 	{
 		delta_time = delta_calculator();

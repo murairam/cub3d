@@ -70,7 +70,7 @@ void	*thread(void *arg)
 	counter = 0;
 	game = (t_game *)arg;
 	start_time = get_start_time();
-	while (game->stop != 1 && counter < MAX_CYCLE)
+	while (game->stop == 0 && counter < MAX_CYCLE)
 	{
 		current_time = get_timestamp_ms(start_time);
 		while (game->stop != 1 && current_time <= MAX_TIME)
