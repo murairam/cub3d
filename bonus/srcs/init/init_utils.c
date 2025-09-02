@@ -28,10 +28,12 @@ static void	init_player_keys(t_player *player)
 	player->key_f_pressed = false;
 }
 
-static void	init_game_state(t_game *game)
+static short	init_game_state(t_game *game)
 {
-	game->item_count = 0;
 	game->inventory = ft_calloc(MAX_ITEM, sizeof(char *));
+	if (!game->inventory)
+		return (0);
+	game->item_count = 0;
 	game->mouse_x = WIDTH / 2;
 	game->mouse_y = HEIGHT / 2;
 	game->bob_time = 0.0f;
@@ -39,19 +41,28 @@ static void	init_game_state(t_game *game)
 	game->mouse_dragging = false;
 	game->drag_start_x = 0;
 	game->drag_start_y = 0;
+	return (1);
 }
 
-static void	init_player(t_game *game, t_player *player)
+static short	init_player(t_game *game, t_player *player)
 {
 	init_player_position(game, player);
 	init_player_keys(player);
-	init_game_state(game);
+	if (!init_game_state(game))
+		return (0);
+	return (1);
 }
 
 int	game_init(t_game *game)
 {
-	init_player(game, &game->player);
-	init_game_vars(game);
+	if (!init_player(game, &game->player))
+	{
+		ft_error("Failed to initialize player");
+		close_game(game);
+		return (1);
+	}
+	if (!init_game_vars(game))
+		return (close_game(game), 1);
 	if (texture_init(game))
 	{
 		ft_error("Failed to initialize textures");

@@ -57,7 +57,7 @@ void	ft_free_game(t_game *game)
 
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 {
-	ft_free_game(game);
+	close_game(game);
 	ft_exit_error(msg);
 }
 
