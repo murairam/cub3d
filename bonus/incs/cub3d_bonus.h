@@ -400,6 +400,7 @@ void				ft_free_game(t_game *game);
 void				ft_free_mlx(t_game *game);
 void				ft_free_bonus(t_game *game);
 void				ft_free_wall_textures(t_game *game);
+void				close_with_print(t_game *game, char *to_print);
 
 /* ****************************************************************************/
 /*                              PARSER                                        */

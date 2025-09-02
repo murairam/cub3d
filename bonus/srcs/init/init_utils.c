@@ -33,10 +33,7 @@ static void	init_game_state(t_game *game)
 	game->item_count = 0;
 	game->inventory = ft_calloc(MAX_ITEM, sizeof(char *));
 	if (!game->inventory)
-	{
-		ft_printf_fd(2, "Error: Malloc failed\n");
-		close_game(game);
-	}
+		close_with_print(game, "Error: Malloc failed");
 	game->mouse_x = WIDTH / 2;
 	game->mouse_y = HEIGHT / 2;
 	game->bob_time = 0.0f;
@@ -58,17 +55,14 @@ int	game_init(t_game *game)
 	init_player(game, &game->player);
 	init_game_vars(game);
 	if (texture_init(game))
-	{
-		close_game(game);
-		return (1);
-	}
+		close_with_print(game, "Error: Texture init");
 	init_minimap(game);
 	init_doors(game);
 	if (!init_chalk_sprite_system(game))
-		return (ft_error("Failed to initialize chalk sprite system"), 1);
+		close_with_print(game, "Error: Item init");
 	game->z_buffer = malloc(sizeof(float) * WIDTH);
 	if (!game->z_buffer)
-		return (ft_error("Z-buffer memory allocation failed"), 1);
+		close_with_print(game, "Error: Buffer init");
 	game->ray_table.initialized = false;
 	return (0);
 }

@@ -55,23 +55,24 @@ int	store_doors(char **map, t_game *game)
 	int	j;
 
 	game->door_count = 0;
-	i = 0;
-	while (map[i])
+	i = -1;
+	while (map[++i])
 	{
-		j = 0;
-		while (map[i][j])
+		j = -1;
+		while (map[i][++j])
 		{
 			if (map[i][j] == 'D' || map[i][j] == 'X')
 				game->door_count++;
-			j++;
 		}
-		i++;
 	}
 	if (game->door_count == 0)
 		return (0);
 	game->doors = ft_calloc(game->door_count, sizeof(t_door));
 	if (!game->doors)	
-		return (-1);
+	{
+		ft_printf_fd(2, "Error: Malloc fail\n");
+		close_game(game);
+	}
 	initialize_doors(map, game);
 	return (0);
 }

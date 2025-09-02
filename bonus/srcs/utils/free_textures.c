@@ -1,5 +1,11 @@
 #include "cub3d_bonus.h"
 
+void	close_with_print(t_game *game, char *to_print)
+{
+	ft_printf_fd(2,"%s\n", to_print);
+	close_game(game);
+}
+
 void	ft_free_wall_textures(t_game *game)
 {
 	if (game->north.img)
