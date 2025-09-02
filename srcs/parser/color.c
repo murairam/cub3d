@@ -10,17 +10,38 @@ static void	cleanup_and_exit(char **rgb, char **outer_split, t_game *game,
 	ft_exit_error_with_cleanup(game, msg);
 }
 
+static int	is_valid_number(char *str)
+{
+	int	i;
+
+	if (!str || !str[0])
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int	parse_rgb(char *str, char **outer_split, t_game *game)
 {
 	char	**rgb;
+	char	*trimmed_str;
 	int		r;
 	int		g;
 	int		b;
 
-	rgb = ft_split(str, ',');
+	trimmed_str = ft_strtrim(str, " \t\n\r");
+	if (!trimmed_str)
+		cleanup_and_exit(NULL, outer_split, game, "Memory allocation failed");
+	rgb = ft_split(trimmed_str, ',');
+	free(trimmed_str);
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		cleanup_and_exit(rgb, outer_split, game, "RGB must have 3 values");
-	if (!ft_isdigit(*rgb[0]) || !ft_isdigit(*rgb[1]) || !ft_isdigit(*rgb[2]))
+	if (!is_valid_number(rgb[0]) || !is_valid_number(rgb[1]) || !is_valid_number(rgb[2]))
 		cleanup_and_exit(rgb, outer_split, game, "RGB values must be integers");
 	r = ft_atoi(rgb[0]);
 	g = ft_atoi(rgb[1]);
