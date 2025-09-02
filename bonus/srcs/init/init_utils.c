@@ -32,6 +32,11 @@ static void	init_game_state(t_game *game)
 {
 	game->item_count = 0;
 	game->inventory = ft_calloc(MAX_ITEM, sizeof(char *));
+	if (!game->inventory)
+	{
+		ft_printf_fd(2, "Error: Malloc failed\n");
+		close_game(game);
+	}
 	game->mouse_x = WIDTH / 2;
 	game->mouse_y = HEIGHT / 2;
 	game->bob_time = 0.0f;

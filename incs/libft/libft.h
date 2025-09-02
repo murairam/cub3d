@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:20:46 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/07/24 20:50:55 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:22:51 by obajja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,24 @@ char	*get_next_line(int fd);
 
 // ft_printf
 int		ft_printf(const char *format, ...);
-
+int		ft_putchar_pfd(int fd, char c);
+int		ft_putstr_pfd(int fd, char *s);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_printf_fd(int fd, const char *str, ...);
+int		ft_printadress_fd(int fd, unsigned long ptr);
+int		ft_putstr_pfd(int fd, char *s);
+int		ft_putnbr_upfd(int fd, unsigned int n, int *count);
+int		ft_putnbr_pfd(int fd, int n, int *count);
+int		ft_putnbrhexalow_fd(int fd, unsigned int n, int *count);
+int		ft_putnbrhexaupp_fd(int fd, unsigned int n, int *count);
 int		ft_put_char(char c);
 int		ft_put_nbr(long long int nb, int base, char *string);
 int		ft_put_str(char *s);
 int		ft_put_hexa(unsigned int nb, char c);
 int		ft_put_ptr(unsigned long long ptr);
+
 
 // linked list functions
 
