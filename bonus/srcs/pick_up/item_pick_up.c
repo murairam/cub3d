@@ -9,7 +9,7 @@ static void	add_single_chalk_item(t_game *game, char item)
 	else
 		chalk_item = ft_strdup("Key");
 	if (!chalk_item)
-		return ;
+		close_with_print(game, "Error: Malloc failed");
 	add_to_inv(game, chalk_item);
 	if (item == 'c')
 		game->print_flag = HELP_CHALK;
@@ -67,10 +67,3 @@ void	check_chalk_sprites(t_game *game, t_player *player)
 	}
 }
 
-void	check_legacy_items(t_game *game, t_player *player)
-{
-	if (is_close_enough(game, player, 'c') == 0)
-		add_to_inv(game, ft_strdup("Chalk"));
-	else if (is_close_enough(game, player, 'k') == 0)
-		add_to_inv(game, ft_strdup("Key"));
-}

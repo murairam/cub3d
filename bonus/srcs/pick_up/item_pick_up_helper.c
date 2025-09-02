@@ -82,5 +82,4 @@ int	has_item(t_game *game, char *to_find)
 void	pick_up_item(t_player *player, t_game *game)
 {
 	check_chalk_sprites(game, player);
-	check_legacy_items(game, player);
 }

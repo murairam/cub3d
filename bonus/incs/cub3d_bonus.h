@@ -550,7 +550,6 @@ void				calc_screen_pos(t_game *game, t_chalk_sprite *sprite,
 void				calc_sprite_size(double distance, int *width, int *height);
 int					chalk_count_in_inventory(t_game *game);
 void				ray_handler(t_ray *ray);
-void				check_legacy_items(t_game *game, t_player *player);
 void				check_chalk_sprites(t_game *game, t_player *player);
 
 /* ****************************************************************************/
