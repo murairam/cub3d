@@ -1,6 +1,6 @@
 #include "cub3d_bonus.h"
 
-static void end_screen(t_game *game)
+static void	end_screen(t_game *game)
 {
 	if (game->stop == 1)
 		mlx_put_image_to_window(game->mlx, game->win,

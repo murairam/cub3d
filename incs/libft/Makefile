@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+         #
+#    By: obajja <obajja@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 11:20:05 by mmiilpal          #+#    #+#              #
-#    Updated: 2025/07/24 19:41:22 by mmiilpal         ###   ########.fr        #
+#    Updated: 2025/09/02 10:48:51 by obajja           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS	=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 			ft_tolower.c ft_toupper.c ft_putendl_fd.c ft_striteri.c \
 			get_next_line.c ft_printf.c ft_format_print.c \
 			ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
-			ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c
+			ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c \
+			ft_putchar_pfd.c ft_printadress_fd.c ft_printf_fd.c ft_putnbr_pfd.c ft_putnbr_upfd.c ft_putnbrhexalow_fd.c ft_putnbrhexaupp_fd.c ft_putstr_pfd.c\
 
 BONUS_SRCS	=   ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
 			ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c

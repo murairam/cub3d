@@ -4,7 +4,7 @@ static int	valid_argc(int argc)
 {
 	if (argc != 2)
 	{
-		ft_printf("Error\nUsage: %s <maps/map.cub>\n", "cub3d");
+		ft_printf_fd(2, "Error\nUsage: %s <maps/map.cub>\n", "cub3d");
 		return (0);
 	}
 	return (1);
@@ -16,7 +16,8 @@ int	main(int argc, char **argv)
 
 	if (!valid_argc(argc))
 		return (1);
-	init_game(&game);
+	if (!init_game(&game))
+		return (1);
 	parse_file(argv[1], &game);
 	if (game_init(&game))
 	{

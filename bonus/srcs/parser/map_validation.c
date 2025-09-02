@@ -32,4 +32,3 @@ void	validate_chars_and_count(char **map, int *player_count,
 		i++;
 	}
 }
-
