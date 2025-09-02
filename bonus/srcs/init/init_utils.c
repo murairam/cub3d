@@ -54,7 +54,6 @@ int	game_init(t_game *game)
 	init_game_vars(game);
 	if (texture_init(game))
 	{
-		ft_error("Failed to initialize textures");
 		close_game(game);
 		return (1);
 	}
