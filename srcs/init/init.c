@@ -28,7 +28,7 @@ static short	load_texture(t_game *game, t_text *texture, char *path)
 			&texture->height);
 	if (!texture->img)
 	{
-		err = ft_strjoin("Error: failed to load texture ", path);
+		err = ft_strjoin("Error\nfailed to load texture ", path);
 		ft_putstr_fd(err, 2);
 		ft_putstr_fd("\n", 2);
 		free(err);
