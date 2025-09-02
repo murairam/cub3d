@@ -1,8 +1,5 @@
 #include "cub3d_bonus.h"
 
-// if condition to check whether the 
-//mutex worked then cascade if it didnt :'(
-
 void	init_game(t_game *game)
 {
 	ft_memset(game, 0, sizeof(t_game));
@@ -26,5 +23,8 @@ void	init_game(t_game *game)
 	game->darken_factor = 1;
 	game->print_flag = 0;
 	game->random_flag = 0;
+	game->minimap_toggle = false;
+// if condition to check whether the 
+//mutex worked then cascade if it didnt :'(
 	pthread_mutex_init(&game->darken_lock, NULL);
 }

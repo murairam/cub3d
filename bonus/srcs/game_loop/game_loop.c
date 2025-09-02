@@ -45,7 +45,8 @@ int	draw_loop(t_game *game)
 		render_chalks(game);
 		update_arm_bobbing(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
-		draw_minimap(game);
+		if (game->minimap_toggle == true)
+			draw_minimap(game);
 		render_game_arms(game);
 		print_handler(game, player);
 	}
