@@ -3,11 +3,11 @@ SO incs/assets/textures/Bricks_South.xpm
 WE incs/assets/textures/Bricks_West.xpm
 EA incs/assets/textures/Bricks_East.xpm
 
-F 101,67,33
-C 173,216,230
+F 0,0,0
+C 3,3,3
 
-111111
-N00001
-100001
-100001
-111111
+11111111
+10000011
+10E000X1
+1k000c11
+111M111
