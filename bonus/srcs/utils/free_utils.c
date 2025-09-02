@@ -45,12 +45,15 @@ void	ft_free_mlx(t_game *game)
 {
 	if (!game->mlx)
 		return ;
-	ft_free_image_textures(game);
-	ft_free_mlx_sprites(game);
-	if (game->img)
-		mlx_destroy_image(game->mlx, game->img);
 	if (game->win)
+	{
+		//mlx_mouse_show(game->mlx, game->win);
+		if (game->img)
+			mlx_destroy_image(game->mlx, game->img);
+		ft_free_image_textures(game);
+		ft_free_mlx_sprites(game);
 		mlx_destroy_window(game->mlx, game->win);
+	}
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
 }
