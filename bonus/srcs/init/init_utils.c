@@ -55,7 +55,7 @@ int	game_init(t_game *game)
 	init_player(game, &game->player);
 	init_game_vars(game);
 	if (texture_init(game))
-		return (close_game(game));
+		ft_exit_error_with_cleanup(game, NULL);
 	init_minimap(game);
 	init_doors(game);
 	if (!init_chalk_sprite_system(game))

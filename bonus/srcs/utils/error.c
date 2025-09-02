@@ -10,8 +10,11 @@ int	ft_error(const char *msg)
 
 void	ft_exit_error(const char *msg)
 {
-	write(2, "Error\n", 6);
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
+	if (msg)
+	{
+		write(2, "Error\n", 6);
+		write(2, msg, ft_strlen(msg));
+		write(2, "\n", 1);
+	}
 	exit(1);
 }
