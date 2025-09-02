@@ -69,8 +69,8 @@ void	store_doors(char **map, t_game *game)
 	if (game->door_count == 0)
 		return ;
 	game->doors = ft_calloc(game->door_count, sizeof(t_door));
-	if (!game->doors)
-		ft_exit_error_with_cleanup(game, "Memory allocation failed for doors");
+	if (!game->doors)	
+		ft_exit_error_with_cleanup(game, "Memory allocation failed for doors");	
 	initialize_doors(map, game);
 }
 
