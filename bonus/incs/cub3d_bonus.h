@@ -410,7 +410,7 @@ void				validate_door_consistency(t_game *game, char **map,
 void				validate_door_texture_file(t_game *game,
 						t_list **map_lines);
 void				fetch_player_cords(char **map, t_game *game);
-void				store_doors(char **map, t_game *game);
+int					store_doors(char **map, t_game *game);
 
 /* ****************************************************************************/
 /*                              INITIALIZATION                                */
