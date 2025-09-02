@@ -1,0 +1,12 @@
+NO ./incs/assets/textures/Bricks_North.xpm
+SO ./incs/assets/textures/Bricks_South.xpm
+WE ./incs/assets/textures/Bricks_West.xpm
+EA ./incs/assets/textures/Bricks_East.xpm
+F 300,100,0
+C 225,30,0
+
+111111
+100101
+101001
+1100N1
+111111

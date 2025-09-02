@@ -41,13 +41,13 @@ static short	load_texture(t_game *game, t_text *texture, char *path)
 
 static short	texture_init(t_game *game)
 {
-	if (load_texture(game, &game->north, TEX_NORTH))
+	if (load_texture(game, &game->north, game->north.name))
 		return (1);
-	if (load_texture(game, &game->south, TEX_SOUTH))
+	if (load_texture(game, &game->south, game->south.name))
 		return (1);
-	if (load_texture(game, &game->east, TEX_EAST))
+	if (load_texture(game, &game->east, game->east.name))
 		return (1);
-	if (load_texture(game, &game->west, TEX_WEST))
+	if (load_texture(game, &game->west, game->west.name))
 		return (1);
 	return (0);
 }
