@@ -45,9 +45,16 @@ if [ ! -d "$ERROR_DIR" ]; then
     exit 1
 fi
 
+# Count the actual files we'll be testing
+CUB_FILES_COUNT=$(find "$ERROR_DIR" -name "*.cub" -type f 2>/dev/null | wc -l)
+TXT_FILES_COUNT=$(find "$ERROR_DIR" -name "*.txt" -type f 2>/dev/null | wc -l)
+INVALID_FILES_COUNT=$(find "$ERROR_DIR" -name "*.invalid" -type f 2>/dev/null | wc -l)
+TOTAL_INVALID_EXT=$((TXT_FILES_COUNT + INVALID_FILES_COUNT))
+
 echo -e "${BOLD}${BLUE}=== CUB3D ERROR TESTING SUITE ===${NC}"
 echo -e "${BLUE}Testing all maps in $ERROR_DIR folder${NC}"
 echo -e "${BLUE}Expected: All maps should produce error messages and exit with non-zero status${NC}"
+echo -e "${CYAN}Found: $CUB_FILES_COUNT .cub error maps, $TOTAL_INVALID_EXT invalid extension files${NC}"
 echo
 
 # Function to test with mandatory executable
@@ -135,21 +142,34 @@ test_valgrind_error() {
     
     valgrind_exit=$?
     
-    # Check if valgrind detected memory issues (exit code 42) or if program exited normally with error
-    if grep -q "definitely lost: 0 bytes" /tmp/valgrind_error_output.txt && \
-       grep -q "indirectly lost: 0 bytes" /tmp/valgrind_error_output.txt && \
-       grep -q "possibly lost: 0 bytes" /tmp/valgrind_error_output.txt; then
-        echo -e "${GREEN}✓ VALGRIND PASSED${NC} - No memory leaks detected"
-        ((VALGRIND_PASSED++))
-        
-        # Show memory summary
-        echo -e "${BLUE}Memory Summary:${NC}"
-        grep -E "(in use at exit|total heap usage|definitely lost|All heap blocks)" /tmp/valgrind_error_output.txt | sed 's/^/  /'
-    else
-        echo -e "${RED}✗ VALGRIND FAILED${NC} - Memory issues detected"
+    # Check valgrind output for memory issues
+    # If valgrind exit code is 42, there were memory errors detected by valgrind
+    # If valgrind exit code matches program exit code, no memory errors but program ran normally
+    if [ $valgrind_exit -eq 42 ]; then
+        echo -e "${RED}✗ VALGRIND FAILED${NC} - Memory errors detected by valgrind"
         ((VALGRIND_FAILED++))
         echo -e "${YELLOW}Valgrind Output:${NC}"
         head -20 /tmp/valgrind_error_output.txt | sed 's/^/  /'
+    else
+        # Check the actual memory leak summary
+        # Case 1: Explicit leak summary with "0 bytes" lost
+        # Case 2: "All heap blocks were freed -- no leaks are possible"
+        if (grep -q "definitely lost: 0 bytes" /tmp/valgrind_error_output.txt && \
+           grep -q "indirectly lost: 0 bytes" /tmp/valgrind_error_output.txt && \
+           grep -q "possibly lost: 0 bytes" /tmp/valgrind_error_output.txt) || \
+           grep -q "All heap blocks were freed -- no leaks are possible" /tmp/valgrind_error_output.txt; then
+            echo -e "${GREEN}✓ VALGRIND PASSED${NC} - No memory leaks detected"
+            ((VALGRIND_PASSED++))
+            
+            # Show memory summary
+            echo -e "${BLUE}Memory Summary:${NC}"
+            grep -E "(in use at exit|total heap usage|definitely lost|indirectly lost|possibly lost|All heap blocks)" /tmp/valgrind_error_output.txt | sed 's/^/  /'
+        else
+            echo -e "${RED}✗ VALGRIND FAILED${NC} - Memory leaks detected"
+            ((VALGRIND_FAILED++))
+            echo -e "${YELLOW}Valgrind Output:${NC}"
+            head -20 /tmp/valgrind_error_output.txt | sed 's/^/  /'
+        fi
     fi
     echo
 }
@@ -190,7 +210,8 @@ for map_file in "$ERROR_DIR"/*.cub; do
 done
 
 # Test .txt files and other invalid extensions
-for invalid_file in "$ERROR_DIR"/*.txt "$ERROR_DIR"/*.invalid; do
+echo -e "${BOLD}${BLUE}=== TESTING INVALID EXTENSIONS ===${NC}"
+for invalid_file in "$ERROR_DIR"/*.txt "$ERROR_DIR"/*.invalid "$ERROR_DIR"/*.map; do
     if [ -f "$invalid_file" ]; then
         echo -e "${BOLD}${BLUE}📁 Testing Invalid Extension: $(basename "$invalid_file")${NC}"
         echo "================================================"
@@ -208,10 +229,18 @@ for invalid_file in "$ERROR_DIR"/*.txt "$ERROR_DIR"/*.invalid; do
     fi
 done
 
+# Check if no invalid extension files were found
+if [ $TOTAL_INVALID_EXT -eq 0 ]; then
+    echo -e "${YELLOW}No invalid extension files found to test${NC}"
+    echo
+fi
+
 # Summary
 echo -e "${BOLD}${BLUE}=== COMPREHENSIVE ERROR TESTING SUMMARY ===${NC}"
 echo -e "${BLUE}======================================================${NC}"
-echo -e "${YELLOW}Total Error Maps Tested: $TOTAL_TESTS${NC}"
+echo -e "${YELLOW}Error Maps Found: $CUB_FILES_COUNT .cub files${NC}"
+echo -e "${YELLOW}Invalid Extensions Found: $TOTAL_INVALID_EXT files${NC}"
+echo -e "${YELLOW}Total Tests Executed: $TOTAL_TESTS${NC}"
 echo
 echo -e "${GREEN}Mandatory Error Tests Passed: $MANDATORY_PASSED${NC}"
 echo -e "${RED}Mandatory Error Tests Failed: $MANDATORY_FAILED${NC}"
@@ -243,6 +272,9 @@ if [ $TOTAL_FAILED -eq 0 ]; then
     if [ "$VALGRIND_AVAILABLE" = true ]; then
         echo -e "${GREEN}✓ No memory leaks in error handling${NC}"
     fi
+    if [ "$BONUS_AVAILABLE" = true ]; then
+        echo -e "${GREEN}✓ Bonus executable error handling works correctly${NC}"
+    fi
     exit 0
 else
     echo -e "\n${RED}❌ Some error tests failed. Issues detected:${NC}"
@@ -256,5 +288,6 @@ else
         echo -e "${RED}   - Memory leaks in error handling: $VALGRIND_FAILED tests${NC}"
     fi
     echo -e "${YELLOW}Please review the failed cases above and fix error handling.${NC}"
+    echo -e "${CYAN}Note: If only a few tests failed, it might be due to timing or specific edge cases.${NC}"
     exit 1
 fi

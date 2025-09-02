@@ -97,5 +97,9 @@ norm:
 	@echo "Running Norminette check..."
 	@./norm_check.sh
 
-.PHONY: all clean fclean create_dirs re norm
+norm-no-headers:
+	@echo "Running Norminette check (excluding header errors)..."
+	@./norm_check.sh --no-headers
+
+.PHONY: all clean fclean create_dirs re norm norm-no-headers
 

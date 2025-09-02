@@ -7,8 +7,50 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Parse command line arguments
+EXCLUDE_HEADERS=false
+HELP=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --no-headers|--exclude-headers|-nh)
+            EXCLUDE_HEADERS=true
+            shift
+            ;;
+        --help|-h)
+            HELP=true
+            shift
+            ;;
+        *)
+            echo -e "${RED}Unknown option: $1${NC}"
+            HELP=true
+            shift
+            ;;
+    esac
+done
+
+# Show help if requested
+if [ "$HELP" = true ]; then
+    echo -e "${BLUE}🔍 Norminette Check for Cub3D${NC}"
+    echo ""
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --no-headers, --exclude-headers, -nh    Exclude header errors (INVALID_HEADER)"
+    echo "  --help, -h                              Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  $0                    # Check all norminette errors"
+    echo "  $0 --no-headers      # Check all errors except missing 42 headers"
+    echo "  $0 -nh               # Same as above (short form)"
+    exit 0
+fi
+
 echo -e "${BLUE}🔍 Running Norminette Check for Cub3D${NC}"
 echo -e "${BLUE}Excluding: mlx folder${NC}"
+if [ "$EXCLUDE_HEADERS" = true ]; then
+    echo -e "${YELLOW}Note: Excluding header errors (INVALID_HEADER)${NC}"
+fi
 echo ""
 
 # Check if norminette is installed
@@ -47,14 +89,33 @@ check_directory() {
         if [ $exit_code -eq 0 ]; then
             echo -e "${GREEN}✅${NC}"
         else
-            echo -e "${RED}❌${NC}"
-            ((error_files++))
-            echo -e "${RED}    Errors in $file:${NC}"
-            # Count errors (lines that don't contain "OK!" and aren't empty)
-            file_errors=$(echo "$output" | grep -v "OK!" | grep -v "^$" | wc -l)
-            ((total_errors += file_errors))
-            echo "$output" | sed 's/^/      /'
-            echo ""
+            # Filter output if excluding headers
+            if [ "$EXCLUDE_HEADERS" = true ]; then
+                # Remove INVALID_HEADER lines and the corresponding Error: line
+                filtered_output=$(echo "$output" | grep -v "Error: INVALID_HEADER")
+                # Check if there are any non-OK lines left after filtering
+                remaining_errors=$(echo "$filtered_output" | grep -v "OK!" | grep -v "^$" | grep -v ": Error!$")
+                if [ -z "$remaining_errors" ]; then
+                    echo -e "${GREEN}✅${NC} (header errors ignored)"
+                else
+                    echo -e "${RED}❌${NC}"
+                    ((error_files++))
+                    echo -e "${RED}    Errors in $file:${NC}"
+                    error_count=$(echo "$remaining_errors" | wc -l)
+                    ((total_errors += error_count))
+                    echo "$remaining_errors" | sed 's/^/      /'
+                    echo ""
+                fi
+            else
+                echo -e "${RED}❌${NC}"
+                ((error_files++))
+                echo -e "${RED}    Errors in $file:${NC}"
+                # Count errors (lines that don't contain "OK!" and aren't empty)
+                file_errors=$(echo "$output" | grep -v "OK!" | grep -v "^$" | wc -l)
+                ((total_errors += file_errors))
+                echo "$output" | sed 's/^/      /'
+                echo ""
+            fi
         fi
     done < <(find "$dir" -type f \( -name "*.c" -o -name "*.h" \) -print0)
 }
@@ -86,13 +147,30 @@ for file in *.c *.h; do
         if [ $exit_code -eq 0 ]; then
             echo -e "${GREEN}✅${NC}"
         else
-            echo -e "${RED}❌${NC}"
-            ((error_files++))
-            file_errors=$(echo "$output" | grep -v "OK!" | grep -v "^$" | wc -l)
-            ((total_errors += file_errors))
-            echo -e "${RED}    Errors in $file:${NC}"
-            echo "$output" | sed 's/^/      /'
-            echo ""
+            # Filter output if excluding headers
+            if [ "$EXCLUDE_HEADERS" = true ]; then
+                filtered_output=$(echo "$output" | grep -v "INVALID_HEADER")
+                # Check if there are any errors left after filtering
+                error_count=$(echo "$filtered_output" | grep -v "OK!" | grep -v "^$" | wc -l)
+                if [ $error_count -eq 0 ]; then
+                    echo -e "${GREEN}✅${NC} (header errors ignored)"
+                else
+                    echo -e "${RED}❌${NC}"
+                    ((error_files++))
+                    ((total_errors += error_count))
+                    echo -e "${RED}    Errors in $file:${NC}"
+                    echo "$filtered_output" | sed 's/^/      /'
+                    echo ""
+                fi
+            else
+                echo -e "${RED}❌${NC}"
+                ((error_files++))
+                file_errors=$(echo "$output" | grep -v "OK!" | grep -v "^$" | wc -l)
+                ((total_errors += file_errors))
+                echo -e "${RED}    Errors in $file:${NC}"
+                echo "$output" | sed 's/^/      /'
+                echo ""
+            fi
         fi
     fi
 done
