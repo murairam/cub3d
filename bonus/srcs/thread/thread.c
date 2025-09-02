@@ -23,7 +23,7 @@ static void	random_move(t_game *game, long time, int *stop)
 		game->random_flag = 1;
 	}
 	else
-		ft_printf_fd(2, "Error: Too many walls...\n");
+		printf("Too many walls...\n");
 	*stop += 1;
 }
 

@@ -414,15 +414,15 @@ void				validate_chars_and_count(char **map, int *player_count,
 void				validate_door_texture_file(t_game *game,
 						t_list **map_lines);
 void				fetch_player_cords(char **map, t_game *game);
-void				store_doors(char **map, t_game *game);
+int					store_doors(char **map, t_game *game);
 
 /* ****************************************************************************/
 /*                              INITIALIZATION                                */
 /* ****************************************************************************/
 
-int					init_game(t_game *game);
+void				init_game(t_game *game);
 int					game_init(t_game *game);
-short				init_game_vars(t_game *game);
+void				init_game_vars(t_game *game);
 short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);

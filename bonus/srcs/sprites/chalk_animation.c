@@ -63,8 +63,7 @@ int	init_chalk_sprite_system(t_game *game)
 	{
 		if (!load_chalk_sprite_texture(game, &game->chalk_sprites[i]))
 		{
-			ft_printf_fd(2,
-				"[ERROR] Failed to load sprite texture for sprite %d\n", i);
+			printf("[ERROR] Failed to load sprite texture for sprite %d\n", i);
 			game->chalk_sprites[i].img = NULL;
 			game->chalk_sprites[i].data = NULL;
 			game->chalk_sprites[i].visible = 0;

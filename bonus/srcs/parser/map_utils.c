@@ -49,7 +49,7 @@ static void	initialize_doors(char **map, t_game *game)
 	}
 }
 
-void	store_doors(char **map, t_game *game)
+int	store_doors(char **map, t_game *game)
 {
 	int	i;
 	int	j;
@@ -68,11 +68,12 @@ void	store_doors(char **map, t_game *game)
 		i++;
 	}
 	if (game->door_count == 0)
-		return ;
+		return (0);
 	game->doors = ft_calloc(game->door_count, sizeof(t_door));
-	if (!game->doors)
-		ft_exit_error_with_cleanup(game, "Memory allocation failed for doors");
+	if (!game->doors)	
+		return (-1);
 	initialize_doors(map, game);
+	return (0);
 }
 
 static void	process_map_row(char *row, int y, int *max_width, int *max_height)

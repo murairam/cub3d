@@ -13,12 +13,10 @@ static void	render_wall_pixel(t_ray *ray, t_text *text, t_game *game,
 	{
 		ray->tex_y = (int)ray->tx_pos % (text->height - 1);
 		ray->tx_pos += ray->step;
-		if (!text || !text->data)
-		{
-			ft_printf_fd(2,
-				"ERROR: texture is NULL (side=%d, map_x=%d, map_y=%d)\n",
-				ray->side, ray->map_x, ray->map_y);
-			return ;
+		if (!text || !text->data) {
+		    fprintf(stderr, "ERROR: texture is NULL (side=%d, map_x=%d, map_y=%d)\n",
+		        ray->side, ray->map_x, ray->map_y);
+		    return;
 		}
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));

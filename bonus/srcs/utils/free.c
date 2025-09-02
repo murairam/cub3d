@@ -57,7 +57,14 @@ void	ft_free_game(t_game *game)
 
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 {
-	close_game(game);
+	game->stop = 1;
+	if (!game)
+		exit(0);
+	cleanup_chalk_sprites(game);
+	ft_free_mlx(game);
+	ft_free_bonus(game);
+	ft_free_game(game);
+	cleanup_game(game);
 	ft_exit_error(msg);
 }
 

@@ -1,11 +1,10 @@
-NO incs/assets/textures/Bricks_North1.xpm
-SO incs/assets/textures/Bricks_South1.xpm
-WE incs/assets/textures/Bricks_West1.xpm
-EA incs/assets/textures/Bricks_East1.xpm
-DR incs/assets/textures/door.xpm
+NO incs/assets/textures/Bricks_North.xpm
+SO incs/assets/textures/Bricks_South.xpm
+WE incs/assets/textures/Bricks_West.xpm
+EA incs/assets/textures/Bricks_East.xpm
 
-F 64,64,64
-C 204,229,255
+F 0,0,0
+C 0,0,0
 
 1111111111
 1000D00001

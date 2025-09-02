@@ -1,7 +1,7 @@
-NO incs/assets/textures/Bricks_North1.xpm
-SO incs/assets/textures/Bricks_South1.xpm
-WE incs/assets/textures/Bricks_West1.xpm
-EA incs/assets/textures/Bricks_East1.xpm
+NO incs/assets/textures/Bricks_North.xpm
+SO incs/assets/textures/Bricks_South.xpm
+WE incs/assets/textures/Bricks_West.xpm
+EA incs/assets/textures/Bricks_East.xpm
 
 F 139,69,19
 C 135,216,251
