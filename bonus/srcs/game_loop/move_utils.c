@@ -81,4 +81,6 @@ void	handle_action_keys(int keycode, t_game *game, t_player *player)
 	}
 	if (keycode == E)
 		pick_up_item(player, game);
+	if (keycode == M)
+		minimap_toggle(game);
 }

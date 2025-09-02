@@ -22,7 +22,7 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define MAX_TIME			1000000
+# define MAX_TIME			15000
 # define BIG_FLOAT			1000000000.0f
 # define PI					3.14159265f
 # define WIDTH				1280
@@ -43,11 +43,12 @@
 # define D					100
 # define E					101
 # define F					102
+# define M					109
 # define ESC				65307
 # define SPACE				32
 # define SHIFT				65505
 # define MAX_ITEM			5
-# define MAX_CYCLE			1
+# define MAX_CYCLE			3
 
 /* Minimap defines */
 # define MINIMAP_SIZE		150
@@ -374,6 +375,7 @@ typedef struct s_game
 	t_chalk_sprite	*chalk_sprites;
 	int				chalk_sprite_count;
 	int				chalk_collected;
+	bool			minimap_toggle;
 	double			game_time;
 	t_text			*sprites;
 	t_ray_table		ray_table;
@@ -484,6 +486,7 @@ void				recreate_minimap_image(t_game *game, int width, int height);
 void				blend_pixel_colors(t_game *game, int x, int y);
 void				clear_minimap_properly(t_game *game);
 void				composite_minimap_to_main(t_game *game);
+void				minimap_toggle(t_game *game);
 
 /* ****************************************************************************/
 /*                              INTERACTIONS                                  */

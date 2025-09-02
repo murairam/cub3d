@@ -52,3 +52,11 @@ void	composite_minimap_to_main(t_game *game)
 		y++;
 	}
 }
+
+void	minimap_toggle(t_game *game)
+{
+	if (game->minimap_toggle == false)
+		game->minimap_toggle = true;
+	else
+		game->minimap_toggle = false;
+}
