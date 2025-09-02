@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_textures.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/02 14:11:10 by mmiilpal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../incs/cub3d_bonus.h"
+#include "cub3d_bonus.h"
 
 short	wall_textures(t_game *game)
 {
@@ -52,7 +40,7 @@ short	texture_init(t_game *game)
 	if (load_texture(game, &game->screen_over, TEX_GAME_OVER))
 		return (1);
 	if (load_texture(game, &game->screen_win, TEX_GAME_WIN))
-		return (1);	
+		return (1);
 	if (load_texture(game, &game->door, TEX_DOOR))
 		return (1);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);

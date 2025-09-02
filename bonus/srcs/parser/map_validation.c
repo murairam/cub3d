@@ -5,8 +5,8 @@ static int	is_valid_char(char c)
 	return (ft_strchr("10NSEWDMXckm \n\r", c) != NULL);
 }
 
-void	validate_chars_and_count(char **map, int *player_count,
-		t_game *game, t_list **map_lines)
+void	validate_chars_and_count(char **map, int *player_count, t_game *game,
+		t_list **map_lines)
 {
 	int	i;
 	int	j;
@@ -32,4 +32,3 @@ void	validate_chars_and_count(char **map, int *player_count,
 		i++;
 	}
 }
-

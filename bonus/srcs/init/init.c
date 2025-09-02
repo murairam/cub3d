@@ -24,7 +24,5 @@ void	init_game(t_game *game)
 	game->print_flag = 0;
 	game->random_flag = 0;
 	game->minimap_toggle = false;
-// if condition to check whether the 
-//mutex worked then cascade if it didnt :'(
 	pthread_mutex_init(&game->darken_lock, NULL);
 }

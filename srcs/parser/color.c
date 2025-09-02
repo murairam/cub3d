@@ -1,7 +1,7 @@
 #include "cub3d.h"
 
 static void	cleanup_and_exit(char **rgb, char **outer_split, t_game *game,
-	const char *msg)
+		const char *msg)
 {
 	if (rgb)
 		ft_free_split(rgb);
@@ -41,7 +41,8 @@ static int	parse_rgb(char *str, char **outer_split, t_game *game)
 	free(trimmed_str);
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		cleanup_and_exit(rgb, outer_split, game, "RGB must have 3 values");
-	if (!is_valid_number(rgb[0]) || !is_valid_number(rgb[1]) || !is_valid_number(rgb[2]))
+	if (!is_valid_number(rgb[0]) || !is_valid_number(rgb[1])
+		|| !is_valid_number(rgb[2]))
 		cleanup_and_exit(rgb, outer_split, game, "RGB values must be integers");
 	r = ft_atoi(rgb[0]);
 	g = ft_atoi(rgb[1]);

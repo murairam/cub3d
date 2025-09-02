@@ -1,13 +1,13 @@
 #include "cub3d_bonus.h"
 
-static void end_screen(t_game *game)
+static void	end_screen(t_game *game)
 {
 	if (game->stop == 1)
-		mlx_put_image_to_window(game->mlx, game->win,
-			game->screen_over.img, 0, 0);
+		mlx_put_image_to_window(game->mlx, game->win, game->screen_over.img, 0,
+			0);
 	if (game->stop == 2)
-		mlx_put_image_to_window(game->mlx, game->win,
-			game->screen_win.img, 0, 0);
+		mlx_put_image_to_window(game->mlx, game->win, game->screen_win.img, 0,
+			0);
 }
 
 static void	render_rays(t_game *game, t_player *player)
@@ -29,8 +29,8 @@ static void	render_rays(t_game *game, t_player *player)
 
 int	draw_loop(t_game *game)
 {
-	t_player		*player;
-	double			delta_time;
+	t_player	*player;
+	double		delta_time;
 
 	if (game->stop != 0)
 		end_screen(game);

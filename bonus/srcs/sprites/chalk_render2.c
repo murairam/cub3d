@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   chalk_render2.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/27 00:00:00 by mmiilpal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../incs/cub3d_bonus.h"
-#include <math.h>
 
 static void	calc_bounds(int screen_x, int sprite_width, int sprite_height,
 	t_bounds *bounds)

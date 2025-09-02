@@ -2,7 +2,7 @@
 
 void	close_with_print(t_game *game, char *to_print)
 {
-	ft_printf_fd(2,"%s\n", to_print);
+	ft_printf_fd(2, "%s\n", to_print);
 	close_game(game);
 }
 

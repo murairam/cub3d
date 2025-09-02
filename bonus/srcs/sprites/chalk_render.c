@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   chalk_render.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/27 00:00:00 by mmiilpal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../incs/cub3d_bonus.h"
-#include <math.h>
+#include "cub3d_bonus.h"
 
 int	is_in_fov(t_game *game, double sprite_x, double sprite_y)
 {

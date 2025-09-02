@@ -19,7 +19,7 @@ static void	add_single_chalk_item(t_game *game, char item)
 
 static void	add_chalk_items_to_inventory(t_game *game, char item)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (item == 'c')
@@ -66,4 +66,3 @@ void	check_chalk_sprites(t_game *game, t_player *player)
 		i++;
 	}
 }
-

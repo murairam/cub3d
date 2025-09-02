@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   chalk_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/01 10:18:08 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/02 17:08:05 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/cub3d_bonus.h"
-#include <math.h>
+#include "cub3d_bonus.h"
 
 double	normalize_angle(double angle)
 {

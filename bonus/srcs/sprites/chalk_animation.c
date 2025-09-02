@@ -1,18 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   chalk_animation.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/27 00:00:00 by mmiilpal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../incs/cub3d_bonus.h"
-#include <sys/time.h>
-#include <math.h>
+#include "cub3d_bonus.h"
 
 double	get_current_time(void)
 {
@@ -63,7 +49,8 @@ int	init_chalk_sprite_system(t_game *game)
 	{
 		if (!load_chalk_sprite_texture(game, &game->chalk_sprites[i]))
 		{
-			ft_printf_fd(2, "[ERROR] Failed to load sprite texture for sprite %d\n", i);
+			ft_printf_fd(2, "[ERROR] Failed to load sprite texture for sprite\
+				%d\n", i);
 			game->chalk_sprites[i].img = NULL;
 			game->chalk_sprites[i].data = NULL;
 			game->chalk_sprites[i].visible = 0;

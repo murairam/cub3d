@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   chalk_visibility.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/01 14:12:01 by obajja           ###   ########.fr       */
+/*   Created: 2025/08/27 12:11:06 by mmiilpal          #+#    #+#             */
+/*   Updated: 2025/09/02 17:08:28 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/cub3d_bonus.h"
-#include <math.h>
+#include "cub3d_bonus.h"
 
 static bool	is_wall_blocking(t_game *game, int map_x, int map_y)
 {

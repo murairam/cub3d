@@ -1,7 +1,7 @@
 #include "cub3d_bonus.h"
 
 static void	render_wall_pixel(t_ray *ray, t_text *text, t_game *game,
-				int screen_x)
+		int screen_x)
 {
 	int		render_y;
 	int		pitch_offset;
@@ -13,10 +13,11 @@ static void	render_wall_pixel(t_ray *ray, t_text *text, t_game *game,
 	{
 		ray->tex_y = (int)ray->tx_pos % (text->height - 1);
 		ray->tx_pos += ray->step;
-		if (!text || !text->data) {
-		    ft_printf_fd(2, "ERROR: texture is NULL (side=%d, map_x=%d, map_y=%d)\n",
-		        ray->side, ray->map_x, ray->map_y);
-		    return;
+		if (!text || !text->data)
+		{
+			ft_printf_fd(2, "ERROR: texture is NULL (side=%d, map_x=%d,\
+				map_y=%d)\n", ray->side, ray->map_x, ray->map_y);
+			return ;
 		}
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));
@@ -72,6 +73,5 @@ void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 void	vertical_texture(t_ray *ray, t_text *text)
 {
 	ray->step = 1.0f * text->height / ray->l_height;
-	ray->tx_pos = (ray->d_start - HEIGHT / 2 + ray->l_height / 2)
-		* ray->step;
+	ray->tx_pos = (ray->d_start - HEIGHT / 2 + ray->l_height / 2) * ray->step;
 }
