@@ -454,7 +454,7 @@ void				print_handler(t_game *game, t_player *player);
 /*                              RENDERING                                     */
 /* ****************************************************************************/
 
-void				put_pixel(int x, int y, int color, t_game *game);
+void				draw_pixel(int x, int y, int color, t_game *game);
 void				clear_image(t_game *game);
 void				draw_line(t_player *player, t_game *game, float ray_angle,
 						int screen_x);

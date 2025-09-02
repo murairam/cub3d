@@ -76,7 +76,7 @@ static void	draw_sprite_pixel(t_game *game, t_chalk_sprite *sprite,
 	factor = factor_calculator(NULL, game);
 	pixel_color = dim_color(sprite->data[tex_index], factor);
 	if ((pixel_color & 0x00FFFFFF) != 0x000000)
-		put_pixel(params->x, params->y, pixel_color, game);
+		draw_pixel(params->x, params->y, pixel_color, game);
 }
 
 static void	render_sprite_pixels(t_game *game, t_chalk_sprite *sprite,

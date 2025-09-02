@@ -22,7 +22,7 @@ static void	render_wall_pixel(t_ray *ray, t_text *text, t_game *game,
 				+ ray->tex_x * (text->bpp / 8));
 		factor = factor_calculator(ray, game);
 		ray->color = dim_color(*(int *)ray->pixel, factor);
-		put_pixel(screen_x, render_y, ray->color, game);
+		draw_pixel(screen_x, render_y, ray->color, game);
 	}
 	else
 		ray->tx_pos += ray->step;
@@ -49,7 +49,7 @@ void	floor_render(t_ray *ray, t_game *game, int screen_x)
 		return ;
 	y = floor_start - 1;
 	while (++y < HEIGHT)
-		put_pixel(screen_x, y, game->color_f, game);
+		draw_pixel(screen_x, y, game->color_f, game);
 }
 
 void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
@@ -66,7 +66,7 @@ void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 		ceiling_end = HEIGHT;
 	y = -1;
 	while (++y < ceiling_end)
-		put_pixel(screen_x, y, game->color_c, game);
+		draw_pixel(screen_x, y, game->color_c, game);
 }
 
 void	vertical_texture(t_ray *ray, t_text *text)

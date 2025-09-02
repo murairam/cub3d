@@ -10,7 +10,7 @@ void	clear_image(t_game *game)
 	{
 		x = -1;
 		while (++x < WIDTH)
-			put_pixel(x, y, 0, game);
+			ft_put_pixel(x, y, 0, game);
 	}
 }
 

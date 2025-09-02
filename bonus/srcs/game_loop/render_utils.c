@@ -45,7 +45,7 @@ float	factor_calculator(t_ray *ray, t_game *game)
 	return (factor);
 }
 
-void	put_pixel(int x, int y, int color, t_game *game)
+void	draw_pixel(int x, int y, int color, t_game *game)
 {
 	int	*pixel;
 

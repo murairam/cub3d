@@ -62,7 +62,7 @@ void	reflect_put_pixel(t_ray *reflect, t_text *text,
 		if (render_y >= 0 && render_y < HEIGHT)
 		{
 			compute_reflection_color(reflect, text, game);
-			put_pixel(screenX, render_y, reflect->color, game);
+			draw_pixel(screenX, render_y, reflect->color, game);
 		}
 		else
 			reflect->tx_pos += reflect->step;

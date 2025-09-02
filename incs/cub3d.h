@@ -184,7 +184,7 @@ void			wall_render(t_ray *ray, t_text *text, t_game *game,
 /*                              RENDERING                                     */
 /* ****************************************************************************/
 
-void			put_pixel(int x, int y, int color, t_game *game);
+void			ft_put_pixel(int x, int y, int color, t_game *game);
 void			clear_image(t_game *game);
 void			draw_line(t_player *player, t_game *game, float ray_angle,
 					int screen_x);

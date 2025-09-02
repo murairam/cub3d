@@ -47,7 +47,7 @@ static void	render_mirror_pixel(t_ray *ray, t_text *mir_tex, t_game *game,
 		factor = factor_calculator(ray, game);
 		ray->color = dim_color(*(int *)ray->pixel, factor);
 		if (ray->color != 0 && (unsigned)ray->color != 0xFF000000)
-			put_pixel(screenX, render_y, ray->color, game);
+			draw_pixel(screenX, render_y, ray->color, game);
 	}
 	else
 		ray->tx_pos += ray->step;

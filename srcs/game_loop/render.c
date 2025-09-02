@@ -1,15 +1,21 @@
 #include "cub3d.h"
 
-void	put_pixel(int x, int y, int color, t_game *game)
+void	ft_put_pixel(int x, int y, int color, t_game *game)
 {
 	int	index;
+	int	r;
+	int	g;
+	int	b;
 
 	if (x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
 		return ;
 	index = y * game->size_line + x * (game->bpp / 8);
-	game->data[index] = color & 0xFF;
-	game->data[index + 1] = (color >> 8) & 0xFF;
-	game->data[index + 2] = (color >> 16) & 0xFF;
+	b = color % 256;
+	g = (color / 256) % 256;
+	r = (color / 65536) % 256;
+	game->data[index] = b;
+	game->data[index + 1] = g;
+	game->data[index + 2] = r;
 }
 
 void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
@@ -24,7 +30,7 @@ void	wall_render(t_ray *ray, t_text *text, t_game *game, int screen_x)
 		ray->pixel = (char *)text->data + (ray->tex_y * text->size_line
 				+ ray->tex_x * (text->bpp / 8));
 		ray->color = *(int *)ray->pixel;
-		put_pixel(screen_x, y, ray->color, game);
+		ft_put_pixel(screen_x, y, ray->color, game);
 	}
 }
 
@@ -34,7 +40,7 @@ static void	floor_render(t_ray *ray, t_game *game, int screen_x)
 
 	y = ray->draw_end - 1;
 	while (++y < HEIGHT)
-		put_pixel(screen_x, y, game->color_f, game);
+		ft_put_pixel(screen_x, y, game->color_f, game);
 }
 
 static void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
@@ -43,7 +49,7 @@ static void	ceiling_render(t_ray *ray, t_game *game, int screen_x)
 
 	y = -1;
 	while (++y < ray->d_start)
-		put_pixel(screen_x, y, game->color_c, game);
+		ft_put_pixel(screen_x, y, game->color_c, game);
 }
 
 void	draw_line(t_player *player, t_game *game, float angle, int screen_x)
