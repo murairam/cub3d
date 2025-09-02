@@ -7,7 +7,7 @@ int	key_press(int keycode, t_game *game)
 	player = &game->player;
 	if (keycode == ESC)
 		close_game(game);
-	if (game->stop != 1)
+	if (game->stop == 0)
 	{
 		handle_movement_keys(keycode, player);
 		handle_view_keys(keycode, player);

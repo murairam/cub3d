@@ -2,7 +2,7 @@
 
 bool	is_door(char c)
 {
-	return (c == 'D');
+	return (c == 'D' || c == 'X');
 }
 
 void	init_doors(t_game *game)

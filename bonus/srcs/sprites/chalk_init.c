@@ -70,7 +70,7 @@ int	parse_map_for_chalks(t_game *game)
 	game->chalk_sprites = malloc(sizeof(t_chalk_sprite) * count);
 	if (!game->chalk_sprites)
 		return (0);
-	memset(game->chalk_sprites, 0, sizeof(t_chalk_sprite) * count);
+	ft_memset(game->chalk_sprites, 0, sizeof(t_chalk_sprite) * count);
 	game->chalk_sprite_count = 0;
 	store_chalk_positions(game);
 	return (1);

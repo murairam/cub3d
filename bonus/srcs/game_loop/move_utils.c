@@ -13,7 +13,7 @@ bool	check_tile_collision(t_game *game, int map_x, int map_y)
 	tile = game->map[map_y][map_x];
 	if (tile == '1' || tile == 'M' || tile == '2')
 		return (true);
-	if (tile != 'D')
+	if (tile != 'D' && tile != 'X')
 		return (false);
 	i = 0;
 	while (i < game->door_count)
@@ -81,4 +81,6 @@ void	handle_action_keys(int keycode, t_game *game, t_player *player)
 	}
 	if (keycode == E)
 		pick_up_item(player, game);
+	if (keycode == M)
+		minimap_toggle(game);
 }

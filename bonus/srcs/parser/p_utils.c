@@ -11,7 +11,7 @@ int	is_map_line(char *line)
 	{
 		if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S'
 			|| *line == 'E' || *line == 'W' || *line == 'D' || *line == 'M'
-			|| *line == 'c' || *line == 'k')
+			|| *line == 'c' || *line == 'k' || *line == 'X')
 			has_map_char = true;
 		else if (!(*line == ' ' || *line == '\n' || *line == '\r'))
 			return (0);
@@ -28,8 +28,7 @@ int	is_color_line(char *line)
 int	is_texture_line(char *line)
 {
 	return (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
-		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
-		|| ft_strncmp(line, "DR ", 3) == 0);
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0);
 }
 
 int	is_empty_line(char *line)

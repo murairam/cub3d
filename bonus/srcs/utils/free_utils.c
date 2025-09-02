@@ -21,6 +21,8 @@ void	ft_free_image_textures(t_game *game)
 	ft_free_wall_textures(game);
 	if (game->door.img && game->door.img != game->north.img)
 		mlx_destroy_image(game->mlx, game->door.img);
+	if (game->exit.img && game->exit.img != game->north.img)
+		mlx_destroy_image(game->mlx, game->exit.img);
 	if (game->left_arm.img)
 		mlx_destroy_image(game->mlx, game->left_arm.img);
 	if (game->right_arm.img)
@@ -35,6 +37,8 @@ void	ft_free_image_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->char_mirror.img);
 	if (game->screen_over.img)
 		mlx_destroy_image(game->mlx, game->screen_over.img);
+	if (game->screen_win.img)
+		mlx_destroy_image(game->mlx, game->screen_win.img);
 }
 
 void	ft_free_mlx(t_game *game)

@@ -22,7 +22,7 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define MAX_TIME			10000
+# define MAX_TIME			15000
 # define BIG_FLOAT			1000000000.0f
 # define PI					3.14159265f
 # define WIDTH				1280
@@ -43,11 +43,12 @@
 # define D					100
 # define E					101
 # define F					102
+# define M					109
 # define ESC				65307
 # define SPACE				32
 # define SHIFT				65505
 # define MAX_ITEM			5
-# define MAX_CYCLE			1
+# define MAX_CYCLE			3
 
 /* Minimap defines */
 # define MINIMAP_SIZE		150
@@ -80,11 +81,13 @@
 # define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
 # define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
-# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror.xpm"
+# define TEX_EXIT			"incs/assets/textures/exit.xpm"
+# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
 # define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
 # define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
 # define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
 # define TEX_KEY_ITEM		"incs/assets/textures/key.xpm"
+# define TEX_GAME_WIN		"incs/assets/textures/GameWin.xpm"
 
 /* Sprite constants */
 # define MAX_SPRITES		50
@@ -224,6 +227,7 @@ typedef struct s_door
 {
 	int				x;
 	int				y;
+	char			type;
 	t_door_state	state;
 }					t_door;
 
@@ -367,9 +371,11 @@ typedef struct s_game
 	t_text			west_chalk;	
 	t_text			character;
 	t_text			door;
+	t_text			exit;
 	t_chalk_sprite	*chalk_sprites;
 	int				chalk_sprite_count;
 	int				chalk_collected;
+	bool			minimap_toggle;
 	double			game_time;
 	t_text			*sprites;
 	t_ray_table		ray_table;
@@ -405,8 +411,6 @@ void				validate_boundaries(char **map, t_game *game,
 						t_list **map_lines);
 void				validate_chars_and_count(char **map, int *player_count,
 						t_game *game, t_list **map_lines);
-void				validate_door_consistency(t_game *game, char **map,
-						t_list **map_lines);
 void				validate_door_texture_file(t_game *game,
 						t_list **map_lines);
 void				fetch_player_cords(char **map, t_game *game);
@@ -482,6 +486,7 @@ void				recreate_minimap_image(t_game *game, int width, int height);
 void				blend_pixel_colors(t_game *game, int x, int y);
 void				clear_minimap_properly(t_game *game);
 void				composite_minimap_to_main(t_game *game);
+void				minimap_toggle(t_game *game);
 
 /* ****************************************************************************/
 /*                              INTERACTIONS                                  */

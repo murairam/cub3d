@@ -29,8 +29,14 @@ static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 	if (ray->map_y >= 0 && ray->map_y < game->map_height
 		&& ray->map_x >= 0 && game->map[ray->map_y]
 		&& ray->map_x < (int)ft_strlen(game->map[ray->map_y])
-		&& game->map[ray->map_y][ray->map_x] == 'D')
-		return (&game->door);
+		&& (game->map[ray->map_y][ray->map_x] == 'D'
+		|| game->map[ray->map_y][ray->map_x] == 'X'))
+	{
+		if (game->map[ray->map_y][ray->map_x] == 'D')
+			return (&game->door);
+		else if (game->map[ray->map_y][ray->map_x] == 'X')
+			return (&game->exit);
+	}
 	if (ray->side == 0)
 		return (east_west_walls(game, ray));
 	else

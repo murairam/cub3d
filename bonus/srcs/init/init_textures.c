@@ -6,7 +6,7 @@
 /*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/28 18:36:42 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/01 17:39:39 by obajja           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,16 @@ short	texture_init(t_game *game)
 		return (1);
 	if (load_texture(game, &game->mirror, TEX_MIRROR))
 		return (1);
+	if (load_texture(game, &game->exit, TEX_EXIT))
+		return (1);
 	if (load_texture(game, &game->char_mirror, TEX_CHAR_MIRROR))
 		return (1);
 	if (load_texture(game, &game->screen_over, TEX_GAME_OVER))
 		return (1);
-	if (game->door.name)
-	{
-		if (load_texture(game, &game->door, TEX_DOOR))
-			return (1);
-	}
+	if (load_texture(game, &game->screen_win, TEX_GAME_WIN))
+		return (1);	
+	if (load_texture(game, &game->door, TEX_DOOR))
+		return (1);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
