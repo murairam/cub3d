@@ -5,18 +5,130 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 PROGRAM="./cub3d"
+BONUS_PROGRAM="./cub3d_bonus"
 TEST_DIR="test_maps"
 PASSED=0
 FAILED=0
+VALGRIND_PASSED=0
+VALGRIND_FAILED=0
+BONUS_PASSED=0
+BONUS_FAILED=0
+
+# Check if valgrind is available
+VALGRIND_AVAILABLE=false
+if command -v valgrind &> /dev/null; then
+    VALGRIND_AVAILABLE=true
+    echo -e "${CYAN}✓ Valgrind detected - Memory leak checking enabled${NC}"
+else
+    echo -e "${YELLOW}⚠ Valgrind not found - Memory leak checking disabled${NC}"
+fi
+
+# Check if bonus executable exists
+BONUS_AVAILABLE=false
+if [ -f "$BONUS_PROGRAM" ]; then
+    BONUS_AVAILABLE=true
+    echo -e "${CYAN}✓ Bonus executable detected - Bonus testing enabled${NC}"
+else
+    echo -e "${YELLOW}⚠ Bonus executable not found - Bonus testing disabled${NC}"
+fi
 
 # Create test directory
 mkdir -p $TEST_DIR
 
-echo -e "${BLUE}=== CUB3D MANDATORY TESTING ===${NC}"
+echo -e "${BLUE}=== CUB3D MANDATORY TESTING WITH ENHANCED CHECKS ===${NC}"
 echo
+
+# Function to run valgrind test
+run_valgrind_test() {
+    local test_name="$1"
+    local program="$2"
+    local map_file="$3"
+    local description="$4"
+    
+    echo -e "${PURPLE}Valgrind Test: $test_name${NC}"
+    echo "Program: $program"
+    echo "File: $map_file"
+    
+    # Run with valgrind for memory leak detection
+    timeout 5 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+        --error-exitcode=1 --log-file=/tmp/valgrind_output.txt \
+        $program "$map_file" > /tmp/test_output.txt 2>&1 &
+    
+    PID=$!
+    sleep 2
+    
+    # Kill the process if it's still running (normal for valid maps)
+    if kill -0 $PID 2>/dev/null; then
+        kill $PID 2>/dev/null
+        wait $PID 2>/dev/null
+    else
+        wait $PID 2>/dev/null
+    fi
+    
+    # Check valgrind output for memory leaks
+    if grep -q "definitely lost: 0 bytes" /tmp/valgrind_output.txt && \
+       grep -q "indirectly lost: 0 bytes" /tmp/valgrind_output.txt && \
+       grep -q "possibly lost: 0 bytes" /tmp/valgrind_output.txt; then
+        echo -e "${GREEN}✓ VALGRIND PASSED${NC} - No memory leaks detected"
+        ((VALGRIND_PASSED++))
+    else
+        echo -e "${RED}✗ VALGRIND FAILED${NC} - Memory leaks detected"
+        echo -e "${YELLOW}Valgrind Output:${NC}"
+        cat /tmp/valgrind_output.txt
+        ((VALGRIND_FAILED++))
+    fi
+    echo
+}
+
+# Function to run bonus test
+run_bonus_test() {
+    local test_name="$1"
+    local map_file="$2"
+    local should_pass="$3"
+    local description="$4"
+    
+    echo -e "${CYAN}Bonus Test: $test_name${NC}"
+    echo "Description: $description"
+    echo "File: $map_file"
+    
+    # Run the bonus program with timeout
+    timeout 2 $BONUS_PROGRAM "$map_file" > /tmp/bonus_output.txt 2>&1
+    exit_code=$?
+    
+    if [ "$should_pass" = "true" ]; then
+        # For valid maps, timeout (exit code 124) or SIGTERM (exit code 143) means success
+        if [ $exit_code -eq 0 ] || [ $exit_code -eq 124 ] || [ $exit_code -eq 143 ]; then
+            echo -e "${GREEN}✓ BONUS PASSED${NC} - Program started successfully"
+            ((BONUS_PASSED++))
+        else
+            echo -e "${RED}✗ BONUS FAILED${NC} - Program exited with code $exit_code"
+            echo -e "${YELLOW}Error Output:${NC}"
+            cat /tmp/bonus_output.txt
+            ((BONUS_FAILED++))
+        fi
+    else
+        if [ $exit_code -ne 0 ] && [ $exit_code -ne 124 ] && [ $exit_code -ne 143 ]; then
+            if grep -q "Error" /tmp/bonus_output.txt; then
+                echo -e "${GREEN}✓ BONUS PASSED${NC} - Program correctly returned error"
+                echo -e "${BLUE}Error Message:${NC}"
+                cat /tmp/bonus_output.txt
+                ((BONUS_PASSED++))
+            else
+                echo -e "${RED}✗ BONUS FAILED${NC} - Program exited but didn't print 'Error'"
+                ((BONUS_FAILED++))
+            fi
+        else
+            echo -e "${RED}✗ BONUS FAILED${NC} - Program should have failed but succeeded"
+            ((BONUS_FAILED++))
+        fi
+    fi
+    echo
+}
 
 # Function to run test
 run_test() {
@@ -29,27 +141,13 @@ run_test() {
     echo "Description: $description"
     echo "File: $map_file"
     
-    # Run the program and capture output
-    $PROGRAM "$map_file" > /tmp/test_output.txt 2>&1 &
-    PID=$!
-    
-    # Wait a short time to see if it starts successfully
-    sleep 1
-    
-    # Check if process is still running (success) or has exited (error)
-    if kill -0 $PID 2>/dev/null; then
-        # Process is running, kill it and consider it a success
-        kill $PID 2>/dev/null
-        wait $PID 2>/dev/null
-        exit_code=0
-    else
-        # Process has exited, get its exit code
-        wait $PID 2>/dev/null
-        exit_code=$?
-    fi
+    # Run the program with timeout
+    timeout 2 $PROGRAM "$map_file" > /tmp/test_output.txt 2>&1
+    exit_code=$?
     
     if [ "$should_pass" = "true" ]; then
-        if [ $exit_code -eq 0 ]; then
+        # For valid maps, timeout (exit code 124) or SIGTERM (exit code 143) means success
+        if [ $exit_code -eq 0 ] || [ $exit_code -eq 124 ] || [ $exit_code -eq 143 ]; then
             echo -e "${GREEN}✓ PASSED${NC} - Program started successfully"
             ((PASSED++))
         else
@@ -59,7 +157,7 @@ run_test() {
             ((FAILED++))
         fi
     else
-        if [ $exit_code -ne 0 ]; then
+        if [ $exit_code -ne 0 ] && [ $exit_code -ne 124 ] && [ $exit_code -ne 143 ]; then
             # Check if output contains "Error"
             if grep -q "Error" /tmp/test_output.txt; then
                 echo -e "${GREEN}✓ PASSED${NC} - Program correctly returned error"
@@ -390,16 +488,91 @@ EOF
 
 run_test "RGB Boundary Values" "$TEST_DIR/rgb_boundary.cub" "true" "RGB values at boundaries (0,255)"
 
-# Summary
-echo -e "${BLUE}=== TEST SUMMARY ===${NC}"
-echo -e "${GREEN}Passed: $PASSED${NC}"
-echo -e "${RED}Failed: $FAILED${NC}"
-echo -e "Total: $((PASSED + FAILED))"
+# Enhanced testing with valgrind
+if [ "$VALGRIND_AVAILABLE" = true ]; then
+    echo -e "${PURPLE}=== MEMORY LEAK TESTING WITH VALGRIND ===${NC}"
+    
+    # Test with valid maps
+    if [ -f "$TEST_DIR/simple_valid.cub" ]; then
+        run_valgrind_test "Simple Valid Map" "$PROGRAM" "$TEST_DIR/simple_valid.cub" "Memory leak test with simple valid map"
+    fi
+    
+    # Test with mandatory folder maps
+    for map_file in maps/mandatory/*.cub; do
+        if [ -f "$map_file" ]; then
+            map_name=$(basename "$map_file" .cub)
+            run_valgrind_test "Mandatory Map: $map_name" "$PROGRAM" "$map_file" "Memory leak test with $map_file"
+        fi
+    done
+    
+    # Test error cases for memory leaks
+    run_valgrind_test "Missing Texture" "$PROGRAM" "maps/missing_texture_path.cub" "Memory leak test with missing texture"
+    run_valgrind_test "Invalid RGB" "$PROGRAM" "$TEST_DIR/bad_rgb.cub" "Memory leak test with invalid RGB"
+fi
 
-if [ $FAILED -eq 0 ]; then
-    echo -e "\n${GREEN}🎉 ALL TESTS PASSED! Your cub3d implementation meets the mandatory requirements.${NC}"
+# Test mandatory maps with bonus executable
+if [ "$BONUS_AVAILABLE" = true ]; then
+    echo -e "${CYAN}=== TESTING MANDATORY MAPS WITH BONUS EXECUTABLE ===${NC}"
+    
+    # Test all maps in mandatory folder with bonus
+    for map_file in maps/mandatory/*.cub; do
+        if [ -f "$map_file" ]; then
+            map_name=$(basename "$map_file" .cub)
+            run_bonus_test "Bonus: $map_name" "$map_file" "true" "Testing mandatory map $map_name with bonus executable"
+            
+            # Also run valgrind test on bonus if available
+            if [ "$VALGRIND_AVAILABLE" = true ]; then
+                run_valgrind_test "Bonus Valgrind: $map_name" "$BONUS_PROGRAM" "$map_file" "Memory leak test with bonus executable"
+            fi
+        fi
+    done
+    
+    # Test some error cases with bonus
+    if [ -f "maps/missing_texture_path.cub" ]; then
+        run_bonus_test "Bonus: Missing Texture" "maps/missing_texture_path.cub" "false" "Error handling test with bonus executable"
+    fi
+fi
+
+# Summary
+echo -e "${BLUE}=== COMPREHENSIVE TEST SUMMARY ===${NC}"
+echo -e "${BLUE}======================================${NC}"
+echo -e "${GREEN}Mandatory Tests Passed: $PASSED${NC}"
+echo -e "${RED}Mandatory Tests Failed: $FAILED${NC}"
+
+if [ "$VALGRIND_AVAILABLE" = true ]; then
+    echo -e "${GREEN}Valgrind Tests Passed: $VALGRIND_PASSED${NC}"
+    echo -e "${RED}Valgrind Tests Failed: $VALGRIND_FAILED${NC}"
+fi
+
+if [ "$BONUS_AVAILABLE" = true ]; then
+    echo -e "${GREEN}Bonus Tests Passed: $BONUS_PASSED${NC}"
+    echo -e "${RED}Bonus Tests Failed: $BONUS_FAILED${NC}"
+fi
+
+echo -e "${BLUE}Total Tests: $((PASSED + FAILED + VALGRIND_PASSED + VALGRIND_FAILED + BONUS_PASSED + BONUS_FAILED))${NC}"
+
+# Determine overall result
+TOTAL_FAILED=$((FAILED + VALGRIND_FAILED + BONUS_FAILED))
+
+if [ $TOTAL_FAILED -eq 0 ]; then
+    echo -e "\n${GREEN}🎉 ALL TESTS PASSED! Your cub3d implementation is excellent!${NC}"
+    if [ "$VALGRIND_AVAILABLE" = true ]; then
+        echo -e "${GREEN}✓ No memory leaks detected${NC}"
+    fi
+    if [ "$BONUS_AVAILABLE" = true ]; then
+        echo -e "${GREEN}✓ Bonus executable works perfectly with mandatory maps${NC}"
+    fi
     exit 0
 else
     echo -e "\n${RED}❌ Some tests failed. Please review the failed cases above.${NC}"
+    if [ $FAILED -gt 0 ]; then
+        echo -e "${RED}   - Mandatory tests failed: $FAILED${NC}"
+    fi
+    if [ $VALGRIND_FAILED -gt 0 ]; then
+        echo -e "${RED}   - Memory leak tests failed: $VALGRIND_FAILED${NC}"
+    fi
+    if [ $BONUS_FAILED -gt 0 ]; then
+        echo -e "${RED}   - Bonus tests failed: $BONUS_FAILED${NC}"
+    fi
     exit 1
 fi
