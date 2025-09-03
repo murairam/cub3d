@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:41:42 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 17:29:48 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:57:02 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,6 +484,10 @@ int					dim_color(int color, float factor);
 float				factor_calculator(t_ray *ray, t_game *game);
 void				draw_line_fast(t_player *player, t_game *game,
 						t_ray_table *table, int screen_x);
+int					handle_random_teleport(t_game *game, t_player *player);
+void				render_wall_ray(t_ray *ray, t_game *game, t_player *player,
+						int screen_x);
+t_text				*get_wall_texture(t_game *game, t_ray *ray);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
@@ -511,6 +515,10 @@ void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
 void				*thread(void *arg);
+int					thread_should_stop(t_game *game);
+void				random_move(t_game *game, long time, int *stop);
+void				update_fov(t_game *game, long time);
+void				thread_loop(t_game *game, int *counter, long current_time);
 int					is_close_enough(t_game *game, t_player *player,
 						char to_find);
 bool				teleport_check(t_game *game, float x, float y);

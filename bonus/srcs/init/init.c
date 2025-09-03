@@ -6,11 +6,23 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:38:30 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 17:28:12 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:32:20 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+static void	init_mutexes(t_game *game)
+{
+	if (pthread_mutex_init(&game->darken_lock, NULL) != 0)
+		ft_exit_error("Failed to initialize darken_lock mutex");
+	if (pthread_mutex_init(&game->fov_lock, NULL) != 0)
+		ft_exit_error("Failed to initialize fov_lock mutex");
+	if (pthread_mutex_init(&game->stop_lock, NULL) != 0)
+		ft_exit_error("Failed to initialize stop_lock mutex");
+	if (pthread_mutex_init(&game->game_state_lock, NULL) != 0)
+		ft_exit_error("Failed to initialize game_state_lock mutex");
+}
 
 void	init_game(t_game *game)
 {
@@ -37,12 +49,5 @@ void	init_game(t_game *game)
 	game->print_flag = 0;
 	game->random_flag = 0;
 	game->minimap_toggle = false;
-	if (pthread_mutex_init(&game->darken_lock, NULL) != 0)
-		ft_exit_error("Failed to initialize darken_lock mutex");
-	if (pthread_mutex_init(&game->fov_lock, NULL) != 0)
-		ft_exit_error("Failed to initialize fov_lock mutex");
-	if (pthread_mutex_init(&game->stop_lock, NULL) != 0)
-		ft_exit_error("Failed to initialize stop_lock mutex");
-	if (pthread_mutex_init(&game->game_state_lock, NULL) != 0)
-		ft_exit_error("Failed to initialize game_state_lock mutex");
+	init_mutexes(game);
 }

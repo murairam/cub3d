@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:57 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 17:28:31 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:43:41 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static t_text	*east_west_walls(t_game *game, t_ray *ray)
 		return (&game->west_chalk);
 }
 
-static t_text	*get_wall_texture(t_game *game, t_ray *ray)
+t_text	*get_wall_texture(t_game *game, t_ray *ray)
 {
 	if (ray->map_y >= 0 && ray->map_y < game->map_height && ray->map_x >= 0
 		&& game->map[ray->map_y]
 		&& ray->map_x < (int)ft_strlen(game->map[ray->map_y])
 		&& (game->map[ray->map_y][ray->map_x] == 'D'
-			|| game->map[ray->map_y][ray->map_x] == 'X'))
+		|| game->map[ray->map_y][ray->map_x] == 'X'))
 	{
 		if (game->map[ray->map_y][ray->map_x] == 'D')
 			return (&game->door);
@@ -79,36 +79,12 @@ static void	fish_eye_correction(t_ray *ray, t_player *player, float ray_angle)
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {
 	t_ray	ray;
-	t_text	*text;
-	int		use_random;
-	float	random_x;
-	float	random_y;
 
-	pthread_mutex_lock(&game->game_state_lock);
-	use_random = game->random_flag;
-	random_x = game->random_x;
-	random_y = game->random_y;
-	if (use_random)
-		game->random_flag = 0;
-	pthread_mutex_unlock(&game->game_state_lock);
-	if (use_random)
-	{
-		player->x = random_x;
-		player->y = random_y;
-	}
-	else
-	{
-		ray_init(&ray, player, ray_angle);
-		dda_finder(&ray, game);
-		distance_wall(&ray, player);
-		fish_eye_correction(&ray, player, ray_angle);
-		if (game->map[ray.map_y][ray.map_x] == 'M')
-			return (reflection(&ray, game, screen_x));
-		text = get_wall_texture(game, &ray);
-		texture_cord(&ray, player, text);
-		vertical_texture(&ray, text);
-		ceiling_render(&ray, game, screen_x);
-		wall_render(&ray, text, game, screen_x);
-		floor_render(&ray, game, screen_x);
-	}
+	if (handle_random_teleport(game, player))
+		return ;
+	ray_init(&ray, player, ray_angle);
+	dda_finder(&ray, game);
+	distance_wall(&ray, player);
+	fish_eye_correction(&ray, player, ray_angle);
+	render_wall_ray(&ray, game, player, screen_x);
 }
