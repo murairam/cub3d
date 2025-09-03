@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:41:42 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:41:43 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 14:15:51 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define MAX_TIME			15000
+# define MAX_TIME			15000000000000
 # define BIG_FLOAT			1000000000.0f
 # define PI					3.14159265f
-# define WIDTH				1280
-# define HEIGHT				720
+# define WIDTH				1920
+# define HEIGHT				1080
 # define CUBE				64
 # define LEFT				65361
 # define RIGHT				65363
