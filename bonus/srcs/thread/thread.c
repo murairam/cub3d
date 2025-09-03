@@ -6,49 +6,28 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:35:21 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/03 12:35:22 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:56:09 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	update_fov(t_game *game, long time)
+int	thread_should_stop(t_game *game)
 {
-	float	time_to_die;
-	float	factor;
-	float	new_fov;
+	int	should_stop;
 
-	time_to_die = (MAX_TIME - time) / 1000.0f;
-	if (time_to_die < 5.0f)
-	{
-		pthread_mutex_lock(&game->darken_lock);
-		if (game->darken_factor > 0.0f)
-		{
-			factor = (5.0f - time_to_die) / 5.0f;
-			new_fov = PI / 3 + sin(time * 0.0005f * (1.0f + factor * 5.0f))
-				* factor * (PI / 36);
-			pthread_mutex_lock(&game->fov_lock);
-			game->fov = new_fov;
-			pthread_mutex_unlock(&game->fov_lock);
-			game->darken_factor -= 0.000086f;
-		}
-		pthread_mutex_unlock(&game->darken_lock);
-	}
+	pthread_mutex_lock(&game->stop_lock);
+	should_stop = game->stop_flag;
+	pthread_mutex_unlock(&game->stop_lock);
+	return (should_stop);
 }
 
-static void	thread_loop(t_game *game, int *counter, long current_time)
+static void	thread_set_stop(t_game *game, int value)
 {
-	if (!thread_should_stop(game))
-	{
-		pthread_mutex_lock(&game->darken_lock);
-		if (game->darken_factor > 0.3)
-			game->darken_factor -= 0.0001f;
-		pthread_mutex_unlock(&game->darken_lock);
-		update_fov(game, current_time);
-		if (current_time > MAX_TIME)
-			random_move(game, current_time, counter);
-		usleep(1000);
-	}
+	pthread_mutex_lock(&game->stop_lock);
+	game->stop_flag = value;
+	game->stop = value;
+	pthread_mutex_unlock(&game->stop_lock);
 }
 
 static void	thread_cycle(t_game *game, int *counter, long *start_time)

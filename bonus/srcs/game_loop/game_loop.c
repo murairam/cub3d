@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:26 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 15:52:49 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:34:07 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	render_rays(t_game *game, t_player *player)
 	current_fov = game->fov;
 	pthread_mutex_unlock(&game->fov_lock);
 	fraction = current_fov / WIDTH;
-	start_x = player->angle - current_fov / 6.0f;
+	start_x = player->angle - PI / 6;
 	while (i < WIDTH)
 	{
 		draw_line(player, game, start_x, i);

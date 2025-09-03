@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:57 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 15:53:24 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:43:41 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,12 @@ static void	fish_eye_correction(t_ray *ray, t_player *player, float ray_angle)
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {
 	t_ray	ray;
-	int		use_random;
-	float	random_x;
-	float	random_y;
 
-	get_random_position(game, &use_random, &random_x, &random_y);
-	if (use_random)
-	{
-		player->x = random_x;
-		player->y = random_y;
-	}
-	else
-	{
-		ray_init(&ray, player, ray_angle);
-		dda_finder(&ray, game);
-		distance_wall(&ray, player);
-		fish_eye_correction(&ray, player, ray_angle);
-		render_wall_complete(&ray, game, screen_x);
-	}
+	if (handle_random_teleport(game, player))
+		return ;
+	ray_init(&ray, player, ray_angle);
+	dda_finder(&ray, game);
+	distance_wall(&ray, player);
+	fish_eye_correction(&ray, player, ray_angle);
+	render_wall_ray(&ray, game, player, screen_x);
 }

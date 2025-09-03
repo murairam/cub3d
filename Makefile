@@ -6,7 +6,7 @@
 #    By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/03 12:41:28 by mmiilpal          #+#    #+#              #
-#    Updated: 2025/09/03 12:41:29 by mmiilpal         ###   ########.fr        #
+#    Updated: 2025/09/03 17:56:11 by mmiilpal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ BONUS_SRC = main.c utils/error.c utils/free.c utils/free_utils.c \
 	sprites/chalk_render2.c sprites/chalk_render3.c sprites/chalk_minimap.c \
 	sprites/chalk_utils.c sprites/chalk_visibility.c doors/doors.c \
 	doors/door_utils.c game_loop/mirror.c game_loop/game_loop_printer.c \
-	thread/thread.c thread/time.c thread/thread_utils.c
+	thread/thread.c thread/thread_utils.c thread/time.c
 
 SRCS := $(addprefix srcs/, $(SRC))
 OBJS = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))

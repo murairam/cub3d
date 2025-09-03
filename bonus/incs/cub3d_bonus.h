@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/09/03 16:41:08 by mmiilpal         ###   ########.fr       */
+/*   Created: 2025/09/03 18:04:05 by mmiilpal          #+#    #+#             */
+/*   Updated: 2025/09/03 18:04:09 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB3D_BONUS_H
 # define CUB3D_BONUS_H
@@ -34,33 +33,33 @@
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define MAX_TIME			15000000000000
-# define BIG_FLOAT			1000000000.0f
-# define PI					3.14159265f
-# define WIDTH				1920
-# define HEIGHT				1080
-# define CUBE				64
-# define LEFT				65361
-# define RIGHT				65363
-# define UP					65362
-# define DOWN				65364
-# define MAX_PITCH			1.047197551f
-# define SPAWN_NORTH		4.71
-# define SPAWN_SOUTH		1.57
-# define SPAWN_WEST			3.14159265f
-# define SPAWN_EAST			0
-# define W					119
-# define A					97
-# define S					115
-# define D					100
-# define E					101
-# define F					102
-# define M					109
-# define ESC				65307
-# define SPACE				32
-# define SHIFT				65505
-# define MAX_ITEM			5
-# define MAX_CYCLE			3
+# define MAX_TIME 15000000000000
+# define BIG_FLOAT 1000000000.0f
+# define PI 3.14159265f
+# define WIDTH 1920
+# define HEIGHT 1080
+# define CUBE 64
+# define LEFT 65361
+# define RIGHT 65363
+# define UP 65362
+# define DOWN 65364
+# define MAX_PITCH 1.047197551f
+# define SPAWN_NORTH 4.71
+# define SPAWN_SOUTH 1.57
+# define SPAWN_WEST 3.14159265f
+# define SPAWN_EAST 0
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+# define E 101
+# define F 102
+# define M 109
+# define ESC 65307
+# define SPACE 32
+# define SHIFT 65505
+# define MAX_ITEM 5
+# define MAX_CYCLE 3
 
 /* Minimap defines */
 # define MINIMAP_SIZE 150
@@ -361,8 +360,6 @@ typedef struct s_game
 	pthread_t		thread;
 	pthread_mutex_t	fov_lock;
 	pthread_mutex_t	darken_lock;
-	pthread_mutex_t	stop_lock;
-	pthread_mutex_t	game_state_lock;
 	t_door			*doors;
 	t_sprite		*sprite_list;
 	t_player		player;
@@ -394,6 +391,8 @@ typedef struct s_game
 	t_ray_table		ray_table;
 	bool			mouse_dragging;
 	bool			show_minimap;
+	pthread_mutex_t	stop_lock;
+	pthread_mutex_t	game_state_lock;
 	volatile int	stop_flag;
 }					t_game;
 
@@ -435,7 +434,7 @@ int					store_doors(char **map, t_game *game);
 
 void				init_game(t_game *game);
 int					game_init(t_game *game);
-void				init_mlx(t_game *game);
+void				init_game_vars(t_game *game);
 short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
@@ -470,11 +469,6 @@ void				draw_pixel(int x, int y, int color, t_game *game);
 void				clear_image(t_game *game);
 void				draw_line(t_player *player, t_game *game, float ray_angle,
 						int screen_x);
-void				get_random_position(t_game *game, int *use_random,
-						float *random_x, float *random_y);
-void				render_wall_complete(t_ray *ray, t_game *game,
-						int screen_x);
-t_text				*get_wall_texture(t_game *game, t_ray *ray);
 void				ray_init(t_ray *ray, t_player *player, float ray_angle);
 void				dda_finder(t_ray *ray, t_game *game);
 void				distance_wall(t_ray *ray, t_player *player);
@@ -488,8 +482,10 @@ void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
 int					dim_color(int color, float factor);
 float				factor_calculator(t_ray *ray, t_game *game);
-void				draw_line_fast(t_player *player, t_game *game,
-						t_ray_table *table, int screen_x);
+int					handle_random_teleport(t_game *game, t_player *player);
+void				render_wall_ray(t_ray *ray, t_game *game, t_player *player,
+						int screen_x);
+t_text				*get_wall_texture(t_game *game, t_ray *ray);
 
 /* ****************************************************************************/
 /*                              MINIMAP                                       */
@@ -518,8 +514,9 @@ void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
 void				*thread(void *arg);
 int					thread_should_stop(t_game *game);
-void				thread_set_stop(t_game *game, int value);
 void				random_move(t_game *game, long time, int *stop);
+void				update_fov(t_game *game, long time);
+void				thread_loop(t_game *game, int *counter, long current_time);
 int					is_close_enough(t_game *game, t_player *player,
 						char to_find);
 bool				teleport_check(t_game *game, float x, float y);
