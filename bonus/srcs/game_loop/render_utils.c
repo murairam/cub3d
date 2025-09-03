@@ -6,9 +6,9 @@ int	dim_color(int color, float factor)
 	int	g;
 	int	b;
 
-	r = (color >> 16) & 0xFF;
-	g = (color >> 8) & 0xFF;
-	b = color & 0xFF;
+	r = (color / 65536) % 256;
+	g = (color / 256) % 256;
+	b = color % 256;
 	r = (int)(r * factor);
 	g = (int)(g * factor);
 	b = (int)(b * factor);
@@ -18,7 +18,7 @@ int	dim_color(int color, float factor)
 		g = 255;
 	if (b > 255)
 		b = 255;
-	return ((r << 16) | (g << 8) | b);
+	return ((r * 65536) + (g * 256) + b);
 }
 
 float	factor_calculator(t_ray *ray, t_game *game)

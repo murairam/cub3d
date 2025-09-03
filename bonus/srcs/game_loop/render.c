@@ -43,28 +43,25 @@ static t_text	*get_wall_texture(t_game *game, t_ray *ray)
 		return (north_south_walls(game, ray));
 }
 
-void	draw_line_fast(t_player *player, t_game *game, t_ray_table *table,
-		int screen_x)
+static void	fish_eye_correction(t_ray *ray, t_player *player, float ray_angle)
 {
-	t_ray	ray;
-	t_text	*text;
-	float	ray_angle;
+	float	angle_diff;
+	int		half_height;
 
-	ray_angle = player->angle + table->ray_angles[screen_x];
-	ray_init(&ray, player, ray_angle);
-	dda_finder(&ray, game);
-	distance_wall(&ray, player);
-	if (game->map[ray.map_y][ray.map_x] == 'M')
-	{
-		reflection(&ray, game, screen_x);
-		return ;
-	}
-	text = get_wall_texture(game, &ray);
-	texture_cord(&ray, player, text);
-	vertical_texture(&ray, text);
-	ceiling_render(&ray, game, screen_x);
-	wall_render(&ray, text, game, screen_x);
-	floor_render(&ray, game, screen_x);
+	angle_diff = ray_angle - player->angle;
+	while (angle_diff > M_PI)
+		angle_diff -= 2 * M_PI;
+	while (angle_diff < -M_PI)
+		angle_diff += 2 * M_PI;
+	ray->perp_wall_dist *= cos(angle_diff);
+	ray->l_height = (int)(HEIGHT / ray->perp_wall_dist);
+	half_height = HEIGHT / 2;
+	ray->d_start = -ray->l_height / 2 + half_height;
+	if (ray->d_start < 0)
+		ray->d_start = 0;
+	ray->draw_end = ray->l_height / 2 + half_height;
+	if (ray->draw_end >= HEIGHT)
+		ray->draw_end = HEIGHT;
 }
 
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
@@ -83,6 +80,7 @@ void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 		ray_init(&ray, player, ray_angle);
 		dda_finder(&ray, game);
 		distance_wall(&ray, player);
+		fish_eye_correction(&ray, player, ray_angle);
 		if (game->map[ray.map_y][ray.map_x] == 'M')
 			return (reflection(&ray, game, screen_x));
 		text = get_wall_texture(game, &ray);
