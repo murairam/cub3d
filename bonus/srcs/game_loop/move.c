@@ -6,36 +6,39 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:45 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 15:53:05 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:51:37 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-int	key_press(int keycode, t_game *game)
+int key_press(int keycode, t_game *game)
 {
-	t_player	*player;
-	int			should_continue;
-
-	player = &game->player;
-	if (keycode == ESC)
-	{
-		pthread_mutex_lock(&game->stop_lock);
-		game->stop = 1;
-		game->stop_flag = 1;
-		pthread_mutex_unlock(&game->stop_lock);
-		close_game(game);
-	}
-	pthread_mutex_lock(&game->stop_lock);
-	should_continue = (game->stop == 0);
-	pthread_mutex_unlock(&game->stop_lock);
-	if (should_continue)
-	{
-		handle_movement_keys(keycode, player);
-		handle_view_keys(keycode, player);
-		handle_action_keys(keycode, game, player);
-	}
-	return (0);
+    t_player *player = &game->player;
+    
+    if (keycode == ESC)
+    {
+        // Safely set stop flag
+        pthread_mutex_lock(&game->stop_lock);
+        game->stop = 1;
+        game->stop_flag = 1;
+        pthread_mutex_unlock(&game->stop_lock);
+        close_game(game);
+    }
+    
+    // Check if game should continue
+    pthread_mutex_lock(&game->stop_lock);
+    int should_continue = (game->stop == 0);
+    pthread_mutex_unlock(&game->stop_lock);
+    
+    if (should_continue)
+    {
+        handle_movement_keys(keycode, player);
+        handle_view_keys(keycode, player);
+        handle_action_keys(keycode, game, player);
+    }
+    
+    return 0;
 }
 
 int	key_release(int keycode, t_game *game)

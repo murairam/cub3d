@@ -59,13 +59,13 @@ static void	init_player(t_game *game, t_player *player)
 {
 	init_player_position(game, player);
 	init_player_keys(player);
+	init_game_state(game);
 }
 
 int	game_init(t_game *game)
 {
 	init_player(game, &game->player);
-	init_game_state(game);
-	init_mlx(game);
+	init_game_vars(game);
 	if (texture_init(game))
 		ft_exit_error_with_cleanup(game, NULL);
 	init_minimap(game);

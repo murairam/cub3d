@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:26 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 15:52:49 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:14:15 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static void	render_rays(t_game *game, t_player *player)
 
 	i = 0;
 	pthread_mutex_lock(&game->fov_lock);
-	current_fov = game->fov;
-	pthread_mutex_unlock(&game->fov_lock);
+    current_fov = game->fov;
+    pthread_mutex_unlock(&game->fov_lock);
 	fraction = current_fov / WIDTH;
-	start_x = player->angle - current_fov / 6.0f;
+	start_x = player->angle - PI / 6;
 	while (i < WIDTH)
 	{
 		draw_line(player, game, start_x, i);
@@ -43,38 +43,38 @@ static void	render_rays(t_game *game, t_player *player)
 	}
 }
 
-static void	render_game_frame(t_game *game)
+int draw_loop(t_game *game)
 {
-	t_player	*player;
-	double		delta_time;
-
-	delta_time = delta_calculator();
-	player = &game->player;
-	move_player(player, game);
-	clear_image(game);
-	render_rays(game, player);
-	animate_chalks(game, delta_time);
-	render_chalks(game);
-	update_arm_bobbing(game);
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
-	if (game->minimap_toggle == true)
-		draw_minimap(game);
-	render_game_arms(game);
-	print_handler(game, player);
-}
-
-int	draw_loop(t_game *game)
-{
-	int	stop_status;
-
-	pthread_mutex_lock(&game->stop_lock);
-	stop_status = game->stop;
-	pthread_mutex_unlock(&game->stop_lock);
-	if (stop_status != 0)
-		end_screen(game);
-	else
-		render_game_frame(game);
-	return (0);
+    t_player *player;
+    double delta_time;
+    
+    // Safely check stop condition
+    pthread_mutex_lock(&game->stop_lock);
+    int stop_status = game->stop;
+    pthread_mutex_unlock(&game->stop_lock);
+    
+    if (stop_status != 0)
+        end_screen(game);
+    else
+    {
+        delta_time = delta_calculator();
+        player = &game->player;
+        move_player(player, game);
+        clear_image(game);
+        render_rays(game, player);
+        animate_chalks(game, delta_time);
+        render_chalks(game);
+        update_arm_bobbing(game);
+        mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+        
+        if (game->minimap_toggle == true)
+            draw_minimap(game);
+            
+        render_game_arms(game);
+        print_handler(game, player);
+    }
+    
+    return 0;
 }
 
 void	game_loop(t_game *game)

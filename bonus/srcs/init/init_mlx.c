@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3d_bonus.h"
 
-void	init_mlx(t_game *game)
+void	init_game_vars(t_game *game)
 {
 	game->mlx = mlx_init();
 	if (!game->mlx)
