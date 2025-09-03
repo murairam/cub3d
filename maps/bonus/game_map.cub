@@ -1,7 +1,7 @@
-NO incs/assets/textures/Bricks_North.xpm
-SO incs/assets/textures/Bricks_South.xpm
-WE incs/assets/textures/Bricks_West.xpm
-EA incs/assets/textures/Bricks_East.xpm
+NO ./incs/assets/textures/Bricks_North.xpm
+SO ./incs/assets/textures/Bricks_South.xpm
+WE ./incs/assets/textures/Bricks_West.xpm
+EA ./incs/assets/textures/Bricks_East.xpm
 
 F 0,0,0
 C 3,3,3

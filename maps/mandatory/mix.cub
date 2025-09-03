@@ -8,7 +8,7 @@ F 0,0,0
 
 WE ./incs/assets/textures/Bricks_West.xpm
 
-C 255,255,255
+C 0,0,0
 NO ./incs/assets/textures/Bricks_North.xpm
 
 111111

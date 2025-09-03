@@ -1,10 +1,10 @@
-NO incs/assets/textures/Bricks_North.xpm
-SO incs/assets/textures/Bricks_South.xpm
-WE incs/assets/textures/Bricks_West.xpm
-EA incs/assets/textures/Bricks_East.xpm
+NO ./incs/assets/textures/Bricks_North.xpm
+SO ./incs/assets/textures/Bricks_South.xpm
+WE ./incs/assets/textures/Bricks_West.xpm
+EA ./incs/assets/textures/Bricks_East.xpm
 
-F 75,0,130
-C 255,215,0
+F 0,0,0
+C 0,0,0
 
     1111111111111111111
     1000000000000000001
