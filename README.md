@@ -24,29 +24,74 @@ A 3D maze game built in C using raycasting techniques, inspired by classic first
 ## Technical Architecture
 
 ```mermaid
-graph TD
-    A[Main] --> B[Parser]
-    A --> C[Game Engine]
+flowchart TB
+    Main[🎮 Main Application]
     
-    B --> B1[Map Validation]
-    B --> B2[Texture Loading]
-    B --> B3[Color Parsing]
+    subgraph Parse["📄 Parsing System"]
+        MapVal[Map Validation]
+        TexLoad[Texture Loading]
+        ColorParse[Color Parsing]
+        FileIO[File I/O Handler]
+    end
     
-    C --> C1[Raycasting Engine]
-    C --> C2[Input Handler]
-    C --> C3[Rendering System]
-    C --> C4[Memory Manager]
+    subgraph Engine["⚙️ Game Engine Core"]
+        GameLoop[Game Loop]
+        EventMgr[Event Manager]
+        StateMgr[State Manager]
+    end
     
-    C1 --> D[DDA Algorithm]
-    C1 --> E[Wall Detection]
-    C1 --> F[Distance Calculation]
+    subgraph Raycast["🔍 Raycasting Engine"]
+        DDA[DDA Algorithm]
+        WallDetect[Wall Detection]
+        DistCalc[Distance Calculation]
+        FishEye[Fish-eye Correction]
+    end
     
-    C3 --> G[Texture Mapping]
-    C3 --> H[Sprite Rendering]
-    C3 --> I[Minimap Display]
+    subgraph Input["🎯 Input System"]
+        KeyHandler[Keyboard Handler]
+        MouseHandler[Mouse Handler]
+        Movement[Movement Controller]
+    end
     
-    C4 --> J[MLX Management]
-    C4 --> K[Resource Cleanup]
+    subgraph Render["🎨 Rendering System"]
+        WallRender[Wall Rendering]
+        TexMap[Texture Mapping]
+        SpriteRender[Sprite Rendering]
+        Minimap[Minimap System]
+    end
+    
+    subgraph Memory["💾 Memory Management"]
+        MLXMgr[MLX Management]
+        Cleanup[Resource Cleanup]
+        ThreadMgr[Thread Management]
+    end
+    
+    Main --> Parse
+    Main --> Engine
+    Engine --> Raycast
+    Engine --> Input
+    Engine --> Render
+    Engine --> Memory
+    
+    Parse --> Engine
+    Input --> Engine
+    Raycast --> Render
+    
+    classDef mainClass fill:#ff6b6b,stroke:#fff,stroke-width:2px,color:#fff
+    classDef parseClass fill:#4ecdc4,stroke:#fff,stroke-width:2px,color:#fff
+    classDef engineClass fill:#45b7d1,stroke:#fff,stroke-width:2px,color:#fff
+    classDef raycastClass fill:#f9ca24,stroke:#fff,stroke-width:2px,color:#000
+    classDef inputClass fill:#6c5ce7,stroke:#fff,stroke-width:2px,color:#fff
+    classDef renderClass fill:#a29bfe,stroke:#fff,stroke-width:2px,color:#fff
+    classDef memoryClass fill:#fd79a8,stroke:#fff,stroke-width:2px,color:#fff
+    
+    class Main mainClass
+    class Parse,MapVal,TexLoad,ColorParse,FileIO parseClass
+    class Engine,GameLoop,EventMgr,StateMgr engineClass
+    class Raycast,DDA,WallDetect,DistCalc,FishEye raycastClass
+    class Input,KeyHandler,MouseHandler,Movement inputClass
+    class Render,WallRender,TexMap,SpriteRender,Minimap renderClass
+    class Memory,MLXMgr,Cleanup,ThreadMgr memoryClass
 ```
 
 ## Installation
