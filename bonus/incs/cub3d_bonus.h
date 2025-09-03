@@ -78,15 +78,14 @@
 # define TEX_CHALK_W		"incs/assets/textures/Bricks_WestX.xpm"
 # define TEX_LEFT_ARM		"incs/assets/textures/LeftArm.xpm"
 # define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
-# define TEX_CHALK_R_ARM	"incs/assets/textures/RightArmX.xpm"
 # define TEX_DOOR			"incs/assets/textures/door.xpm"
 # define TEX_EXIT			"incs/assets/textures/exit.xpm"
 # define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
 # define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
 # define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
+# define TEX_GAME_WIN		"incs/assets/textures/GameWin.xpm"
 # define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
 # define TEX_KEY_ITEM		"incs/assets/textures/key.xpm"
-# define TEX_GAME_WIN		"incs/assets/textures/GameWin.xpm"
 
 /* Sprite constants */
 # define MAX_SPRITES		50

@@ -22,8 +22,6 @@ short	wall_textures(t_game *game)
 		return (1);
 	if (load_texture(game, &game->right_arm, TEX_RIGHT_ARM))
 		return (1);
-	if (load_texture(game, &game->right_chalk, TEX_CHALK_R_ARM))
-		return (1);
 	return (0);
 }
 

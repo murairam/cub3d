@@ -27,8 +27,6 @@ void	ft_free_image_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->left_arm.img);
 	if (game->right_arm.img)
 		mlx_destroy_image(game->mlx, game->right_arm.img);
-	if (game->right_chalk.img)
-		mlx_destroy_image(game->mlx, game->right_chalk.img);
 	if (game->minimap.img)
 		mlx_destroy_image(game->mlx, game->minimap.img);
 	if (game->mirror.img)
