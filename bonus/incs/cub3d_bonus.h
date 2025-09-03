@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:41:42 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 17:57:02 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:59:34 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -482,8 +482,6 @@ void				draw_image_with_transparency(t_game *game, t_text *src,
 						int x, int y);
 int					dim_color(int color, float factor);
 float				factor_calculator(t_ray *ray, t_game *game);
-void				draw_line_fast(t_player *player, t_game *game,
-						t_ray_table *table, int screen_x);
 int					handle_random_teleport(t_game *game, t_player *player);
 void				render_wall_ray(t_ray *ray, t_game *game, t_player *player,
 						int screen_x);
