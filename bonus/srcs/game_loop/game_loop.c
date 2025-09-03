@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:26 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:37:27 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:52:44 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,38 @@ static void	render_rays(t_game *game, t_player *player)
 	}
 }
 
-int	draw_loop(t_game *game)
+int draw_loop(t_game *game)
 {
-	t_player	*player;
-	double		delta_time;
-
-	if (game->stop != 0)
-		end_screen(game);
-	else
-	{
-		delta_time = delta_calculator();
-		player = &game->player;
-		move_player(player, game);
-		clear_image(game);
-		render_rays(game, player);
-		animate_chalks(game, delta_time);
-		render_chalks(game);
-		update_arm_bobbing(game);
-		mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
-		if (game->minimap_toggle == true)
-			draw_minimap(game);
-		render_game_arms(game);
-		print_handler(game, player);
-	}
-	return (0);
+    t_player *player;
+    double delta_time;
+    
+    // Safely check stop condition
+    pthread_mutex_lock(&game->stop_lock);
+    int stop_status = game->stop;
+    pthread_mutex_unlock(&game->stop_lock);
+    
+    if (stop_status != 0)
+        end_screen(game);
+    else
+    {
+        delta_time = delta_calculator();
+        player = &game->player;
+        move_player(player, game);
+        clear_image(game);
+        render_rays(game, player);
+        animate_chalks(game, delta_time);
+        render_chalks(game);
+        update_arm_bobbing(game);
+        mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+        
+        if (game->minimap_toggle == true)
+            draw_minimap(game);
+            
+        render_game_arms(game);
+        print_handler(game, player);
+    }
+    
+    return 0;
 }
 
 void	game_loop(t_game *game)

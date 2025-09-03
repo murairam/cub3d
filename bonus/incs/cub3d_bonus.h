@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:41:42 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:41:43 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:49:50 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,9 @@ typedef struct s_game
 	t_ray_table		ray_table;
 	bool			mouse_dragging;
 	bool			show_minimap;
+	pthread_mutex_t     stop_lock;      // NEW: Add this
+    pthread_mutex_t     game_state_lock;
+	volatile int	stop_flag;
 }					t_game;
 
 /* ************************************************************************** */

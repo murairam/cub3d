@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:57 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:37:58 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:52:25 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,30 +76,40 @@ static void	fish_eye_correction(t_ray *ray, t_player *player, float ray_angle)
 		ray->draw_end = HEIGHT;
 }
 
-void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
+void draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {
-	t_ray		ray;
-	t_text		*text;
-
-	if (game->random_flag == 1)
-	{
-		player->x = game->random_x;
-		player->y = game->random_y;
-		game->random_flag = 0;
-	}
-	else
-	{
-		ray_init(&ray, player, ray_angle);
-		dda_finder(&ray, game);
-		distance_wall(&ray, player);
-		fish_eye_correction(&ray, player, ray_angle);
-		if (game->map[ray.map_y][ray.map_x] == 'M')
-			return (reflection(&ray, game, screen_x));
-		text = get_wall_texture(game, &ray);
-		texture_cord(&ray, player, text);
-		vertical_texture(&ray, text);
-		ceiling_render(&ray, game, screen_x);
-		wall_render(&ray, text, game, screen_x);
-		floor_render(&ray, game, screen_x);
-	}
+    t_ray ray;
+    t_text *text;
+    
+    // Safely check and use random position
+    pthread_mutex_lock(&game->game_state_lock);
+    int use_random = game->random_flag;
+    float random_x = game->random_x;
+    float random_y = game->random_y;
+    if (use_random)
+        game->random_flag = 0;  // Reset flag after using
+    pthread_mutex_unlock(&game->game_state_lock);
+    
+    if (use_random)
+    {
+        player->x = random_x;
+        player->y = random_y;
+    }
+    else
+    {
+        ray_init(&ray, player, ray_angle);
+        dda_finder(&ray, game);
+        distance_wall(&ray, player);
+        fish_eye_correction(&ray, player, ray_angle);
+        
+        if (game->map[ray.map_y][ray.map_x] == 'M')
+            return reflection(&ray, game, screen_x);
+        
+        text = get_wall_texture(game, &ray);
+        texture_cord(&ray, player, text);
+        vertical_texture(&ray, text);
+        ceiling_render(&ray, game, screen_x);
+        wall_render(&ray, text, game, screen_x);
+        floor_render(&ray, game, screen_x);
+    }
 }
