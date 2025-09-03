@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:57 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:37:58 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 15:53:24 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static	t_text	*north_south_walls(t_game *game, t_ray *ray)
+static t_text	*north_south_walls(t_game *game, t_ray *ray)
 {
 	if (ray->ray_dir_y > 0 && game->map[ray->map_y][ray->map_x] == '1')
 		return (&game->south);
@@ -24,7 +24,7 @@ static	t_text	*north_south_walls(t_game *game, t_ray *ray)
 		return (&game->north_chalk);
 }
 
-static	t_text	*east_west_walls(t_game *game, t_ray *ray)
+static t_text	*east_west_walls(t_game *game, t_ray *ray)
 {
 	if (ray->ray_dir_x > 0 && game->map[ray->map_y][ray->map_x] == '1')
 		return (&game->east);
@@ -36,10 +36,10 @@ static	t_text	*east_west_walls(t_game *game, t_ray *ray)
 		return (&game->west_chalk);
 }
 
-static t_text	*get_wall_texture(t_game *game, t_ray *ray)
+t_text	*get_wall_texture(t_game *game, t_ray *ray)
 {
-	if (ray->map_y >= 0 && ray->map_y < game->map_height
-		&& ray->map_x >= 0 && game->map[ray->map_y]
+	if (ray->map_y >= 0 && ray->map_y < game->map_height && ray->map_x >= 0
+		&& game->map[ray->map_y]
 		&& ray->map_x < (int)ft_strlen(game->map[ray->map_y])
 		&& (game->map[ray->map_y][ray->map_x] == 'D'
 		|| game->map[ray->map_y][ray->map_x] == 'X'))
@@ -78,14 +78,16 @@ static void	fish_eye_correction(t_ray *ray, t_player *player, float ray_angle)
 
 void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 {
-	t_ray		ray;
-	t_text		*text;
+	t_ray	ray;
+	int		use_random;
+	float	random_x;
+	float	random_y;
 
-	if (game->random_flag == 1)
+	get_random_position(game, &use_random, &random_x, &random_y);
+	if (use_random)
 	{
-		player->x = game->random_x;
-		player->y = game->random_y;
-		game->random_flag = 0;
+		player->x = random_x;
+		player->y = random_y;
 	}
 	else
 	{
@@ -93,13 +95,6 @@ void	draw_line(t_player *player, t_game *game, float ray_angle, int screen_x)
 		dda_finder(&ray, game);
 		distance_wall(&ray, player);
 		fish_eye_correction(&ray, player, ray_angle);
-		if (game->map[ray.map_y][ray.map_x] == 'M')
-			return (reflection(&ray, game, screen_x));
-		text = get_wall_texture(game, &ray);
-		texture_cord(&ray, player, text);
-		vertical_texture(&ray, text);
-		ceiling_render(&ray, game, screen_x);
-		wall_render(&ray, text, game, screen_x);
-		floor_render(&ray, game, screen_x);
+		render_wall_complete(&ray, game, screen_x);
 	}
 }

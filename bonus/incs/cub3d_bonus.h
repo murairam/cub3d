@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:41:42 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:41:43 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 15:51:58 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,112 +23,112 @@
 # include "parser_bonus.h"
 # include <fcntl.h>
 # include <math.h>
+# include <pthread.h>
 # include <stdbool.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <pthread.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 /* ************************************************************************** */
 /*                                DEFINES                                   */
 /* ************************************************************************** */
 
-# define MAX_TIME			15000
-# define BIG_FLOAT			1000000000.0f
-# define PI					3.14159265f
-# define WIDTH				1280
-# define HEIGHT				720
-# define CUBE				64
-# define LEFT				65361
-# define RIGHT				65363
-# define UP					65362
-# define DOWN				65364
-# define MAX_PITCH			1.047197551f
-# define SPAWN_NORTH		4.71
-# define SPAWN_SOUTH		1.57
-# define SPAWN_WEST			3.14159265f
-# define SPAWN_EAST			0
-# define W					119
-# define A					97
-# define S					115
-# define D					100
-# define E					101
-# define F					102
-# define M					109
-# define ESC				65307
-# define SPACE				32
-# define SHIFT				65505
-# define MAX_ITEM			5
-# define MAX_CYCLE			3
+# define MAX_TIME 5000
+# define BIG_FLOAT 1000000000.0f
+# define PI 3.14159265f
+# define WIDTH 1280
+# define HEIGHT 720
+# define CUBE 64
+# define LEFT 65361
+# define RIGHT 65363
+# define UP 65362
+# define DOWN 65364
+# define MAX_PITCH 1.047197551f
+# define SPAWN_NORTH 4.71
+# define SPAWN_SOUTH 1.57
+# define SPAWN_WEST 3.14159265f
+# define SPAWN_EAST 0
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+# define E 101
+# define F 102
+# define M 109
+# define ESC 65307
+# define SPACE 32
+# define SHIFT 65505
+# define MAX_ITEM 5
+# define MAX_CYCLE 3
 
 /* Minimap defines */
-# define MINIMAP_SIZE		150
-# define MINIMAP_SCALE		10
-# define MINIMAP_TILES_X	25
-# define MINIMAP_TILES_Y	18
-# define MINIMAP_X			0
-# define MINIMAP_Y			0
-# define MINIMAP_ALPHA		0.7f
+# define MINIMAP_SIZE 150
+# define MINIMAP_SCALE 10
+# define MINIMAP_TILES_X 25
+# define MINIMAP_TILES_Y 18
+# define MINIMAP_X 0
+# define MINIMAP_Y 0
+# define MINIMAP_ALPHA 0.7f
 
 /* Colors */
-# define COLOR_WHITE		0xFFFFFF
-# define COLOR_BLACK		0x000000
-# define COLOR_RED			0xFF0000
-# define COLOR_GREEN		0x00FF00
-# define COLOR_BLUE			0x0000FF
-# define COLOR_YELLOW		0xFFFF00
-# define COLOR_GRAY			0x808080
+# define COLOR_WHITE 0xFFFFFF
+# define COLOR_BLACK 0x000000
+# define COLOR_RED 0xFF0000
+# define COLOR_GREEN 0x00FF00
+# define COLOR_BLUE 0x0000FF
+# define COLOR_YELLOW 0xFFFF00
+# define COLOR_GRAY 0x808080
 
 /* Texture paths */
-# define TEX_NORTH			"incs/assets/textures/Bricks_North.xpm"
-# define TEX_SOUTH			"incs/assets/textures/Bricks_South.xpm"
-# define TEX_EAST			"incs/assets/textures/Bricks_East.xpm"
-# define TEX_WEST			"incs/assets/textures/Bricks_West.xpm"
-# define TEX_CHALK_N		"incs/assets/textures/Bricks_NorthX.xpm"
-# define TEX_CHALK_S		"incs/assets/textures/Bricks_SouthX.xpm"
-# define TEX_CHALK_E		"incs/assets/textures/Bricks_EastX.xpm"
-# define TEX_CHALK_W		"incs/assets/textures/Bricks_WestX.xpm"
-# define TEX_LEFT_ARM		"incs/assets/textures/LeftArm.xpm"
-# define TEX_RIGHT_ARM		"incs/assets/textures/RightArm.xpm"
-# define TEX_DOOR			"incs/assets/textures/door.xpm"
-# define TEX_EXIT			"incs/assets/textures/exit.xpm"
-# define TEX_MIRROR			"incs/assets/textures/Bricks_Mirror_Help.xpm"
-# define TEX_CHAR_MIRROR	"incs/assets/textures/Char_Mirror_Help.xpm"
-# define TEX_GAME_OVER		"incs/assets/textures/GameOver.xpm"
-# define TEX_GAME_WIN		"incs/assets/textures/GameWin.xpm"
-# define TEX_CHALK_ITEM		"incs/assets/textures/chalk.xpm"
-# define TEX_KEY_ITEM		"incs/assets/textures/key.xpm"
+# define TEX_NORTH "incs/assets/textures/Bricks_North.xpm"
+# define TEX_SOUTH "incs/assets/textures/Bricks_South.xpm"
+# define TEX_EAST "incs/assets/textures/Bricks_East.xpm"
+# define TEX_WEST "incs/assets/textures/Bricks_West.xpm"
+# define TEX_CHALK_N "incs/assets/textures/Bricks_NorthX.xpm"
+# define TEX_CHALK_S "incs/assets/textures/Bricks_SouthX.xpm"
+# define TEX_CHALK_E "incs/assets/textures/Bricks_EastX.xpm"
+# define TEX_CHALK_W "incs/assets/textures/Bricks_WestX.xpm"
+# define TEX_LEFT_ARM "incs/assets/textures/LeftArm.xpm"
+# define TEX_RIGHT_ARM "incs/assets/textures/RightArm.xpm"
+# define TEX_DOOR "incs/assets/textures/door.xpm"
+# define TEX_EXIT "incs/assets/textures/exit.xpm"
+# define TEX_MIRROR "incs/assets/textures/Bricks_Mirror_Help.xpm"
+# define TEX_CHAR_MIRROR "incs/assets/textures/Char_Mirror_Help.xpm"
+# define TEX_GAME_OVER "incs/assets/textures/GameOver.xpm"
+# define TEX_GAME_WIN "incs/assets/textures/GameWin.xpm"
+# define TEX_CHALK_ITEM "incs/assets/textures/chalk.xpm"
+# define TEX_KEY_ITEM "incs/assets/textures/key.xpm"
 
 /* Sprite constants */
-# define MAX_SPRITES		50
-# define PICKUP_RADIUS		48.0
-# define MAX_RENDER_DISTANCE	500.0
-# define FOV_DEGREES		60.0
-# define FOV_RADIANS		1.0471975511965976
-# define FOV_HALF_RADIANS	0.5235987755982988
-# define CHALK_AMPLITUDE	0.2
-# define CHALK_FREQUENCY	3.0
-# define SPRITE_SCALE_FACTOR	72.0
-# define SPRITE_HEIGHT_OFFSET	120
+# define MAX_SPRITES 50
+# define PICKUP_RADIUS 48.0
+# define MAX_RENDER_DISTANCE 500.0
+# define FOV_DEGREES 60.0
+# define FOV_RADIANS 1.0471975511965976
+# define FOV_HALF_RADIANS 0.5235987755982988
+# define CHALK_AMPLITUDE 0.2
+# define CHALK_FREQUENCY 3.0
+# define SPRITE_SCALE_FACTOR 72.0
+# define SPRITE_HEIGHT_OFFSET 120
 
 /* Performance optimization constants */
-# define ANIM_TABLE_SIZE	360
-# define GRID_SIZE			8
-# define CACHE_UPDATE_THRESHOLD	32.0
-# define VISIBILITY_CACHE_FRAMES	4
-# define CLOSE_VISIBILITY_RANGE		64.0
+# define ANIM_TABLE_SIZE 360
+# define GRID_SIZE 8
+# define CACHE_UPDATE_THRESHOLD 32.0
+# define VISIBILITY_CACHE_FRAMES 4
+# define CLOSE_VISIBILITY_RANGE 64.0
 
 /* Helpers printed */
-# define NO_PRINT			110
-# define NO_CHALK			111
-# define PICK_CHALK			112
-# define PICK_KEY			113
-# define HELP_CHALK			114
-# define HELP_KEY			115
-# define REPLACE			116
+# define NO_PRINT 110
+# define NO_CHALK 111
+# define PICK_CHALK 112
+# define PICK_KEY 113
+# define HELP_CHALK 114
+# define HELP_KEY 115
+# define REPLACE 116
 /* Animation constants */
 # ifndef M_PI
-#  define M_PI			3.14159265358979323846
+#  define M_PI 3.14159265358979323846
 
 # endif
 
@@ -138,16 +138,16 @@
 
 typedef enum e_wall_dir
 {
-	NORTH	= 0,
-	SOUTH	= 1,
-	EAST	= 2,
-	WEST	= 3
+	NORTH = 0,
+	SOUTH = 1,
+	EAST = 2,
+	WEST = 3
 }					t_wall_dir;
 
 typedef enum e_door_state
 {
 	DOOR_CLOSED = 0,
-	DOOR_OPEN	= 1
+	DOOR_OPEN = 1
 }					t_door_state;
 
 /* ************************************************************************** */
@@ -222,7 +222,7 @@ typedef struct s_texture
 	char			*name;
 	int				l_height;
 	int				d_start;
-	int				draw_end;	
+	int				draw_end;
 	int				*data;
 	int				size_line;
 	int				endian;
@@ -360,6 +360,8 @@ typedef struct s_game
 	pthread_t		thread;
 	pthread_mutex_t	fov_lock;
 	pthread_mutex_t	darken_lock;
+	pthread_mutex_t	stop_lock;
+	pthread_mutex_t	game_state_lock;
 	t_door			*doors;
 	t_sprite		*sprite_list;
 	t_player		player;
@@ -378,7 +380,7 @@ typedef struct s_game
 	t_text			north_chalk;
 	t_text			south_chalk;
 	t_text			east_chalk;
-	t_text			west_chalk;	
+	t_text			west_chalk;
 	t_text			character;
 	t_text			door;
 	t_text			exit;
@@ -391,6 +393,7 @@ typedef struct s_game
 	t_ray_table		ray_table;
 	bool			mouse_dragging;
 	bool			show_minimap;
+	volatile int	stop_flag;
 }					t_game;
 
 /* ************************************************************************** */
@@ -431,7 +434,6 @@ int					store_doors(char **map, t_game *game);
 
 void				init_game(t_game *game);
 int					game_init(t_game *game);
-void				init_game_vars(t_game *game);
 short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
@@ -466,6 +468,10 @@ void				draw_pixel(int x, int y, int color, t_game *game);
 void				clear_image(t_game *game);
 void				draw_line(t_player *player, t_game *game, float ray_angle,
 						int screen_x);
+void				get_random_position(t_game *game, int *use_random,
+						float *random_x, float *random_y);
+void				render_wall_complete(t_ray *ray, t_game *game, int screen_x);
+t_text				*get_wall_texture(t_game *game, t_ray *ray);
 void				ray_init(t_ray *ray, t_player *player, float ray_angle);
 void				dda_finder(t_ray *ray, t_game *game);
 void				distance_wall(t_ray *ray, t_player *player);
@@ -508,6 +514,9 @@ void				wall_tag(t_player *player, t_game *game);
 void				pick_up_item(t_player *player, t_game *game);
 int					has_item(t_game *game, char *to_find);
 void				*thread(void *arg);
+int					thread_should_stop(t_game *game);
+void				thread_set_stop(t_game *game, int value);
+void				random_move(t_game *game, long time, int *stop);
 int					is_close_enough(t_game *game, t_player *player,
 						char to_find);
 bool				teleport_check(t_game *game, float x, float y);
@@ -524,8 +533,8 @@ double				delta_calculator(void);
 void				reflection(t_ray *ray, t_game *game, int screenX);
 void				mirror_texture(t_game *game, t_ray *ray, t_text *text,
 						int screenX);
-t_text				*choose_mirror_texture(t_ray *ray, t_game *game,
-						float nx, float ny);
+t_text				*choose_mirror_texture(t_ray *ray, t_game *game, float nx,
+						float ny);
 
 /* ****************************************************************************/
 /*                               TIME                                         */
