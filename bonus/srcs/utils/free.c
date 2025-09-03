@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:35:02 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/03 12:35:03 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 15:54:38 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ void	ft_free_game(t_game *game)
 	}
 	pthread_join(game->thread, NULL);
 	pthread_mutex_destroy(&game->darken_lock);
+	pthread_mutex_destroy(&game->fov_lock);
+	pthread_mutex_destroy(&game->stop_lock);
+	pthread_mutex_destroy(&game->game_state_lock);
 }
 
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
@@ -82,7 +85,10 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 
 int	close_game(t_game *game)
 {
+	pthread_mutex_lock(&game->stop_lock);
 	game->stop = 1;
+	game->stop_flag = 1;
+	pthread_mutex_unlock(&game->stop_lock);
 	if (!game)
 		exit(0);
 	cleanup_chalk_sprites(game);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obajja <obajja@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:45 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 12:37:46 by obajja           ###   ########.fr       */
+/*   Updated: 2025/09/03 15:53:05 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,21 @@
 int	key_press(int keycode, t_game *game)
 {
 	t_player	*player;
+	int			should_continue;
 
 	player = &game->player;
 	if (keycode == ESC)
+	{
+		pthread_mutex_lock(&game->stop_lock);
+		game->stop = 1;
+		game->stop_flag = 1;
+		pthread_mutex_unlock(&game->stop_lock);
 		close_game(game);
-	if (game->stop == 0)
+	}
+	pthread_mutex_lock(&game->stop_lock);
+	should_continue = (game->stop == 0);
+	pthread_mutex_unlock(&game->stop_lock);
+	if (should_continue)
 	{
 		handle_movement_keys(keycode, player);
 		handle_view_keys(keycode, player);
