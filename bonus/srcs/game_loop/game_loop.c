@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:37:26 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 16:52:44 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:14:15 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@ static void	render_rays(t_game *game, t_player *player)
 	float	fraction;
 	float	start_x;
 	int		i;
+	float	current_fov;
 
 	i = 0;
-	fraction = game->fov / WIDTH;
+	pthread_mutex_lock(&game->fov_lock);
+    current_fov = game->fov;
+    pthread_mutex_unlock(&game->fov_lock);
+	fraction = current_fov / WIDTH;
 	start_x = player->angle - PI / 6;
 	while (i < WIDTH)
 	{
