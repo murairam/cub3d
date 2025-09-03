@@ -30,9 +30,6 @@ static void	init_game_vars(t_game *game)
 
 static void	init_player_vars(t_game *game)
 {
-	game->spawn_x = 0;
-	game->spawn_y = 0;
-	game->orientation = 0;
 	game->fov = PI / 3;
 	game->stop = 0;
 	game->stop_flag = 0;

@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:41:42 by obajja            #+#    #+#             */
-/*   Updated: 2025/09/03 15:51:58 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:36:48 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,6 +434,7 @@ int					store_doors(char **map, t_game *game);
 
 void				init_game(t_game *game);
 int					game_init(t_game *game);
+void				init_mlx(t_game *game);
 short				load_texture(t_game *game, t_text *texture, char *path);
 int					key_press(int keycode, t_game *game);
 int					key_release(int keycode, t_game *game);
@@ -470,7 +471,8 @@ void				draw_line(t_player *player, t_game *game, float ray_angle,
 						int screen_x);
 void				get_random_position(t_game *game, int *use_random,
 						float *random_x, float *random_y);
-void				render_wall_complete(t_ray *ray, t_game *game, int screen_x);
+void				render_wall_complete(t_ray *ray, t_game *game,
+						int screen_x);
 t_text				*get_wall_texture(t_game *game, t_ray *ray);
 void				ray_init(t_ray *ray, t_player *player, float ray_angle);
 void				dda_finder(t_ray *ray, t_game *game);
