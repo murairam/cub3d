@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/03 12:35:08 by mmiilpal          #+#    #+#             */
+/*   Updated: 2025/09/03 12:42:20 by mmiilpal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_bonus.h"
 
 static void	ft_free_mlx_sprites(t_game *game)
@@ -45,7 +57,6 @@ void	ft_free_mlx(t_game *game)
 		return ;
 	if (game->win)
 	{
-		//mlx_mouse_show(game->mlx, game->win);
 		if (game->img)
 			mlx_destroy_image(game->mlx, game->img);
 		ft_free_image_textures(game);

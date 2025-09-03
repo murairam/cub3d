@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chalk_minimap.c                                   :+:      :+:    :+:   */
+/*   chalk_minimap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/08/27 00:00:00 by mmiilpal         ###   ########.fr       */
+/*   Created: 2025/09/03 12:36:07 by mmiilpal          #+#    #+#             */
+/*   Updated: 2025/09/03 12:36:20 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/cub3d_bonus.h"
+#include "cub3d_bonus.h"
 
 static void	draw_chalk_square(t_game *game, int center_x, int center_y)
 {

@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 00:00:00 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/02 21:41:45 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:44:44 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,4 @@ void	init_game_vars(t_game *game)
 		ft_exit_error_with_cleanup(game, "Failed to get main game image data");
 	game->mouse_x = WIDTH / 2;
 	game->mouse_y = HEIGHT / 2;
-	//mlx_mouse_hide(game->mlx, game->win);
 }
