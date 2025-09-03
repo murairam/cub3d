@@ -6,7 +6,7 @@
 /*   By: mmiilpal <mmiilpal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 12:35:02 by mmiilpal          #+#    #+#             */
-/*   Updated: 2025/09/03 16:53:13 by mmiilpal         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:30:10 by mmiilpal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,28 @@ void	cleanup_game(t_game *game)
 		ft_free_split(game->inventory);
 }
 
-void ft_free_game(t_game *game)
+void	ft_free_game(t_game *game)
 {
-    char *cleanup_line;
-    
-    if (!game)
-        return;
-        
-    if (game->map)
-        ft_free_split(game->map);
-    if (game->current_line)
-        free(game->current_line);
-    if (game->fd > 0)
-    {
-        close(game->fd);
-        cleanup_line = get_next_line(game->fd);
-        if (cleanup_line)
-            free(cleanup_line);
-    }
-    
-    // Properly join thread and destroy mutexes
-    pthread_join(game->thread, NULL);
-    pthread_mutex_destroy(&game->darken_lock);
-    pthread_mutex_destroy(&game->fov_lock);
-    pthread_mutex_destroy(&game->stop_lock);
-    pthread_mutex_destroy(&game->game_state_lock);
+	char	*cleanup_line;
+
+	if (!game)
+		return ;
+	if (game->map)
+		ft_free_split(game->map);
+	if (game->current_line)
+		free(game->current_line);
+	if (game->fd > 0)
+	{
+		close(game->fd);
+		cleanup_line = get_next_line(game->fd);
+		if (cleanup_line)
+			free(cleanup_line);
+	}
+	pthread_join(game->thread, NULL);
+	pthread_mutex_destroy(&game->darken_lock);
+	pthread_mutex_destroy(&game->fov_lock);
+	pthread_mutex_destroy(&game->stop_lock);
+	pthread_mutex_destroy(&game->game_state_lock);
 }
 
 void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
@@ -86,22 +83,19 @@ void	ft_exit_error_with_cleanup(t_game *game, const char *msg)
 	ft_exit_error(msg);
 }
 
-int close_game(t_game *game)
+int	close_game(t_game *game)
 {
-    // Set stop flag to signal thread to exit
-    pthread_mutex_lock(&game->stop_lock);
-    game->stop = 1;
-    game->stop_flag = 1;
-    pthread_mutex_unlock(&game->stop_lock);
-    
-    if (!game)
-        exit(0);
-        
-    cleanup_chalk_sprites(game);
-    ft_free_mlx(game);
-    ft_free_bonus(game);
-    ft_free_game(game);
-    cleanup_game(game);
-    exit(0);
-    return 0;
+	pthread_mutex_lock(&game->stop_lock);
+	game->stop = 1;
+	game->stop_flag = 1;
+	pthread_mutex_unlock(&game->stop_lock);
+	if (!game)
+		exit(0);
+	cleanup_chalk_sprites(game);
+	ft_free_mlx(game);
+	ft_free_bonus(game);
+	ft_free_game(game);
+	cleanup_game(game);
+	exit(0);
+	return (0);
 }
