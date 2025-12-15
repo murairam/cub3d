@@ -2,9 +2,7 @@
 
 A 3D maze game built in C using raycasting techniques, inspired by classic first-person shooters like Wolfenstein 3D. This project is part of the 42 curriculum and demonstrates advanced graphics programming, memory management, and mathematical concepts.
 
-<div align="center">
-  <img src="incs/assets/screenshot.png" alt="Cub3D - 3D Maze Game with Raycasting" width="80%"/>
-</div>
+![](https://github.com/murairam/cub3d/blob/dev/incs/assets/textures/CUB3D.gif)
 
 ## Features
 
